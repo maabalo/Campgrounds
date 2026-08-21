@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23EBF4DD' d='M8 1L1 14h14L8 1zm0 3l4.5 8h-9L8 4z'/><path fill='%2390AB8B' d='M8 4l2.5 8h-5L8 4z'/></svg>">
+  <title>Campgrounds</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h1 class="site-title">CAMPGROUNDS</h1>
+    <p class="site-subtitle">Discover Nature, Adventure, and the Perfect Place to Camp</p>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- Filter Bar Controls (With Suggest Button inside top-right) -->
+    <div class="filter-bar">
+
+      <button id="suggestBtn" class="box-suggest-btn">+ SUGGEST</button>
+
+      <!-- Search Input -->
+      <div class="filter-group">
+        <label for="searchInput" class="filter-label">SEARCH</label>
+        <input type="text" id="searchInput" class="pixel-input" placeholder="Type a name...">
+      </div>
+
+      <!-- Custom Dropdown -->
+      <div class="filter-group">
+        <label class="filter-label">LOCATION</label>
+        <div class="custom-dropdown" id="customDropdown">
+          <button class="dropdown-trigger" id="dropdownTrigger">
+            <span id="selectedOptionText">ALL LOCATIONS</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <div class="dropdown-item selected" data-value="ALL">ALL LOCATIONS</div>
+            <div class="dropdown-item" data-value="USA">USA</div>
+            <div class="dropdown-item" data-value="CANADA">CANADA</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sort Toggle -->
+      <div class="filter-group">
+        <label class="filter-label">SORT</label>
+        <button id="sortBtn" class="pixel-btn" data-sort="asc">SORT: A-Z</button>
+      </div>
+
+    </div>
+
+    <!-- Campsite Cards Grid -->
+    <div class="card-grid" id="cardGrid">
+
+      <!-- Card 1 -->
+      <article class="camp-card" 
+               data-location="USA"
+               data-name="PINE VALLEY"
+               data-loc="OREGON, USA"
+               data-desc="Nestled deep within the Oregon pines, offering shaded campsites and quiet hiking trails."
+               data-img="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80"
+               data-trees="true" data-restroom="true" data-electricity="true" data-wifi="false" data-signal="true">
+        <div class="card-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80" alt="Pine Valley Camp" class="card-image">
+        </div>
+        <div class="card-content">
+          <h2 class="camp-title">PINE VALLEY</h2>
+          <p class="camp-location">OREGON, USA</p>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="camp-card" 
+               data-location="CANADA"
+               data-name="MISTY LAKE"
+               data-loc="ALBERTA, CANADA"
+               data-desc="A serene lakeside campground known for morning fog and clear night skies."
+               data-img="https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=600&q=80"
+               data-trees="true" data-restroom="true" data-electricity="false" data-wifi="true" data-signal="false">
+        <div class="card-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=600&q=80" alt="Misty Lake Woods" class="card-image">
+        </div>
+        <div class="card-content">
+          <h2 class="camp-title">MISTY LAKE</h2>
+          <p class="camp-location">ALBERTA, CANADA</p>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="camp-card" 
+               data-location="USA"
+               data-name="STARLIGHT RIDGE"
+               data-loc="COLORADO, USA"
+               data-desc="High-elevation camping area with panoramic mountain views and full power Hookups."
+               data-img="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=600&q=80"
+               data-trees="false" data-restroom="true" data-electricity="true" data-wifi="true" data-signal="true">
+        <div class="card-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=600&q=80" alt="Starlight Ridge" class="card-image">
+        </div>
+        <div class="card-content">
+          <h2 class="camp-title">STARLIGHT RIDGE</h2>
+          <p class="camp-location">COLORADO, USA</p>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- No Results Message -->
+    <p id="noResults" class="no-results" style="display: none;">NO CAMPSITES FOUND.</p>
+
+  </main>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">X</button>
+      
+      <div class="modal-image-wrapper">
+        <img id="modalImg" src="" alt="Campground" class="modal-image">
+      </div>
+
+      <div class="modal-body">
+        <h2 id="modalTitle" class="modal-title">CAMPSITE NAME</h2>
+        <p id="modalLoc" class="modal-location">LOCATION</p>
+        
+        <p id="modalDesc" class="modal-description">Description goes here...</p>
+
+        <div class="amenities-container">
+          <p class="amenities-heading">AMENITIES</p>
+          <div id="amenitiesGrid" class="amenities-grid">
+            <!-- Icons populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Suggestion Form Modal -->
+  <div class="modal-overlay" id="suggestModalOverlay">
+    <div class="modal-card suggest-modal-card">
+      <button class="modal-close" id="suggestModalClose">X</button>
+      <div class="modal-body">
+        <h2 class="modal-title">SUGGEST A SPOT</h2>
+        <p class="suggest-subtitle">Know a great campsite? Let us know!</p>
+        
+        <form id="suggestForm" class="suggest-form">
+          <div class="form-group">
+            <label for="suggestName" class="filter-label">CAMPSITE NAME</label>
+            <input type="text" id="suggestName" class="pixel-input" placeholder="e.g. Whispering Pines" required>
+          </div>
+          <div class="form-group">
+            <label for="suggestLoc" class="filter-label">LOCATION</label>
+            <input type="text" id="suggestLoc" class="pixel-input" placeholder="e.g. California, USA" required>
+          </div>
+          <div class="form-group">
+            <label for="suggestMessage" class="filter-label">NOTES / AMENITIES</label>
+            <textarea id="suggestMessage" class="pixel-input pixel-textarea" placeholder="Tell us why it's great..." rows="3"></textarea>
+          </div>
+          <button type="submit" class="pixel-btn submit-btn">SUBMIT</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
