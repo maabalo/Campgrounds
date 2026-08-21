@@ -1,6 +1,12 @@
 /* ==========================================
-   DARK MODE PALETTE
+   PALETTE 4: RETRO 8-BIT EXPEDITION
    ========================================== */
+:root {
+  --bg-dark-earth: #3B4953;   /* Dark slate background */
+  --camo-green: #5A7863;      /* Main UI boxes & cards */
+  --retro-olive: #90AB8B;     /* Accents & interactive states */
+  --canvas-cream: #EBF4DD;    /* Text, icons, & sharp borders */
+}
 
 html {
   scroll-behavior: smooth;
@@ -10,14 +16,14 @@ html {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #3B4953;
+  background: var(--bg-dark-earth);
 }
 ::-webkit-scrollbar-thumb {
-  background: #5A7863;
-  border: 2px solid #EBF4DD;
+  background: var(--camo-green);
+  border: 2px solid var(--canvas-cream);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #90AB8B;
+  background: var(--retro-olive);
 }
 
 * {
@@ -27,11 +33,32 @@ html {
 }
 
 body {
-  background-color: #3B4953;
-  color: #EBF4DD;
+  background-color: var(--bg-dark-earth);
+  color: var(--canvas-cream);
   font-family: 'Press Start 2P', cursive;
   padding: 2rem 1rem;
   line-height: 1.6;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Faded Background Overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/pixel-bg.png');
+  background-repeat: repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.25;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .header {
@@ -41,14 +68,14 @@ body {
 
 .site-title {
   font-size: 1.8rem;
-  color: #EBF4DD;
+  color: var(--canvas-cream);
   margin-bottom: 1.2rem;
-  text-shadow: 3px 3px 0px #90AB8B;
+  text-shadow: 3px 3px 0px var(--retro-olive);
 }
 
 .site-subtitle {
   font-size: 0.65rem;
-  color: #90AB8B;
+  color: var(--retro-olive);
   line-height: 1.8;
   max-width: 700px;
   margin: 0 auto;
@@ -59,7 +86,7 @@ body {
   margin: 0 auto;
 }
 
-/* Filter Bar Styling (With Relative Positioning) */
+/* Filter Bar Styling */
 .filter-bar {
   position: relative;
   display: flex;
@@ -67,14 +94,13 @@ body {
   gap: 1.5rem;
   justify-content: space-between;
   align-items: flex-end;
-  background-color: #5A7863;
-  padding: 2.5rem 1.2rem 1.2rem 1.2rem; /* Added top padding for the button */
-  border: 4px solid #EBF4DD;
-  box-shadow: 6px 6px 0px #90AB8B;
+  background-color: var(--camo-green);
+  padding: 2.5rem 1.2rem 1.2rem 1.2rem;
+  border: 4px solid var(--canvas-cream);
+  box-shadow: 6px 6px 0px var(--retro-olive);
   margin-bottom: 2.5rem;
 }
 
-/* Suggest Button inside Top-Right of Filter Bar */
 .box-suggest-btn {
   position: absolute;
   top: 10px;
@@ -82,16 +108,16 @@ body {
   font-family: 'Press Start 2P', cursive;
   font-size: 0.5rem;
   padding: 0.4rem 0.6rem;
-  background-color: #90AB8B;
-  color: #3B4953;
-  border: 2px solid #EBF4DD;
-  box-shadow: 2px 2px 0px #3B4953;
+  background-color: var(--retro-olive);
+  color: var(--bg-dark-earth);
+  border: 2px solid var(--canvas-cream);
+  box-shadow: 2px 2px 0px var(--bg-dark-earth);
   cursor: pointer;
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .box-suggest-btn:hover {
-  background-color: #EBF4DD;
+  background-color: var(--canvas-cream);
   transform: translateY(-2px);
 }
 
@@ -106,7 +132,7 @@ body {
 
 .filter-label {
   font-size: 0.6rem;
-  color: #EBF4DD;
+  color: var(--canvas-cream);
 }
 
 .pixel-input,
@@ -114,24 +140,24 @@ body {
   font-family: 'Press Start 2P', cursive;
   font-size: 0.65rem;
   padding: 0.6rem 0.8rem;
-  background-color: #EBF4DD;
-  color: #3B4953;
-  border: 3px solid #3B4953;
+  background-color: var(--canvas-cream);
+  color: var(--bg-dark-earth);
+  border: 3px solid var(--bg-dark-earth);
   outline: none;
   cursor: pointer;
 }
 
 .pixel-input::placeholder {
-  color: #5A7863;
+  color: var(--camo-green);
 }
 
 .pixel-btn {
-  background-color: #90AB8B;
+  background-color: var(--retro-olive);
   transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease;
 }
 
 .pixel-btn:hover {
-  background-color: #EBF4DD;
+  background-color: var(--canvas-cream);
   transform: translateY(-2px);
 }
 
@@ -149,16 +175,16 @@ body {
   font-family: 'Press Start 2P', cursive;
   font-size: 0.65rem;
   padding: 0.6rem 0.8rem;
-  background-color: #EBF4DD;
-  color: #3B4953;
-  border: 3px solid #3B4953;
+  background-color: var(--canvas-cream);
+  color: var(--bg-dark-earth);
+  border: 3px solid var(--bg-dark-earth);
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .dropdown-trigger:hover {
-  background-color: #90AB8B;
-  color: #EBF4DD;
+  background-color: var(--retro-olive);
+  color: var(--canvas-cream);
 }
 
 .dropdown-trigger .arrow {
@@ -175,9 +201,9 @@ body {
   top: 100%;
   left: 0;
   width: 100%;
-  background-color: #3B4953;
-  border: 3px solid #EBF4DD;
-  box-shadow: 4px 6px 0px #90AB8B;
+  background-color: var(--bg-dark-earth);
+  border: 3px solid var(--canvas-cream);
+  box-shadow: 4px 6px 0px var(--retro-olive);
   margin-top: 4px;
   display: none;
   z-index: 10;
@@ -190,22 +216,22 @@ body {
 .dropdown-item {
   font-size: 0.6rem;
   padding: 0.6rem 0.8rem;
-  color: #EBF4DD;
+  color: var(--canvas-cream);
   cursor: pointer;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .dropdown-item:hover {
-  background-color: #90AB8B;
-  color: #3B4953;
+  background-color: var(--retro-olive);
+  color: var(--bg-dark-earth);
 }
 
 .dropdown-item.selected {
-  background-color: #5A7863;
-  color: #EBF4DD;
+  background-color: var(--camo-green);
+  color: var(--canvas-cream);
 }
 
-/* Fixed Card Grid */
+/* Card Grid */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -213,20 +239,20 @@ body {
 }
 
 .camp-card {
-  background-color: #5A7863;
-  border: 4px solid #EBF4DD;
-  box-shadow: 6px 6px 0px #90AB8B;
+  background-color: var(--camo-green);
+  border: 4px solid var(--canvas-cream);
+  box-shadow: 6px 6px 0px var(--retro-olive);
   transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   cursor: pointer;
 }
 
 .camp-card:hover {
   transform: translateY(-8px);
-  box-shadow: 10px 14px 0px #EBF4DD;
+  box-shadow: 10px 14px 0px var(--canvas-cream);
 }
 
 .card-image-wrapper {
-  border-bottom: 4px solid #EBF4DD;
+  border-bottom: 4px solid var(--canvas-cream);
   overflow: hidden;
   height: 200px;
 }
@@ -249,28 +275,28 @@ body {
 
 .camp-title {
   font-size: 1rem;
-  color: #EBF4DD;
+  color: var(--canvas-cream);
   margin-bottom: 0.8rem;
 }
 
 .camp-location {
   font-size: 0.65rem;
-  color: #3B4953;
-  background-color: #90AB8B;
+  color: var(--bg-dark-earth);
+  background-color: var(--retro-olive);
   display: inline-block;
   padding: 0.4rem 0.6rem;
-  border: 2px solid #EBF4DD;
+  border: 2px solid var(--canvas-cream);
   font-weight: bold;
 }
 
 .no-results {
   text-align: center;
   font-size: 0.8rem;
-  color: #90AB8B;
+  color: var(--retro-olive);
   padding: 3rem 0;
 }
 
-/* Modal Overlay Base */
+/* Modal Overlay & Cards */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -295,9 +321,9 @@ body {
 
 .modal-card {
   position: relative;
-  background-color: #5A7863;
-  border: 4px solid #EBF4DD;
-  box-shadow: 8px 8px 0px #90AB8B;
+  background-color: var(--camo-green);
+  border: 4px solid var(--canvas-cream);
+  box-shadow: 8px 8px 0px var(--retro-olive);
   width: 100%;
   max-width: 520px;
   max-height: 90vh;
@@ -308,9 +334,9 @@ body {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #EBF4DD;
-  color: #3B4953;
-  border: 2px solid #3B4953;
+  background-color: var(--canvas-cream);
+  color: var(--bg-dark-earth);
+  border: 2px solid var(--bg-dark-earth);
   font-family: 'Press Start 2P', cursive;
   font-size: 0.75rem;
   width: 32px;
@@ -320,12 +346,12 @@ body {
 }
 
 .modal-close:hover {
-  background-color: #90AB8B;
+  background-color: var(--retro-olive);
 }
 
 .modal-image-wrapper {
   height: 220px;
-  border-bottom: 4px solid #EBF4DD;
+  border-bottom: 4px solid var(--canvas-cream);
 }
 
 .modal-image {
@@ -341,38 +367,38 @@ body {
 
 .modal-title {
   font-size: 1.1rem;
-  color: #EBF4DD;
+  color: var(--canvas-cream);
   margin-bottom: 0.5rem;
 }
 
 .modal-location {
   font-size: 0.6rem;
-  color: #3B4953;
-  background-color: #90AB8B;
+  color: var(--bg-dark-earth);
+  background-color: var(--retro-olive);
   display: inline-block;
   padding: 0.3rem 0.5rem;
-  border: 2px solid #EBF4DD;
+  border: 2px solid var(--canvas-cream);
   margin-bottom: 1.2rem;
 }
 
 .modal-description {
   font-size: 0.6rem;
-  color: #EBF4DD;
+  color: var(--canvas-cream);
   line-height: 1.8;
   margin-bottom: 1.5rem;
   background-color: rgba(59, 73, 83, 0.4);
   padding: 0.8rem;
-  border: 2px solid #EBF4DD;
+  border: 2px solid var(--canvas-cream);
 }
 
 .amenities-container {
-  border-top: 3px solid #EBF4DD;
+  border-top: 3px solid var(--canvas-cream);
   padding-top: 1rem;
 }
 
 .amenities-heading {
   font-size: 0.65rem;
-  color: #90AB8B;
+  color: var(--retro-olive);
   margin-bottom: 0.8rem;
 }
 
@@ -386,25 +412,25 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #EBF4DD;
-  color: #3B4953;
+  background-color: var(--canvas-cream);
+  color: var(--bg-dark-earth);
   padding: 0.4rem 0.6rem;
-  border: 2px solid #3B4953;
+  border: 2px solid var(--bg-dark-earth);
   font-size: 0.55rem;
 }
 
 .pixel-icon {
   width: 16px;
   height: 16px;
-  fill: #3B4953;
+  fill: var(--bg-dark-earth);
   image-rendering: pixelated;
   flex-shrink: 0;
 }
 
-/* Suggestion Modal Styles */
+/* Suggestion Modal */
 .suggest-subtitle {
   font-size: 0.55rem;
-  color: #90AB8B;
+  color: var(--retro-olive);
   margin-bottom: 1.5rem;
 }
 
