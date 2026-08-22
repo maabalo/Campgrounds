@@ -592,6 +592,7 @@ body::before {
   align-items: center;
   gap: 0.6rem;
   margin-bottom: 1.2rem;
+  flex-wrap: wrap;
 }
 
 .modal-location {
@@ -672,7 +673,7 @@ body::before {
   resize: vertical;
 }
 
-.suggest-form .form-group:has(#editName, #editLoc, #editMapUrl, #editCountry, #editImg, #editDesc) {
+.suggest-form .form-group:has(#editName, #editLoc, #editCampUrl, #editMapUrl, #editCountry, #editImg, #editDesc) {
   display: grid;
   grid-template-columns: 200px 1fr;
   align-items: center;
@@ -685,6 +686,7 @@ body::before {
 
 .suggest-form #editName,
 .suggest-form #editLoc,
+.suggest-form #editCampUrl,
 .suggest-form #editMapUrl,
 .suggest-form #editCountry,
 .suggest-form #editImg,
@@ -725,7 +727,7 @@ body::before {
 }
 
 @media (max-width: 600px) {
-  .suggest-form .form-group:has(#editName, #editLoc, #editMapUrl, #editCountry, #editImg, #editDesc) {
+  .suggest-form .form-group:has(#editName, #editLoc, #editCampUrl, #editMapUrl, #editCountry, #editImg, #editDesc) {
     grid-template-columns: 1fr;
     gap: 0.4rem;
   }
