@@ -9,6 +9,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Prevent body scrolling when a modal is active */
+body.modal-open {
+  overflow: hidden;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -595,41 +600,45 @@ body::before {
 .modal-location-container {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 1.2rem;
-  flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
-.modal-location {
-  font-size: 0.6rem;
-  color: var(--bg-dark-earth);
-  background-color: var(--retro-olive);
-  display: inline-block;
-  padding: 0.3rem 0.5rem;
-  border: 2px solid var(--canvas-cream);
-}
-
-.modal-map-link {
-  font-size: 0.55rem;
-  color: var(--bg-dark-earth);
-  background-color: var(--canvas-cream);
-  padding: 0.3rem 0.5rem;
-  border: 2px solid var(--bg-dark-earth);
-  text-decoration: none;
-}
-
-.modal-map-link:hover {
-  background-color: var(--retro-olive);
+.modal-location-chip {
+  display: inline-flex;
 }
 
 .modal-description {
   font-size: 0.6rem;
   color: var(--canvas-cream);
   line-height: 1.8;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
   background-color: rgba(59, 73, 83, 0.4);
   padding: 0.8rem;
   border: 2px solid var(--canvas-cream);
+}
+
+.modal-visit-container {
+  margin-bottom: 1.2rem;
+}
+
+.modal-links-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.modal-map-link {
+  font-size: 0.55rem;
+  color: var(--bg-dark-earth);
+  background-color: var(--canvas-cream);
+  padding: 0.4rem 0.6rem;
+  border: 2px solid var(--bg-dark-earth);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.modal-map-link:hover {
+  background-color: var(--retro-olive);
 }
 
 .amenities-container {
@@ -699,9 +708,6 @@ body::before {
   box-sizing: border-box;
 }
 
-/* --------------------------------------------------
-   IMAGE COMPONENT STYLES
-   -------------------------------------------------- */
 .image-toggle-container {
   display: flex;
   gap: 0.5rem;
