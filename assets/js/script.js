@@ -25,8 +25,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const campsCollection = collection(db, "campsites");
 
+// Default Philippine Cities to populate dropdown
+const PH_CITIES = ['CEBU', 'MANILA', 'TANAY', 'BAGUIO', 'DAVAO', 'TAGAYTAY'];
+
 let camps = [];
-let currentLocationFilter = 'ALL LOCATIONS';
+let currentLocationFilter = 'ALL CITIES';
 const activeAmenities = new Set();
 
 // Realtime Listener for Cloud Data Updates
@@ -118,16 +121,17 @@ function populateLocationDropdown() {
   if (!dropdownMenu) return;
   dropdownMenu.innerHTML = '';
 
-  const uniqueLocations = ['ALL LOCATIONS', ...new Set(camps.map(c => c.location ? c.location.toUpperCase() : ''))];
+  const dynamicCities = camps.map(c => c.location ? c.location.toUpperCase() : '').filter(Boolean);
+  const uniqueCities = ['ALL CITIES', ...new Set([...PH_CITIES, ...dynamicCities])];
 
-  if (!uniqueLocations.includes(currentLocationFilter)) {
-    currentLocationFilter = 'ALL LOCATIONS';
+  if (!uniqueCities.includes(currentLocationFilter)) {
+    currentLocationFilter = 'ALL CITIES';
   }
   
   const selectedTextEl = document.getElementById('selectedOptionText');
   if (selectedTextEl) selectedTextEl.textContent = currentLocationFilter;
 
-  uniqueLocations.forEach(loc => {
+  uniqueCities.forEach(loc => {
     if (!loc) return;
     const item = document.createElement('div');
     item.className = `dropdown-item ${loc === currentLocationFilter ? 'selected' : ''}`;
@@ -175,6 +179,9 @@ function renderCards() {
 
     const iconsHtml = activeIcons.map(iconSvg => `<span class="card-icon-badge">${iconSvg}</span>`).join('');
 
+    // Combine Location Details and City for Card View Badge
+    const displayLocation = [camp.locDetails, camp.location].filter(Boolean).join(', ');
+
     const card = document.createElement('article');
     card.className = 'camp-card';
     card.innerHTML = `
@@ -193,7 +200,7 @@ function renderCards() {
           ${iconsHtml}
         </div>
         <div class="card-actions">
-          <span class="camp-location">${camp.locDetails || ''}</span>
+          <span class="camp-location">${displayLocation || 'LOCATION UNKNOWN'}</span>
         </div>
       </div>
     `;
@@ -237,8 +244,20 @@ function openDetailModal(camp) {
   if (!modalOverlay) return;
   document.getElementById('modalImg').src = camp.img || '';
   document.getElementById('modalTitle').textContent = camp.name || '';
-  document.getElementById('modalLoc').textContent = camp.locDetails || '';
+  
+  const displayLocation = [camp.locDetails, camp.location].filter(Boolean).join(', ');
+  document.getElementById('modalLoc').textContent = displayLocation || '';
   document.getElementById('modalDesc').textContent = camp.desc || '';
+
+  const campUrlLink = document.getElementById('modalCampUrlLink');
+  if (campUrlLink) {
+    if (camp.campUrl && camp.campUrl.trim() !== '') {
+      campUrlLink.href = camp.campUrl;
+      campUrlLink.style.display = 'inline-block';
+    } else {
+      campUrlLink.style.display = 'none';
+    }
+  }
 
   const mapLink = document.getElementById('modalMapLink');
   if (mapLink) {
@@ -279,6 +298,7 @@ function openEditorModal(camp = null) {
     document.getElementById('editCampId').value = camp.id;
     document.getElementById('editName').value = camp.name || '';
     document.getElementById('editLoc').value = camp.locDetails || '';
+    document.getElementById('editCampUrl').value = camp.campUrl || '';
     document.getElementById('editMapUrl').value = camp.mapUrl || '';
     document.getElementById('editCountry').value = camp.location || '';
     document.getElementById('editImg').value = camp.img || '';
@@ -344,6 +364,7 @@ if (editorForm) {
         id: id || 'camp_' + Date.now(),
         name: document.getElementById('editName').value.toUpperCase(),
         locDetails: document.getElementById('editLoc').value.toUpperCase(),
+        campUrl: document.getElementById('editCampUrl').value.trim(),
         mapUrl: document.getElementById('editMapUrl').value.trim(),
         location: document.getElementById('editCountry').value.toUpperCase().trim(),
         img: document.getElementById('editImg').value,
@@ -429,7 +450,7 @@ function filterCards() {
     if (!camp) return;
 
     const matchesSearch = query === '' || (camp.name && camp.name.toLowerCase().startsWith(query));
-    const matchesLocation = selectedLoc === 'ALL LOCATIONS' || camp.location === selectedLoc;
+    const matchesLocation = selectedLoc === 'ALL CITIES' || camp.location === selectedLoc;
 
     let matchesAmenities = true;
     activeAmenities.forEach(amenity => {
