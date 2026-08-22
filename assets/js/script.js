@@ -240,6 +240,7 @@ function openDetailModal(camp) {
   document.getElementById('modalLoc').textContent = camp.locDetails || '';
   document.getElementById('modalDesc').textContent = camp.desc || '';
 
+  // Google Maps Link
   const mapLink = document.getElementById('modalMapLink');
   if (mapLink) {
     if (camp.mapUrl && camp.mapUrl.trim() !== '') {
@@ -247,6 +248,17 @@ function openDetailModal(camp) {
       mapLink.style.display = 'inline-block';
     } else {
       mapLink.style.display = 'none';
+    }
+  }
+
+  // Social Media / Official Page Link
+  const siteLink = document.getElementById('modalCampsiteLink');
+  if (siteLink) {
+    if (camp.link && camp.link.trim() !== '') {
+      siteLink.href = camp.link;
+      siteLink.style.display = 'inline-block';
+    } else {
+      siteLink.style.display = 'none';
     }
   }
 
@@ -280,6 +292,11 @@ function openEditorModal(camp = null) {
     document.getElementById('editName').value = camp.name || '';
     document.getElementById('editLoc').value = camp.locDetails || '';
     document.getElementById('editMapUrl').value = camp.mapUrl || '';
+    
+    // Social Media / Official Link Field
+    const editLinkEl = document.getElementById('editLink');
+    if (editLinkEl) editLinkEl.value = camp.link || '';
+
     document.getElementById('editCountry').value = camp.location || '';
     document.getElementById('editImg').value = camp.img || '';
     document.getElementById('editDesc').value = camp.desc || '';
@@ -325,7 +342,7 @@ if (suggestBtn) {
   suggestBtn.addEventListener('click', () => openEditorModal());
 }
 
-// Form submit event connected to Firestore with error handling and button locking
+// Form submit event connected to Firestore
 if (editorForm) {
   editorForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -340,11 +357,14 @@ if (editorForm) {
 
     try {
       const id = document.getElementById('editCampId').value;
+      const editLinkEl = document.getElementById('editLink');
+
       const campData = {
         id: id || 'camp_' + Date.now(),
         name: document.getElementById('editName').value.toUpperCase(),
         locDetails: document.getElementById('editLoc').value.toUpperCase(),
         mapUrl: document.getElementById('editMapUrl').value.trim(),
+        link: editLinkEl ? editLinkEl.value.trim() : '',
         location: document.getElementById('editCountry').value.toUpperCase().trim(),
         img: document.getElementById('editImg').value,
         desc: document.getElementById('editDesc').value,
