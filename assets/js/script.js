@@ -885,11 +885,11 @@ if (suggestBtn) {
 }
 
 // Target the button
-const closeEditorBtn = document.getElementById('closeEditorBtn');
+const editorModalClose = document.getElementById('editorModalClose');
 
 // Attach click event to close modal and unlock scroll
 if (editorModalClose) {
-  closeEditorBtn.addEventListener('click', () => {
+  editorModalClose.addEventListener('click', () => {
     if (editorModalOverlay) {
       editorModalOverlay.classList.remove('open');
       unlockScroll();
