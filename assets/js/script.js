@@ -798,3 +798,29 @@ if (sortBtn) {
 }
 
 renderLegend();
+// Handle Login Form Submit
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const pass = document.getElementById('loginPass').value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      document.getElementById('loginModalOverlay').classList.remove('open');
+      alert("Logged in successfully!");
+    } catch (err) {
+      alert("Login failed: " + err.message);
+    }
+  });
+}
+
+// Handle Logout Button
+const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+if (adminLogoutBtn) {
+  adminLogoutBtn.addEventListener('click', async () => {
+    await signOut(auth);
+    alert("Logged out.");
+  });
+}
