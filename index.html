@@ -42,7 +42,7 @@
           <label class="filter-label">LOCATION</label>
           <div class="custom-dropdown" id="customDropdown">
             <button class="dropdown-trigger" id="dropdownTrigger">
-              <span id="selectedOptionText">ALL LOCATIONS</span>
+              <span id="selectedOptionText">ALL CITIES</span>
               <span class="arrow">▼</span>
             </button>
             <div class="dropdown-menu" id="dropdownMenu"></div>
@@ -133,6 +133,7 @@
         <h2 id="modalTitle" class="modal-title">CAMPSITE NAME</h2>
         <div class="modal-location-container">
           <span id="modalLoc" class="modal-location">LOCATION</span>
+          <a id="modalCampUrlLink" class="modal-map-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">WEBSITE ↗</a>
           <a id="modalMapLink" class="modal-map-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">MAP ↗</a>
         </div>
         
@@ -163,17 +164,22 @@
 
           <div class="form-group">
             <label for="editLoc" class="filter-label">LOCATION DETAILS</label>
-            <input type="text" id="editLoc" class="pixel-input" placeholder="e.g. OREGON, USA" required>
+            <input type="text" id="editLoc" class="pixel-input" placeholder="e.g. BRGY. SIRAO" required>
+          </div>
+
+          <div class="form-group">
+            <label for="editCountry" class="filter-label">CITY</label>
+            <input type="text" id="editCountry" class="pixel-input" placeholder="e.g. CEBU, MANILA, TANAY, BAGUIO" required>
+          </div>
+
+          <div class="form-group">
+            <label for="editCampUrl" class="filter-label">CAMPSITE LINK / WEBSITE</label>
+            <input type="url" id="editCampUrl" class="pixel-input" placeholder="https://facebook.com/...">
           </div>
 
           <div class="form-group">
             <label for="editMapUrl" class="filter-label">GOOGLE MAPS URL</label>
             <input type="url" id="editMapUrl" class="pixel-input" placeholder="https://maps.google.com/...">
-          </div>
-
-          <div class="form-group">
-            <label for="editCountry" class="filter-label">COUNTRY / REGION</label>
-            <input type="text" id="editCountry" class="pixel-input" placeholder="e.g. USA, CANADA, PHILIPPINES" required>
           </div>
 
           <div class="form-group">
