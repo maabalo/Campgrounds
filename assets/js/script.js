@@ -247,8 +247,12 @@ function renderCards() {
   if (!cardGrid) return;
   cardGrid.innerHTML = '';
 
-  // Visitors only see approved campsites; Admins see all
-  const visibleCamps = camps.filter(camp => currentUser || camp.status === 'approved');
+  // Filter logic: Treat existing records without a 'status' field as 'approved' by default
+  const visibleCamps = camps.filter(camp => {
+    if (currentUser) return true; // Admins see everything
+    const status = camp.status || 'approved'; // Fallback for legacy database entries
+    return status === 'approved';
+  });
 
   visibleCamps.forEach(camp => {
     const isPending = camp.status === 'pending';
@@ -354,7 +358,7 @@ function renderCards() {
         });
       }
 
-      // DECLINE ACTION (Removes entry)
+      // DECLINE ACTION
       const declineBtn = card.querySelector('.decline-btn');
       if (declineBtn) {
         declineBtn.addEventListener('click', async (e) => {
@@ -792,39 +796,28 @@ document.querySelectorAll('.amenity-toggle-btn').forEach(btn => {
 const searchInput = document.getElementById('searchInput');
 
 function filterCards() {
-  if (!searchInput) return;
-  const query = searchInput.value.toLowerCase().trim();
-  const selectedLoc = currentLocationFilter;
+  const query = searchInput?.value.toLowerCase().trim() || '';
+  const selectedLoc = locationSelect?.value.toUpperCase() || '';
 
-  const cards = document.querySelectorAll('.camp-card');
-  let visibleCount = 0;
-
-  cards.forEach((card, index) => {
-    const camp = camps[index];
-    if (!camp) return;
-
-    const matchesSearch = query === '' || (camp.name && camp.name.toLowerCase().startsWith(query));
-    const matchesLocation = selectedLoc === 'ALL CITIES' || camp.location === selectedLoc;
-
-    let matchesAmenities = true;
-    activeAmenities.forEach(amenity => {
-      if (!camp[amenity]) {
-        matchesAmenities = false;
-      }
-    });
-
-    if (matchesSearch && matchesLocation && matchesAmenities) {
-      card.style.display = 'block';
-      visibleCount++;
-    } else {
-      card.style.display = 'none';
-    }
+  const cards = cardGrid.querySelectorAll('.camp-card');
+  
+  // Re-run the same visibility rule so card indices match up perfectly
+  const visibleCamps = camps.filter(camp => {
+    if (currentUser) return true;
+    const status = camp.status || 'approved';
+    return status === 'approved';
   });
 
-  const noResults = document.getElementById('noResults');
-  if (noResults) {
-    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-  }
+  cards.forEach((card, index) => {
+    const camp = visibleCamps[index];
+    if (!camp) return;
+
+    const matchesSearch = (camp.name && camp.name.toLowerCase().includes(query)) ||
+                          (camp.locDetails && camp.locDetails.toLowerCase().includes(query));
+    const matchesLoc = !selectedLoc || camp.location === selectedLoc;
+
+    card.style.display = (matchesSearch && matchesLoc) ? 'block' : 'none';
+  });
 }
 
 const customDropdown = document.getElementById('customDropdown');
