@@ -131,13 +131,25 @@
 
       <div class="modal-body">
         <h2 id="modalTitle" class="modal-title">CAMPSITE NAME</h2>
+        
+        <!-- Location formatted as Amenity Chip -->
         <div class="modal-location-container">
-          <span id="modalLoc" class="modal-location">LOCATION</span>
-          <a id="modalCampUrlLink" class="modal-map-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">WEBSITE ↗</a>
-          <a id="modalMapLink" class="modal-map-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">MAP ↗</a>
+          <span id="modalLocChip" class="amenity-chip modal-location-chip">
+            <svg class="pixel-icon" viewBox="0 0 16 16"><path d="M8 1a5 5 0 00-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 00-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
+            <span id="modalLocText">LOCATION</span>
+          </span>
         </div>
         
         <p id="modalDesc" class="modal-description">Description goes here...</p>
+
+        <!-- Go Visit Section -->
+        <div id="modalVisitContainer" class="modal-visit-container" style="display: none;">
+          <p class="amenities-heading">GO VISIT:</p>
+          <div class="modal-links-row">
+            <a id="modalCampUrlLink" class="modal-map-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">WEBSITE ↗</a>
+            <a id="modalMapLink" class="modal-map-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">MAP ↗</a>
+          </div>
+        </div>
 
         <div class="amenities-container">
           <p class="amenities-heading">TAGS & FEATURES</p>
@@ -260,7 +272,6 @@
     </div>
   </div>
 
-  <!-- Updated JS script module tag -->
   <script type="module" src="assets/js/script.js"></script>
 </body>
 </html>
