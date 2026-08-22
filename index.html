@@ -3,298 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23EBF4DD' d='M8 1L1 14h14L8 1zm0 3l4.5 8h-9L8 4z'/><path fill='%2390AB8B' d='M8 4l2.5 8h-5L8 4z'/></svg>">
-  <title>Campgrounds</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  
+  <title>Campsite Directory</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <h1 class="site-title">CAMPGROUNDS</h1>
-    <p class="site-subtitle">Discover Nature, Adventure, and the Perfect Place to Camp</p>
+  <header class="app-header">
+    <div class="admin-bar" style="text-align: right; margin-bottom: 1rem;">
+      <button id="adminLoginBtn" class="pixel-btn" onclick="document.getElementById('loginModalOverlay').classList.add('open')">ADMIN LOGIN</button>
+      <button id="adminAddNewBtn" class="pixel-btn" style="display:none; background-color: #2C5745; color: #EBE3A7;">+ ADD NEW</button>
+      <button id="adminLogoutBtn" class="pixel-btn" style="display:none; background-color: #A94442; color: #FFF;">LOGOUT</button>
+    </div>
+
+    <div class="filter-controls">
+      <input type="text" id="searchInput" placeholder="Search campsites...">
+      <select id="locationSelect">
+        <option value="">ALL LOCATIONS</option>
+      </select>
+      <button id="suggestBtn" class="box-suggest-btn">+ SUGGEST CAMPSITE</button>
+    </div>
   </header>
 
-
-  
-  <!-- Main Container -->
-  <main class="container">
-  <!-- Admin Controls -->
-<div class="admin-bar" style="text-align: right; margin-bottom: 1rem;">
-  <button id="adminLoginBtn" class="pixel-btn" onclick="document.getElementById('loginModalOverlay').classList.add('open')">ADMIN LOGIN</button>
-  <button id="adminLogoutBtn" class="pixel-btn" style="display:none; background-color: #A94442;">LOGOUT</button>
-</div>
-
-<!-- Admin Login Modal -->
-<div class="modal-overlay" id="loginModalOverlay">
-  <div class="modal-card" style="padding: 1.5rem; max-width: 400px;">
-    <button class="modal-close" onclick="document.getElementById('loginModalOverlay').classList.remove('open')">X</button>
-    <h2 class="modal-title" style="margin-bottom: 1rem;">ADMIN LOGIN</h2>
-    <form id="loginForm" class="suggest-form">
-      <div class="form-group">
-        <label for="loginEmail" class="filter-label">EMAIL</label>
-        <input type="email" id="loginEmail" class="pixel-input" required>
-      </div>
-      <div class="form-group">
-        <label for="loginPass" class="filter-label">PASSWORD</label>
-        <input type="password" id="loginPass" class="pixel-input" required>
-      </div>
-      <button type="submit" class="pixel-btn submit-btn" style="margin-top: 1rem;">LOGIN</button>
-    </form>
-  </div>
-</div>
-    <!-- Structured Filter Layout -->
-    <div class="filter-bar">
-      <button id="suggestBtn" class="box-suggest-btn">+ ADD NEW</button>
-
-      <!-- COLUMN 1: Search, Location, and Sort -->
-      <div class="filter-column filter-column-inputs">
-        
-        <!-- Search Input -->
-        <div class="filter-group">
-          <label for="searchInput" class="filter-label">SEARCH</label>
-          <input type="text" id="searchInput" class="pixel-input" placeholder="Type a name...">
-        </div>
-
-        <!-- Custom Dropdown -->
-        <div class="filter-group">
-          <label class="filter-label">LOCATION</label>
-          <div class="custom-dropdown" id="customDropdown">
-            <button class="dropdown-trigger" id="dropdownTrigger">
-              <span id="selectedOptionText">ALL CITIES</span>
-              <span class="arrow">▼</span>
-            </button>
-            <div class="dropdown-menu" id="dropdownMenu"></div>
-          </div>
-        </div>
-
-        <!-- Sort Toggle -->
-        <div class="filter-group">
-          <label class="filter-label">SORT</label>
-          <button id="sortBtn" class="pixel-btn" data-sort="asc">SORT: A-Z</button>
-        </div>
-
-      </div>
-
-      <!-- COLUMN 2: Organized Tags & Filters -->
-      <div class="filter-column filter-column-tags">
-        
-        <!-- Sub-Category: Amenities -->
-        <div class="tag-category">
-          <span class="category-label">AMENITIES</span>
-          <div class="amenity-filter-bar">
-            <button class="amenity-toggle-btn" data-amenity="wifi">WI-FI</button>
-            <button class="amenity-toggle-btn" data-amenity="pisoWifi">PISO WI-FI</button>
-            <button class="amenity-toggle-btn" data-amenity="restroom">RESTROOM</button>
-            <button class="amenity-toggle-btn" data-amenity="electricity">POWER</button>
-            <button class="amenity-toggle-btn" data-amenity="parking">PARKING</button>
-            <button class="amenity-toggle-btn" data-amenity="trees">TREES</button>
-            <button class="amenity-toggle-btn" data-amenity="signal">SIGNAL</button>
-          </div>
-        </div>
-
-        <!-- Sub-Category: Camping Style -->
-        <div class="tag-category">
-          <span class="category-label">CAMPING STYLE</span>
-          <div class="amenity-filter-bar">
-            <button class="amenity-toggle-btn" data-amenity="carCamping">CAR CAMP</button>
-            <button class="amenity-toggle-btn" data-amenity="motorCamping">MOTOR CAMP</button>
-            <button class="amenity-toggle-btn" data-amenity="tentOnly">TENT</button>
-          </div>
-        </div>
-
-        <!-- Sub-Category: Terrain & Activities -->
-        <div class="tag-category">
-          <span class="category-label">TERRAIN & ACTIVITIES</span>
-          <div class="amenity-filter-bar">
-            <button class="amenity-toggle-btn" data-amenity="forest">FOREST</button>
-            <button class="amenity-toggle-btn" data-amenity="mountain">MOUNTAIN</button>
-            <button class="amenity-toggle-btn" data-amenity="river">RIVER</button>
-            <button class="amenity-toggle-btn" data-amenity="beach">BEACH</button>
-            <button class="amenity-toggle-btn" data-amenity="hiking">HIKING</button>
-            <button class="amenity-toggle-btn" data-amenity="trail">TRAIL</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Icon Legend Toggle Section -->
-    <div class="legend-wrapper">
-      <button id="legendToggleBtn" class="legend-toggle-btn">
-        <span>ICON LEGEND</span>
-        <span class="arrow">▼</span>
-      </button>
-      
-      <div id="legendContainer" class="legend-container">
-        <div id="legendGrid" class="legend-grid"></div>
-      </div>
-    </div>
-
-    <!-- Campsite Cards Grid (Dynamic JS) -->
-    <div class="card-grid" id="cardGrid"></div>
-
-    <!-- No Results Message -->
-    <p id="noResults" class="no-results" style="display: none;">NO CAMPSITES FOUND.</p>
-
+  <main>
+    <section id="cardGrid" class="card-grid"></section>
   </main>
 
-  <!-- Detail View Modal -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal-card">
-      <button class="modal-close" id="modalClose">X</button>
-      
-      <div class="modal-image-wrapper">
-        <img id="modalImg" src="" alt="Campground" class="modal-image">
-      </div>
-
-      <div class="modal-body">
-        <h2 id="modalTitle" class="modal-title">CAMPSITE NAME</h2>
-        
-        <!-- Location Header Section -->
-        <div class="modal-location-container">
-          <p class="amenities-heading">LOCATION:</p>
-          <div class="modal-location-chip">
-            <svg class="pixel-icon" viewBox="0 0 16 16"><path d="M8 1a5 5 0 00-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 00-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
-            <span id="modalLocText">LOCATION</span>
-          </div>
+  <!-- Login Modal -->
+  <div id="loginModalOverlay" class="modal-overlay">
+    <div class="modal-content">
+      <h2>ADMIN LOGIN</h2>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <div class="modal-actions">
+          <button type="submit" class="pixel-btn">LOGIN</button>
+          <button type="button" class="pixel-btn" onclick="document.getElementById('loginModalOverlay').classList.remove('open')">CANCEL</button>
         </div>
-        
-        <p id="modalDesc" class="modal-description">Description goes here...</p>
-
-        <!-- Go Visit Section -->
-        <div id="modalVisitContainer" class="modal-visit-container" style="display: none;">
-          <p class="amenities-heading">GO VISIT:</p>
-          <div class="modal-links-row">
-            <a id="modalCampUrlLink" class="modal-map-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">WEBSITE/PAGE ↗</a>
-            <a id="modalMapLink" class="modal-map-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">MAP ↗</a>
-          </div>
-        </div>
-
-        <div class="amenities-container">
-          <p class="amenities-heading">TAGS & FEATURES</p>
-          <div id="amenitiesGrid" class="amenities-grid"></div>
-        </div>
-      </div>
+      </form>
     </div>
   </div>
 
-  <!-- Add / Edit Modal -->
-  <div class="modal-overlay" id="editorModalOverlay">
-    <div class="modal-card suggest-modal-card">
-      <button class="modal-close" id="editorModalClose">X</button>
-      <div class="modal-body">
-        <h2 id="editorTitle" class="modal-title">EDIT CAMPSITE</h2>
+  <!-- Campsite Detail Modal -->
+  <div id="detailModalOverlay" class="modal-overlay">
+    <div class="modal-content">
+      <button id="closeDetailBtn" class="close-btn">&times;</button>
+      <div id="detailModalContent"></div>
+    </div>
+  </div>
+
+  <!-- Campsite Editor Modal -->
+  <div id="editorModalOverlay" class="modal-overlay">
+    <div class="modal-content">
+      <button id="closeEditorBtn" class="close-btn">&times;</button>
+      <h2 id="editorTitle">SUGGEST A CAMPSITE</h2>
+      <form id="editorForm">
+        <input type="hidden" id="editCampId">
         
-        <form id="editorForm" class="suggest-form">
-          <input type="hidden" id="editCampId">
+        <label>Name:</label>
+        <input type="text" id="editName" required>
 
-          <div class="form-group">
-            <label for="editName" class="filter-label">NAME</label>
-            <input type="text" id="editName" class="pixel-input" required>
-          </div>
+        <label>Location Details:</label>
+        <input type="text" id="editLoc" placeholder="e.g. Barangay Name" required>
 
-          <div class="form-group">
-            <label for="editLoc" class="filter-label">LOCATION DETAILS</label>
-            <input type="text" id="editLoc" class="pixel-input" placeholder="e.g. BRGY. SIRAO" required>
-          </div>
+        <label>Country / Region:</label>
+        <input type="text" id="editCountry" placeholder="e.g. Philippines" required>
 
-          <div class="form-group">
-            <label for="editCountry" class="filter-label">CITY</label>
-            <input type="text" id="editCountry" class="pixel-input" placeholder="e.g. CEBU, MANILA, TANAY, BAGUIO" required>
-          </div>
+        <label>Website / Facebook URL:</label>
+        <input type="url" id="editCampUrl">
 
-          <div class="form-group">
-            <label for="editCampUrl" class="filter-label">CAMPSITE LINK / WEBSITE</label>
-            <input type="url" id="editCampUrl" class="pixel-input" placeholder="https://facebook.com/...">
-          </div>
+        <label>Google Maps URL:</label>
+        <input type="url" id="editMapUrl">
 
-          <div class="form-group">
-            <label for="editMapUrl" class="filter-label">GOOGLE MAPS URL</label>
-            <input type="url" id="editMapUrl" class="pixel-input" placeholder="https://maps.google.com/...">
-          </div>
+        <label>Image Source Mode:</label>
+        <div class="image-mode-toggle">
+          <button type="button" id="btnUploadMode" class="pixel-btn active">Upload File</button>
+          <button type="button" id="btnUrlMode" class="pixel-btn">Image URL</button>
+        </div>
 
-          <!-- Dual Mode Image Input Section (Optional) -->
-          <div class="form-group full-width-group">
-            <label class="filter-label">IMAGE SOURCE (OPTIONAL)</label>
-            
-            <div class="image-toggle-container">
-              <button type="button" id="btnUploadMode" class="img-toggle-btn active">UPLOAD FILE</button>
-              <button type="button" id="btnUrlMode" class="img-toggle-btn">IMAGE URL</button>
-            </div>
+        <div id="uploadInputGroup">
+          <label>Image Upload:</label>
+          <input type="file" id="editImgFile" accept="image/*">
+        </div>
 
-            <!-- Mode 1: File Upload -->
-            <div id="fileUploadSection">
-              <input type="file" id="editImgFile" class="pixel-file-input" accept="image/*">
-              <small class="helper-text">Picks photo from device (Auto-compressed &lt; 500KB)</small>
-            </div>
+        <div id="urlInputGroup" style="display: none;">
+          <label>Image URL:</label>
+          <input type="url" id="editImgUrl" placeholder="https://example.com/image.jpg">
+        </div>
 
-            <!-- Mode 2: Direct URL -->
-            <div id="urlUploadSection" style="display: none;">
-              <input type="url" id="editImgUrl" class="pixel-input pixel-file-input" placeholder="https://example.com/photo.jpg">
-              <small class="helper-text">Direct image URL ending in .jpg, .png, or webp</small>
-            </div>
+        <div id="imagePreviewContainer" style="margin: 10rem 0; text-align: center;">
+          <img id="imagePreview" src="" alt="Preview" style="max-width: 100%; max-height: 200px; display: none;">
+        </div>
 
-            <!-- Image Preview Box -->
-            <div id="imagePreviewContainer" class="image-preview-container">
-              <img id="editImgPreview" src="" alt="Preview">
-            </div>
-          </div>
+        <label>Description:</label>
+        <textarea id="editDesc" rows="4"></textarea>
 
-          <div class="form-group">
-            <label for="editDesc" class="filter-label">DESCRIPTION</label>
-            <textarea id="editDesc" class="pixel-input pixel-textarea" rows="3" required></textarea>
-          </div>
+        <fieldset>
+          <legend>Amenities</legend>
+          <label><input type="checkbox" id="chkTrees"> Trees / Shade</label>
+          <label><input type="checkbox" id="chkRestroom"> Restroom</label>
+          <label><input type="checkbox" id="chkElectricity"> Electricity</label>
+          <label><input type="checkbox" id="chkWifi"> Wi-Fi</label>
+          <label><input type="checkbox" id="chkPisoWifi"> Piso Wi-Fi</label>
+          <label><input type="checkbox" id="chkSignal"> Cellular Signal</label>
+          <label><input type="checkbox" id="chkParking"> Parking</label>
+        </fieldset>
 
-          <!-- Amenities -->
-          <div class="form-group">
-            <label class="filter-label">AMENITIES</label>
-            <div class="checkbox-grid">
-              <label><input type="checkbox" id="chkTrees"> TREES</label>
-              <label><input type="checkbox" id="chkRestroom"> RESTROOM</label>
-              <label><input type="checkbox" id="chkElectricity"> POWER</label>
-              <label><input type="checkbox" id="chkWifi"> WI-FI</label>
-              <label><input type="checkbox" id="chkPisoWifi"> PISO WI-FI</label>
-              <label><input type="checkbox" id="chkSignal"> SIGNAL</label>
-              <label><input type="checkbox" id="chkParking"> PARKING</label>
-            </div>
-          </div>
+        <fieldset>
+          <legend>Camping Style</legend>
+          <label><input type="checkbox" id="chkCarCamping"> Car Camping</label>
+          <label><input type="checkbox" id="chkMotorCamping"> Motor Camping</label>
+          <label><input type="checkbox" id="chkTentOnly"> Tent Only</label>
+        </fieldset>
 
-          <!-- Camping Style -->
-          <div class="form-group">
-            <label class="filter-label">CAMPING STYLE</label>
-            <div class="checkbox-grid">
-              <label><input type="checkbox" id="chkCarCamping"> CAR CAMP</label>
-              <label><input type="checkbox" id="chkMotorCamping"> MOTOR CAMP</label>
-              <label><input type="checkbox" id="chkTentOnly"> TENT</label>
-            </div>
-          </div>
+        <fieldset>
+          <legend>Environment & Activities</legend>
+          <label><input type="checkbox" id="chkForest"> Forest</label>
+          <label><input type="checkbox" id="chkMountain"> Mountain</label>
+          <label><input type="checkbox" id="chkRiver"> River</label>
+          <label><input type="checkbox" id="chkBeach"> Beach</label>
+          <label><input type="checkbox" id="chkHiking"> Hiking</label>
+          <label><input type="checkbox" id="chkTrail"> Trail</label>
+        </fieldset>
 
-          <!-- Terrain & Activities -->
-          <div class="form-group">
-            <label class="filter-label">TERRAIN & ACTIVITIES</label>
-            <div class="checkbox-grid">
-              <label><input type="checkbox" id="chkForest"> FOREST</label>
-              <label><input type="checkbox" id="chkMountain"> MOUNTAIN</label>
-              <label><input type="checkbox" id="chkRiver"> RIVER</label>
-              <label><input type="checkbox" id="chkBeach"> BEACH</label>
-              <label><input type="checkbox" id="chkHiking"> HIKING</label>
-              <label><input type="checkbox" id="chkTrail"> TRAIL</label>
-            </div>
-          </div>
-
-          <div class="editor-actions">
-            <button type="submit" class="pixel-btn submit-btn">SAVE CHANGES</button>
-            <button type="button" id="deleteBtn" class="pixel-btn delete-btn">DELETE</button>
-          </div>
-        </form>
-      </div>
+        <div class="editor-actions">
+          <button type="submit" id="saveSubmitBtn" class="pixel-btn submit-btn">SUBMIT</button>
+          <button type="button" id="deleteBtn" class="pixel-btn delete-btn">DELETE</button>
+        </div>
+      </form>
     </div>
   </div>
 
