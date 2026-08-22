@@ -9,7 +9,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Prevent body scrolling when a modal is active */
+/* Prevent body scrolling when modal is open */
 body.modal-open {
   overflow: hidden;
 }
@@ -598,13 +598,19 @@ body::before {
 }
 
 .modal-location-container {
-  display: flex;
-  align-items: center;
   margin-bottom: 1rem;
 }
 
 .modal-location-chip {
   display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6rem;
+  color: var(--canvas-cream);
+}
+
+.modal-location-chip .pixel-icon {
+  fill: var(--retro-olive);
 }
 
 .modal-description {
