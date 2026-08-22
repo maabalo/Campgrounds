@@ -21,33 +21,31 @@
     <p class="site-subtitle">Discover Nature, Adventure, and the Perfect Place to Camp</p>
   </header>
 
-  <!-- Top Navigation Bar / Controls -->
-<div class="admin-controls">
-  <button id="adminLoginBtn" onclick="document.getElementById('loginModalOverlay').classList.add('open')">
-    ADMIN LOGIN
-  </button>
-  <button id="adminLogoutBtn" style="display:none;">LOGOUT</button>
+<!-- Admin Controls -->
+<div class="admin-bar" style="text-align: right; margin-bottom: 1rem;">
+  <button id="adminLoginBtn" class="pixel-btn" onclick="document.getElementById('loginModalOverlay').classList.add('open')">ADMIN LOGIN</button>
+  <button id="adminLogoutBtn" class="pixel-btn" style="display:none; background-color: #A94442;">LOGOUT</button>
 </div>
 
-<!-- Admin Pending Review Section (Placed above or below your card grid) -->
-<section id="pendingSection" style="display:none;" class="admin-panel">
-  <h2>PENDING SUGGESTIONS REVIEW</h2>
-  <div id="pendingGrid"></div>
-</section>
-
-<!-- Admin Login Modal Overlay -->
-<div id="loginModalOverlay" class="modal-overlay">
-  <div class="modal-content">
-    <h3>ADMIN LOGIN</h3>
-    <input type="email" id="loginEmail" placeholder="Admin Email" />
-    <input type="password" id="loginPass" placeholder="Password" />
-    <div class="modal-actions">
-      <button id="submitLoginBtn">LOGIN</button>
-      <button type="button" onclick="document.getElementById('loginModalOverlay').classList.remove('open')">CANCEL</button>
-    </div>
+<!-- Admin Login Modal -->
+<div class="modal-overlay" id="loginModalOverlay">
+  <div class="modal-card" style="padding: 1.5rem; max-width: 400px;">
+    <button class="modal-close" onclick="document.getElementById('loginModalOverlay').classList.remove('open')">X</button>
+    <h2 class="modal-title" style="margin-bottom: 1rem;">ADMIN LOGIN</h2>
+    <form id="loginForm" class="suggest-form">
+      <div class="form-group">
+        <label for="loginEmail" class="filter-label">EMAIL</label>
+        <input type="email" id="loginEmail" class="pixel-input" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPass" class="filter-label">PASSWORD</label>
+        <input type="password" id="loginPass" class="pixel-input" required>
+      </div>
+      <button type="submit" class="pixel-btn submit-btn" style="margin-top: 1rem;">LOGIN</button>
+    </form>
   </div>
 </div>
-
+  
   <!-- Main Container -->
   <main class="container">
 
