@@ -29,6 +29,11 @@
 <div class="admin-bar" style="text-align: right; margin-bottom: 1rem;">
   <button id="adminLoginBtn" class="pixel-btn" onclick="document.getElementById('loginModalOverlay').classList.add('open')">ADMIN LOGIN</button>
   <button id="adminLogoutBtn" class="pixel-btn" style="display:none; background-color: #A94442;">LOGOUT</button>
+  <div class="admin-bar" style="text-align: right; margin-bottom: 1rem;">
+    <button id="adminLoginBtn" class="pixel-btn" onclick="document.getElementById('loginModalOverlay').classList.add('open')">ADMIN LOGIN</button>
+    <button id="adminAddNewBtn" class="pixel-btn" style="display:none; background-color: #2C5745; color: #EBE3A7;">+ ADD NEW</button>
+    <button id="adminLogoutBtn" class="pixel-btn" style="display:none; background-color: #A94442;">LOGOUT</button>
+  </div>
 </div>
 
 <!-- Admin Login Modal -->
@@ -51,7 +56,7 @@
 </div>
     <!-- Structured Filter Layout -->
     <div class="filter-bar">
-      <button id="suggestBtn" class="box-suggest-btn">+ ADD NEW</button>
+      <button id="suggestBtn" class="box-suggest-btn">+ SUGGEST CAMPSITE</button>
 
       <!-- COLUMN 1: Search, Location, and Sort -->
       <div class="filter-column filter-column-inputs">
@@ -290,7 +295,7 @@
           </div>
 
           <div class="editor-actions">
-            <button type="submit" class="pixel-btn submit-btn">SAVE CHANGES</button>
+            <button type="submit" id="saveSubmitBtn" class="pixel-btn submit-btn">SUBMIT</button>
             <button type="button" id="deleteBtn" class="pixel-btn delete-btn">DELETE</button>
           </div>
         </form>
