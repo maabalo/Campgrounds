@@ -31,6 +31,7 @@ const PH_CITIES = ['CEBU', 'MANILA', 'TANAY', 'BAGUIO', 'DAVAO', 'TAGAYTAY'];
 let camps = [];
 let currentLocationFilter = 'ALL CITIES';
 const activeAmenities = new Set();
+let currentImageData = ''; // Holds direct URL or Canvas Compressed Base64 String
 
 // Realtime Listener for Cloud Data Updates
 onSnapshot(campsCollection, (snapshot) => {
@@ -287,6 +288,121 @@ if (modalCloseBtn && modalOverlay) {
   modalCloseBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
 }
 
+/* ==================================================
+   DUAL MODE IMAGE UPLOAD & CANVAS COMPRESSION
+   ================================================== */
+const btnUploadMode = document.getElementById('btnUploadMode');
+const btnUrlMode = document.getElementById('btnUrlMode');
+const fileUploadSection = document.getElementById('fileUploadSection');
+const urlUploadSection = document.getElementById('urlUploadSection');
+
+const editImgFile = document.getElementById('editImgFile');
+const editImgUrl = document.getElementById('editImgUrl');
+const editImgPreview = document.getElementById('editImgPreview');
+
+// Mode Switch: File Upload
+if (btnUploadMode) {
+  btnUploadMode.addEventListener('click', () => {
+    btnUploadMode.classList.add('active');
+    btnUrlMode.classList.remove('active');
+    fileUploadSection.style.display = 'block';
+    urlUploadSection.style.display = 'none';
+    if (editImgUrl) editImgUrl.value = '';
+    resetImagePreview();
+  });
+}
+
+// Mode Switch: Direct URL
+if (btnUrlMode) {
+  btnUrlMode.addEventListener('click', () => {
+    btnUrlMode.classList.add('active');
+    btnUploadMode.classList.remove('active');
+    urlUploadSection.style.display = 'block';
+    fileUploadSection.style.display = 'none';
+    if (editImgFile) editImgFile.value = '';
+    resetImagePreview();
+  });
+}
+
+// Client-Side Canvas Resizing & Quality Compression
+if (editImgFile) {
+  editImgFile.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('File is too large! Please choose an image under 10MB.');
+      editImgFile.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+
+      img.onload = () => {
+        const MAX_WIDTH = 1200;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        currentImageData = canvas.toDataURL('image/jpeg', 0.7);
+        showImagePreview(currentImageData);
+      };
+    };
+  });
+}
+
+// Image URL Handling
+if (editImgUrl) {
+  editImgUrl.addEventListener('input', (e) => {
+    const url = e.target.value.trim();
+
+    if (url.includes('facebook.com/share/')) {
+      alert('Facebook webpage links cannot render directly. Switch to "UPLOAD FILE" and pick the saved image file from your device.');
+      editImgUrl.value = '';
+      resetImagePreview();
+      return;
+    }
+
+    if (url) {
+      currentImageData = url;
+      showImagePreview(currentImageData);
+    } else {
+      resetImagePreview();
+    }
+  });
+}
+
+function showImagePreview(src) {
+  if (editImgPreview) {
+    editImgPreview.src = src;
+    editImgPreview.style.display = 'inline-block';
+  }
+}
+
+function resetImagePreview() {
+  currentImageData = '';
+  if (editImgPreview) {
+    editImgPreview.src = '';
+    editImgPreview.style.display = 'none';
+  }
+}
+
 const editorModalOverlay = document.getElementById('editorModalOverlay');
 const editorForm = document.getElementById('editorForm');
 
@@ -301,8 +417,22 @@ function openEditorModal(camp = null) {
     document.getElementById('editCampUrl').value = camp.campUrl || '';
     document.getElementById('editMapUrl').value = camp.mapUrl || '';
     document.getElementById('editCountry').value = camp.location || '';
-    document.getElementById('editImg').value = camp.img || '';
     document.getElementById('editDesc').value = camp.desc || '';
+
+    // Initialize Image View Logic for Edit Mode
+    currentImageData = camp.img || '';
+    if (currentImageData) {
+      showImagePreview(currentImageData);
+      if (currentImageData.startsWith('data:image')) {
+        btnUploadMode.click();
+      } else {
+        btnUrlMode.click();
+        if (editImgUrl) editImgUrl.value = currentImageData;
+      }
+    } else {
+      btnUploadMode.click();
+      resetImagePreview();
+    }
 
     document.getElementById('chkTrees').checked = !!camp.trees;
     document.getElementById('chkRestroom').checked = !!camp.restroom;
@@ -329,6 +459,9 @@ function openEditorModal(camp = null) {
     document.getElementById('editorTitle').textContent = 'ADD NEW SPOT';
     editorForm.reset();
     document.getElementById('editCampId').value = '';
+    btnUploadMode.click();
+    resetImagePreview();
+    
     const deleteBtn = document.getElementById('deleteBtn');
     if (deleteBtn) deleteBtn.style.display = 'none';
   }
@@ -350,6 +483,11 @@ if (editorForm) {
   editorForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    if (!currentImageData) {
+      alert('Please upload an image file or provide an image URL.');
+      return;
+    }
+
     const submitBtn = editorForm.querySelector('button[type="submit"]');
     const originalText = submitBtn ? submitBtn.textContent : '';
 
@@ -367,7 +505,7 @@ if (editorForm) {
         campUrl: document.getElementById('editCampUrl').value.trim(),
         mapUrl: document.getElementById('editMapUrl').value.trim(),
         location: document.getElementById('editCountry').value.toUpperCase().trim(),
-        img: document.getElementById('editImg').value,
+        img: currentImageData,
         desc: document.getElementById('editDesc').value,
 
         trees: document.getElementById('chkTrees').checked,
