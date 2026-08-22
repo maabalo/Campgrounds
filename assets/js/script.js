@@ -358,16 +358,23 @@ function renderCards() {
         });
       }
 
-      // DECLINE ACTION
-      const declineBtn = card.querySelector('.decline-btn');
-      if (declineBtn) {
-        declineBtn.addEventListener('click', async (e) => {
-          e.stopPropagation();
-          if (confirm('DECLINE AND DELETE THIS SUGGESTION?')) {
-            await deleteCampFromCloud(camp.id);
-          }
-        });
-      }
+      // DECLINE ACTION (Removes entry from Firestore)
+		const declineBtn = card.querySelector('.decline-btn');
+		if (declineBtn) {
+		  declineBtn.addEventListener('click', async (e) => {
+		    e.stopPropagation();
+		    
+		    if (confirm('DECLINE AND DELETE THIS SUGGESTION?')) {
+		      try {
+		        await deleteCampFromCloud(camp.id);
+		        // Instant visual feedback optional: Firestore listener (onSnapshot) handles removal automatically
+		      } catch (err) {
+		        console.error("Failed to decline suggestion:", err);
+		        alert("Error deleting suggestion: " + err.message);
+		      }
+		    }
+		  });
+		}
     }
 
     card.addEventListener('click', (e) => {
