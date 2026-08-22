@@ -4,80 +4,100 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Campground Directory</title>
+  
+  <!-- Main Stylesheet Link -->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
+  <!-- Main Application Header -->
   <header class="main-header">
     <div class="header-container">
       <h1 class="logo">CAMPGROUNDS</h1>
+      <!-- Trigger button to open the "Add Campsite" editor modal -->
       <button id="suggestBtn" class="btn-primary">+ ADD CAMPSITE</button>
     </div>
   </header>
 
+  <!-- Main Content Layout Area -->
   <main class="main-container">
-    <!-- Controls & Filters Section -->
+
+    <!-- Search, Filter, and Sort Controls Bar -->
     <section class="controls-section">
+      <!-- Live Search Input Box -->
       <div class="search-bar-wrapper">
         <input type="text" id="searchInput" placeholder="Search campsites...">
       </div>
 
+      <!-- Controls Group: Custom Dropdown & Sort Button -->
       <div class="filter-controls">
-        <!-- Custom Location Dropdown -->
+        
+        <!-- Custom Location Filter Dropdown -->
         <div id="customDropdown" class="custom-dropdown">
-          <button id="dropdownTrigger" class="dropdown-btn">
+          <button id="dropdownTrigger" class="dropdown-btn" type="button">
             <span id="selectedOptionText">ALL LOCATIONS</span>
             <span class="arrow">▼</span>
           </button>
+          <!-- Options menu generated dynamically via JavaScript -->
           <div id="dropdownMenu" class="dropdown-menu"></div>
         </div>
 
+        <!-- Toggle Sort Direction Button (A-Z / Z-A) -->
         <button id="sortBtn" class="btn-secondary" data-sort="asc">SORT: A-Z</button>
       </div>
     </section>
 
-    <!-- Legend Collapsible Section -->
+    <!-- Collapsible Amenities & Legend Section -->
     <section class="legend-wrapper">
-      <button id="legendToggleBtn" class="legend-toggle">
+      <button id="legendToggleBtn" class="legend-toggle" type="button">
         <span>LEGEND & AMENITIES</span>
         <span class="toggle-icon">▼</span>
       </button>
+      <!-- Grid of active SVG amenity icons rendered by JS -->
       <div id="legendGrid" class="legend-grid"></div>
     </section>
 
-    <!-- Campsite Cards Grid -->
+    <!-- Campsite Display Grid -->
     <section id="cardGrid" class="card-grid"></section>
+    
+    <!-- Fallback message when no campsites match filters/search -->
     <p id="noResults" class="no-results" style="display: none;">No campsites match your search.</p>
   </main>
 
-  <!-- Detail Modal -->
+  <!-- Modal 1: Campsite Detail View -->
   <div id="modalOverlay" class="modal-overlay">
     <div class="modal-card">
-      <button id="modalClose" class="modal-close">&times;</button>
+      <!-- Close button for detail modal -->
+      <button id="modalClose" class="modal-close" aria-label="Close detail modal">&times;</button>
+      
       <div class="modal-body">
         <img id="modalImg" src="" alt="Campsite Preview" class="modal-image">
         <h2 id="modalTitle" class="modal-title"></h2>
         <p id="modalLoc" class="modal-location"></p>
         <p id="modalDesc" class="modal-description"></p>
         
+        <!-- Grid for rendering selected amenity chips inside modal -->
         <div id="amenitiesGrid" class="amenities-grid"></div>
 
+        <!-- External Link Buttons (Map & Official Page) -->
         <div class="modal-links-row">
           <a id="modalMapLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-link" style="display: none;">VIEW ON MAP</a>
-          <!-- Social Media / Website Button -->
+          <!-- Social Media / Website Page Button -->
           <a id="modalCampsiteLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-link btn-link-alt" style="display: none;">VISIT PAGE / WEBSITE</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Editor Form Modal -->
+  <!-- Modal 2: Add / Edit Campsite Form -->
   <div id="editorModalOverlay" class="modal-overlay">
     <div class="modal-card modal-editor">
-      <button id="editorModalClose" class="modal-close">&times;</button>
+      <!-- Close button for editor modal -->
+      <button id="editorModalClose" class="modal-close" aria-label="Close editor modal">&times;</button>
       <h2 id="editorTitle">ADD NEW SPOT</h2>
 
       <form id="editorForm">
+        <!-- Hidden input storing ID during edit operations -->
         <input type="hidden" id="editCampId">
 
         <div class="form-group">
@@ -105,7 +125,7 @@
           <input type="url" id="editMapUrl" placeholder="https://maps.google.com/...">
         </div>
 
-        <!-- NEW FIELD: Social Media / Official Page Link -->
+        <!-- Social Media / Official Page Link Input Field -->
         <div class="form-group">
           <label for="editLink">SOCIAL MEDIA / OFFICIAL PAGE LINK</label>
           <input type="url" id="editLink" placeholder="https://facebook.com/..., instagram.com/..., etc.">
@@ -116,6 +136,7 @@
           <textarea id="editDesc" rows="3" placeholder="Brief description..."></textarea>
         </div>
 
+        <!-- Amenities Selection Checkboxes -->
         <fieldset class="checkbox-fieldset">
           <legend>AMENITIES & FEATURES</legend>
           <div class="checkbox-grid">
@@ -138,6 +159,7 @@
           </div>
         </fieldset>
 
+        <!-- Form Submit & Delete Actions -->
         <div class="form-actions">
           <button type="submit" class="btn-primary">SAVE CAMPSITE</button>
           <button type="button" id="deleteBtn" class="btn-danger" style="display: none;">DELETE</button>
@@ -146,6 +168,7 @@
     </div>
   </div>
 
+  <!-- Entry Script loaded as ES Module -->
   <script type="module" src="assets/js/script.js"></script>
 </body>
 </html>
