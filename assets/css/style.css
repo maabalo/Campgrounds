@@ -781,3 +781,14 @@ body::before {
     gap: 0.4rem;
   }
 }
+
+#fileUploadSection,
+#urlUploadSection {
+  width: 100%;
+}
+
+#fileUploadSection .pixel-file-input,
+#urlUploadSection .pixel-file-input {
+  width: 100%;
+  box-sizing: border-box;
+}
