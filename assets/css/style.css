@@ -634,17 +634,31 @@ body::before {
 }
 
 .modal-map-link {
+  font-family: 'Press Start 2P', cursive;
   font-size: 0.55rem;
   color: var(--bg-dark-earth);
-  background-color: var(--canvas-cream);
-  padding: 0.4rem 0.6rem;
-  border: 2px solid var(--bg-dark-earth);
+  background-color: var(--retro-olive);
+  padding: 0.5rem 0.8rem;
+  border: 2px solid var(--canvas-cream);
+  box-shadow: 3px 3px 0px var(--bg-dark-earth);
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .modal-map-link:hover {
-  background-color: var(--retro-olive);
+  background-color: var(--canvas-cream);
+  color: var(--bg-dark-earth);
+  transform: translateY(-2px);
+  box-shadow: 4px 5px 0px var(--bg-dark-earth);
+}
+
+.modal-map-link:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px var(--bg-dark-earth);
 }
 
 .amenities-container {
