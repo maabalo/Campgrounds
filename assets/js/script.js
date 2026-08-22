@@ -87,7 +87,7 @@ async function saveCampToCloud(campData) {
 
 // Delete Document from Firestore
 async function deleteCampFromCloud(id) {
-  await deleteDoc(db, "campsites", id);
+  await deleteDoc(doc(db, "campsites", String(id)));
 }
 
 // Pixel Icons Library
@@ -359,22 +359,21 @@ function renderCards() {
       }
 
       // DECLINE ACTION (Removes entry from Firestore)
-		const declineBtn = card.querySelector('.decline-btn');
-		if (declineBtn) {
-		  declineBtn.addEventListener('click', async (e) => {
-		    e.stopPropagation();
-		    
-		    if (confirm('DECLINE AND DELETE THIS SUGGESTION?')) {
-		      try {
-		        await deleteCampFromCloud(camp.id);
-		        // Instant visual feedback optional: Firestore listener (onSnapshot) handles removal automatically
-		      } catch (err) {
-		        console.error("Failed to decline suggestion:", err);
-		        alert("Error deleting suggestion: " + err.message);
-		      }
-		    }
-		  });
-		}
+      const declineBtn = card.querySelector('.decline-btn');
+      if (declineBtn) {
+        declineBtn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          
+          if (confirm('DECLINE AND DELETE THIS SUGGESTION?')) {
+            try {
+              await deleteCampFromCloud(camp.id);
+            } catch (err) {
+              console.error("Failed to decline suggestion:", err);
+              alert("Error deleting suggestion: " + err.message);
+            }
+          }
+        });
+      }
     }
 
     card.addEventListener('click', (e) => {
@@ -606,7 +605,47 @@ function openEditorModal(camp = null, isAdminAction = false) {
     if (saveSubmitBtn) saveSubmitBtn.textContent = 'SAVE';
     document.getElementById('editCampId').value = camp.id;
     
-    // ... populate fields as before ...
+    // Populate fields
+    document.getElementById('editName').value = camp.name || '';
+    document.getElementById('editLoc').value = camp.locDetails || '';
+    document.getElementById('editCampUrl').value = camp.campUrl || '';
+    document.getElementById('editMapUrl').value = camp.mapUrl || '';
+    document.getElementById('editCountry').value = camp.location || '';
+    document.getElementById('editDesc').value = camp.desc || '';
+
+    currentImageData = camp.img || '';
+    if (currentImageData) {
+      if (currentImageData.startsWith('data:image')) {
+        btnUploadMode.click();
+      } else {
+        btnUrlMode.click();
+      }
+    } else {
+      btnUploadMode.click();
+      resetImagePreview();
+    }
+
+    document.getElementById('chkTrees').checked = !!camp.trees;
+    document.getElementById('chkRestroom').checked = !!camp.restroom;
+    document.getElementById('chkElectricity').checked = !!camp.electricity;
+    document.getElementById('chkWifi').checked = !!camp.wifi;
+    document.getElementById('chkPisoWifi').checked = !!camp.pisoWifi;
+    document.getElementById('chkSignal').checked = !!camp.signal;
+    document.getElementById('chkParking').checked = !!camp.parking;
+    
+    document.getElementById('chkCarCamping').checked = !!camp.carCamping;
+    document.getElementById('chkMotorCamping').checked = !!camp.motorCamping;
+    document.getElementById('chkTentOnly').checked = !!camp.tentOnly;
+    
+    document.getElementById('chkForest').checked = !!camp.forest;
+    document.getElementById('chkMountain').checked = !!camp.mountain;
+    document.getElementById('chkRiver').checked = !!camp.river;
+    document.getElementById('chkBeach').checked = !!camp.beach;
+    document.getElementById('chkHiking').checked = !!camp.hiking;
+    document.getElementById('chkTrail').checked = !!camp.trail;
+
+    const deleteBtn = document.getElementById('deleteBtn');
+    if (deleteBtn) deleteBtn.style.display = currentUser ? 'inline-block' : 'none';
   } else {
     if (currentUser || isAdminAction) {
       document.getElementById('editorTitle').textContent = 'ADD NEW SPOT';
@@ -649,7 +688,6 @@ if (editorForm) {
 
       const campData = {
         id: id || 'camp_' + Date.now(),
-        // Admin creations/edits default to 'approved'; Visitor suggestions default to 'pending'
         status: currentUser ? (existingCamp?.status || 'approved') : 'pending',
         name: document.getElementById('editName').value.toUpperCase(),
         locDetails: document.getElementById('editLoc').value.toUpperCase(),
@@ -702,70 +740,6 @@ if (editorForm) {
 }
 
 const suggestBtn = document.getElementById('suggestBtn');
-if (suggestBtn) {
-  suggestBtn.addEventListener('click', () => openEditorModal());
-}
-
-if (editorForm) {
-  editorForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const submitBtn = editorForm.querySelector('button[type="submit"]');
-    const originalText = submitBtn ? submitBtn.textContent : '';
-
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'SAVING...';
-    }
-
-    try {
-      const id = document.getElementById('editCampId').value;
-      const campData = {
-        id: id || 'camp_' + Date.now(),
-        name: document.getElementById('editName').value.toUpperCase(),
-        locDetails: document.getElementById('editLoc').value.toUpperCase(),
-        campUrl: document.getElementById('editCampUrl').value.trim(),
-        mapUrl: document.getElementById('editMapUrl').value.trim(),
-        location: document.getElementById('editCountry').value.toUpperCase().trim(),
-        img: currentImageData || '',
-        desc: document.getElementById('editDesc').value,
-
-        trees: document.getElementById('chkTrees').checked,
-        restroom: document.getElementById('chkRestroom').checked,
-        electricity: document.getElementById('chkElectricity').checked,
-        wifi: document.getElementById('chkWifi').checked,
-        pisoWifi: document.getElementById('chkPisoWifi').checked,
-        signal: document.getElementById('chkSignal').checked,
-        parking: document.getElementById('chkParking').checked,
-        
-        carCamping: document.getElementById('chkCarCamping').checked,
-        motorCamping: document.getElementById('chkMotorCamping').checked,
-        tentOnly: document.getElementById('chkTentOnly').checked,
-        
-        forest: document.getElementById('chkForest').checked,
-        mountain: document.getElementById('chkMountain').checked,
-        river: document.getElementById('chkRiver').checked,
-        beach: document.getElementById('chkBeach').checked,
-        hiking: document.getElementById('chkHiking').checked,
-        trail: document.getElementById('chkTrail').checked
-      };
-
-      await saveCampToCloud(campData);
-      if (editorModalOverlay) {
-        editorModalOverlay.classList.remove('open');
-        unlockScroll();
-      }
-    } catch (error) {
-      console.error("Failed to save data to Firestore:", error);
-      alert("Error saving campsite: " + error.message);
-    } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-      }
-    }
-  });
-}
 
 const deleteBtn = document.getElementById('deleteBtn');
 if (deleteBtn) {
@@ -804,11 +778,10 @@ const searchInput = document.getElementById('searchInput');
 
 function filterCards() {
   const query = searchInput?.value.toLowerCase().trim() || '';
-  const selectedLoc = locationSelect?.value.toUpperCase() || '';
+  const selectedLoc = currentLocationFilter === 'ALL CITIES' ? '' : currentLocationFilter;
 
   const cards = cardGrid.querySelectorAll('.camp-card');
   
-  // Re-run the same visibility rule so card indices match up perfectly
   const visibleCamps = camps.filter(camp => {
     if (currentUser) return true;
     const status = camp.status || 'approved';
@@ -891,12 +864,11 @@ if (suggestBtn) {
   suggestBtn.addEventListener('click', () => openEditorModal(null, false));
 }
 
-// Target the button
-const editorModalClose = document.getElementById('editorModalClose');
+// Target close buttons
+const closeEditorBtn = document.getElementById('closeEditorBtn') || document.getElementById('editorModalClose');
 
-// Attach click event to close modal and unlock scroll
-if (editorModalClose) {
-  editorModalClose.addEventListener('click', () => {
+if (closeEditorBtn) {
+  closeEditorBtn.addEventListener('click', () => {
     if (editorModalOverlay) {
       editorModalOverlay.classList.remove('open');
       unlockScroll();
@@ -904,7 +876,6 @@ if (editorModalClose) {
   });
 }
 
-// Optional: Allow clicking outside the modal box (overlay backdrop) to close it
 if (editorModalOverlay) {
   editorModalOverlay.addEventListener('click', (e) => {
     if (e.target === editorModalOverlay) {
