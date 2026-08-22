@@ -1,9 +1,4 @@
-/**
- * ==========================================================================
- * 1. FIREBASE SDK IMPORTS & CONFIGURATION
- * Realtime Cloud Firestore setup.
- * ==========================================================================
- */
+// Firebase SDK Modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
   getFirestore, 
@@ -14,7 +9,7 @@ import {
   deleteDoc 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Firebase credentials & app options
+// YOUR FIREBASE CONFIGURATION
 const firebaseConfig = {
   apiKey: "AIzaSyAVe2Xpm7QmWuQht9Qsk0zydRrv7Zvtqys",
   authDomain: "campground-da569.firebaseapp.com",
@@ -25,27 +20,16 @@ const firebaseConfig = {
   measurementId: "G-PBDZSJ09E5"
 };
 
-// Initialize Firebase Application and reference Firestore Collection
+// Initialize Firebase App and Firestore Instance
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const campsCollection = collection(db, "campsites");
 
-/**
- * ==========================================================================
- * 2. GLOBAL STATE VARIABLES
- * ==========================================================================
- */
 let camps = [];
 let currentLocationFilter = 'ALL LOCATIONS';
 const activeAmenities = new Set();
 
-/**
- * ==========================================================================
- * 3. FIRESTORE DATABASE HANDLERS
- * ==========================================================================
- */
-
-// Realtime Listener: Synchronizes local state whenever the database changes
+// Realtime Listener for Cloud Data Updates
 onSnapshot(campsCollection, (snapshot) => {
   camps = snapshot.docs.map(document => ({
     id: document.id,
@@ -58,23 +42,18 @@ onSnapshot(campsCollection, (snapshot) => {
   alert("Error connecting to database. Check console for details.");
 });
 
-// Saves or updates a campsite document in the Firestore collection
+// Save / Update Document to Firestore
 async function saveCampToCloud(campData) {
   const docRef = doc(db, "campsites", campData.id);
   await setDoc(docRef, campData);
 }
 
-// Removes a campsite document from the Firestore collection
+// Delete Document from Firestore
 async function deleteCampFromCloud(id) {
   await deleteDoc(doc(db, "campsites", id));
 }
 
-/**
- * ==========================================================================
- * 4. SVG ICON DICTIONARIES
- * Graphics and display labels for campsite amenities.
- * ==========================================================================
- */
+// Pixel Icons Library
 const PIXEL_ICONS = {
   trees: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M7 1h2v2H7zM6 3h4v2H6zM5 5h6v2H5zM4 7h8v2H4zM3 9h10v2H3zM7 11h2v4H7z"/></svg>`,
   restroom: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M2 2h5v2H2zM2 4h1v10H2zM6 4h1v10H6zM3 7h3v2H3zM10 2h4v2h-4zM11 4h2v5h-2zM9 9h6v2H9zM10 11h1v3h-1zM13 11h1v3h-1z"/></svg>`,
@@ -84,7 +63,7 @@ const PIXEL_ICONS = {
   signal: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M1 12h2v3H1zM5 9h2v6H5zM9 6h2v9H9zM13 2h2v13h-2z"/></svg>`,
   parking: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M3 2h6v2H3zM3 4h2v10H3zM5 4h5v4H5z"/></svg>`,
   carCamping: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M3 5h10v3H3zM1 8h14v4H1zM3 12h3v2H3zM10 12h3v2h-3z"/></svg>`,
-  motorCamping: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M10 4h3v2h-3zM2 8h4v2H2zM10 8h4v2H2zM10 10h4v4H2zM10 10h4v4h-4zM6 9h4v2H6z"/></svg>`,
+  motorCamping: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M10 4h3v2h-3zM2 8h4v2H2zM10 8h4v2h-4zM2 10h4v4H2zM10 10h4v4h-4zM6 9h4v2H6z"/></svg>`,
   tentOnly: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M8 2L1 14h14L8 2zm0 3.5l4 7H4l4-7z"/><path d="M7 9h2v5H7z"/></svg>`,
   forest: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M4 3h2v2H4zM3 5h4v2H3zM2 7h6v2H2zM5 9h2v3H5zM10 1h2v2h-2zM9 3h4v2H9zM8 5h6v2H8zM7 7h8v2H7zM11 9h2v4h-2z"/></svg>`,
   mountain: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M8 2l5 10H3l5-10zm0 3L6 9h4L8 5z"/></svg>`,
@@ -95,20 +74,24 @@ const PIXEL_ICONS = {
 };
 
 const ICON_LABELS = {
-  trees: 'TREES', restroom: 'RESTROOM', electricity: 'POWER',
-  wifi: 'WI-FI', pisoWifi: 'PISO WI-FI', signal: 'SIGNAL',
-  parking: 'PARKING', carCamping: 'CAR CAMP', motorCamping: 'MOTOR CAMP',
-  tentOnly: 'TENT', forest: 'FOREST', mountain: 'MOUNTAIN',
-  river: 'RIVER', beach: 'BEACH', hiking: 'HIKING', trail: 'TRAIL'
+  trees: 'TREES',
+  restroom: 'RESTROOM',
+  electricity: 'POWER',
+  wifi: 'WI-FI',
+  pisoWifi: 'PISO WI-FI',
+  signal: 'SIGNAL',
+  parking: 'PARKING',
+  carCamping: 'CAR CAMP',
+  motorCamping: 'MOTOR CAMP',
+  tentOnly: 'TENT',
+  forest: 'FOREST',
+  mountain: 'MOUNTAIN',
+  river: 'RIVER',
+  beach: 'BEACH',
+  hiking: 'HIKING',
+  trail: 'TRAIL'
 };
 
-/**
- * ==========================================================================
- * 5. UI COMPONENT RENDERERS & FILTERS
- * ==========================================================================
- */
-
-// Render items into the legend section
 function renderLegend() {
   const legendGrid = document.getElementById('legendGrid');
   if (!legendGrid) return;
@@ -122,7 +105,6 @@ function renderLegend() {
   });
 }
 
-// Collapsible toggle for legend section
 const legendWrapper = document.querySelector('.legend-wrapper');
 const legendToggleBtn = document.getElementById('legendToggleBtn');
 if (legendToggleBtn && legendWrapper) {
@@ -131,7 +113,6 @@ if (legendToggleBtn && legendWrapper) {
   });
 }
 
-// Dynamically populate location dropdown options from unique dataset values
 function populateLocationDropdown() {
   const dropdownMenu = document.getElementById('dropdownMenu');
   if (!dropdownMenu) return;
@@ -169,7 +150,6 @@ function populateLocationDropdown() {
 
 const cardGrid = document.getElementById('cardGrid');
 
-// Build and insert card elements into DOM from campsites array
 function renderCards() {
   if (!cardGrid) return;
   cardGrid.innerHTML = '';
@@ -221,7 +201,6 @@ function renderCards() {
     const menuBtn = card.querySelector('.card-menu-btn');
     const dropdownMenu = card.querySelector('.card-dropdown-menu');
 
-    // Context menu toggle logic
     menuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       document.querySelectorAll('.card-dropdown-menu').forEach(m => {
@@ -230,14 +209,12 @@ function renderCards() {
       dropdownMenu.classList.toggle('open');
     });
 
-    // Open campsite details modal on card click
     card.addEventListener('click', (e) => {
       if (!e.target.closest('.card-menu-container')) {
         openDetailModal(camp);
       }
     });
 
-    // Open campsite editor modal
     card.querySelector('.card-edit-btn').addEventListener('click', (e) => {
       e.stopPropagation();
       dropdownMenu.classList.remove('open');
@@ -251,18 +228,11 @@ function renderCards() {
   filterCards();
 }
 
-// Close open options menu popups on document clicks
 document.addEventListener('click', () => {
   document.querySelectorAll('.card-dropdown-menu').forEach(m => m.classList.remove('open'));
 });
 
-/**
- * ==========================================================================
- * 6. MODAL CONTROLLERS & FORM ACTIONS
- * ==========================================================================
- */
 const modalOverlay = document.getElementById('modalOverlay');
-
 function openDetailModal(camp) {
   if (!modalOverlay) return;
   document.getElementById('modalImg').src = camp.img || '';
@@ -270,7 +240,6 @@ function openDetailModal(camp) {
   document.getElementById('modalLoc').textContent = camp.locDetails || '';
   document.getElementById('modalDesc').textContent = camp.desc || '';
 
-  // Maps button display binding
   const mapLink = document.getElementById('modalMapLink');
   if (mapLink) {
     if (camp.mapUrl && camp.mapUrl.trim() !== '') {
@@ -281,18 +250,6 @@ function openDetailModal(camp) {
     }
   }
 
-  // Official Link button display binding
-  const siteLink = document.getElementById('modalCampsiteLink');
-  if (siteLink) {
-    if (camp.link && camp.link.trim() !== '') {
-      siteLink.href = camp.link;
-      siteLink.style.display = 'inline-block';
-    } else {
-      siteLink.style.display = 'none';
-    }
-  }
-
-  // Amenities badge list in detail popup
   const grid = document.getElementById('amenitiesGrid');
   if (grid) {
     grid.innerHTML = '';
@@ -314,7 +271,6 @@ if (modalCloseBtn && modalOverlay) {
 const editorModalOverlay = document.getElementById('editorModalOverlay');
 const editorForm = document.getElementById('editorForm');
 
-// Modal Handler: Opens Add/Edit Form Overlay
 function openEditorModal(camp = null) {
   if (!editorModalOverlay || !editorForm) return;
 
@@ -324,15 +280,10 @@ function openEditorModal(camp = null) {
     document.getElementById('editName').value = camp.name || '';
     document.getElementById('editLoc').value = camp.locDetails || '';
     document.getElementById('editMapUrl').value = camp.mapUrl || '';
-    
-    const editLinkEl = document.getElementById('editLink');
-    if (editLinkEl) editLinkEl.value = camp.link || '';
-
     document.getElementById('editCountry').value = camp.location || '';
     document.getElementById('editImg').value = camp.img || '';
     document.getElementById('editDesc').value = camp.desc || '';
 
-    // Set amenity checkbox toggle states
     document.getElementById('chkTrees').checked = !!camp.trees;
     document.getElementById('chkRestroom').checked = !!camp.restroom;
     document.getElementById('chkElectricity').checked = !!camp.electricity;
@@ -340,9 +291,11 @@ function openEditorModal(camp = null) {
     document.getElementById('chkPisoWifi').checked = !!camp.pisoWifi;
     document.getElementById('chkSignal').checked = !!camp.signal;
     document.getElementById('chkParking').checked = !!camp.parking;
+    
     document.getElementById('chkCarCamping').checked = !!camp.carCamping;
     document.getElementById('chkMotorCamping').checked = !!camp.motorCamping;
     document.getElementById('chkTentOnly').checked = !!camp.tentOnly;
+    
     document.getElementById('chkForest').checked = !!camp.forest;
     document.getElementById('chkMountain').checked = !!camp.mountain;
     document.getElementById('chkRiver').checked = !!camp.river;
@@ -372,7 +325,7 @@ if (suggestBtn) {
   suggestBtn.addEventListener('click', () => openEditorModal());
 }
 
-// Submits inputs and saves to Firestore
+// Form submit event connected to Firestore with error handling and button locking
 if (editorForm) {
   editorForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -387,14 +340,11 @@ if (editorForm) {
 
     try {
       const id = document.getElementById('editCampId').value;
-      const editLinkEl = document.getElementById('editLink');
-
       const campData = {
         id: id || 'camp_' + Date.now(),
         name: document.getElementById('editName').value.toUpperCase(),
         locDetails: document.getElementById('editLoc').value.toUpperCase(),
         mapUrl: document.getElementById('editMapUrl').value.trim(),
-        link: editLinkEl ? editLinkEl.value.trim() : '',
         location: document.getElementById('editCountry').value.toUpperCase().trim(),
         img: document.getElementById('editImg').value,
         desc: document.getElementById('editDesc').value,
@@ -406,9 +356,11 @@ if (editorForm) {
         pisoWifi: document.getElementById('chkPisoWifi').checked,
         signal: document.getElementById('chkSignal').checked,
         parking: document.getElementById('chkParking').checked,
+        
         carCamping: document.getElementById('chkCarCamping').checked,
         motorCamping: document.getElementById('chkMotorCamping').checked,
         tentOnly: document.getElementById('chkTentOnly').checked,
+        
         forest: document.getElementById('chkForest').checked,
         mountain: document.getElementById('chkMountain').checked,
         river: document.getElementById('chkRiver').checked,
@@ -431,7 +383,7 @@ if (editorForm) {
   });
 }
 
-// Deletes record from Firestore Database
+// Delete click event connected to Firestore
 const deleteBtn = document.getElementById('deleteBtn');
 if (deleteBtn) {
   deleteBtn.addEventListener('click', async () => {
@@ -448,11 +400,6 @@ if (deleteBtn) {
   });
 }
 
-/**
- * ==========================================================================
- * 7. SEARCH, AMENITY & LOCATION FILTERS
- * ==========================================================================
- */
 document.querySelectorAll('.amenity-toggle-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const amenity = btn.dataset.amenity;
@@ -469,7 +416,6 @@ document.querySelectorAll('.amenity-toggle-btn').forEach(btn => {
 
 const searchInput = document.getElementById('searchInput');
 
-// Filters cards visibility based on search, dropdown location, & selected amenities
 function filterCards() {
   if (!searchInput) return;
   const query = searchInput.value.toLowerCase().trim();
@@ -523,7 +469,6 @@ if (searchInput) {
   searchInput.addEventListener('input', filterCards);
 }
 
-// Sorting button handler
 const sortBtn = document.getElementById('sortBtn');
 if (sortBtn) {
   sortBtn.addEventListener('click', () => {
@@ -541,5 +486,4 @@ if (sortBtn) {
   });
 }
 
-// Initial Legend Setup
 renderLegend();
