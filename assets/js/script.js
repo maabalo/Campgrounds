@@ -777,3 +777,19 @@ if (sortBtn) {
 }
 
 renderLegend();
+
+// Attach Admin Login Button Event
+const submitLoginBtn = document.getElementById('submitLoginBtn');
+if (submitLoginBtn) {
+  submitLoginBtn.addEventListener('click', () => {
+    const email = document.getElementById('loginEmail').value;
+    const pass = document.getElementById('loginPass').value;
+    
+    if (email && pass) {
+      handleAdminLogin(email, pass);
+      document.getElementById('loginModalOverlay').classList.remove('open');
+    } else {
+      alert("Please enter both email and password.");
+    }
+  });
+}
