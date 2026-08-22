@@ -449,9 +449,17 @@ function openEditorModal(camp = null) {
     document.getElementById('editCountry').value = camp.location || '';
     document.getElementById('editDesc').value = camp.desc || '';
 
+    // Clear previous file inputs
+    if (editImgFile) editImgFile.value = '';
+    if (editImgUrl) editImgUrl.value = '';
+
+    // Pull existing image data
     currentImageData = camp.img || '';
-    if (currentImageData) {
+
+    if (currentImageData && currentImageData.trim() !== '') {
       showImagePreview(currentImageData);
+
+      // Check if image is Base64 data (uploaded file) or a web URL
       if (currentImageData.startsWith('data:image')) {
         btnUploadMode.click();
       } else {
@@ -459,10 +467,12 @@ function openEditorModal(camp = null) {
         if (editImgUrl) editImgUrl.value = currentImageData;
       }
     } else {
+      // Default to upload mode if no image exists
       btnUploadMode.click();
       resetImagePreview();
     }
 
+    // Checkboxes
     document.getElementById('chkTrees').checked = !!camp.trees;
     document.getElementById('chkRestroom').checked = !!camp.restroom;
     document.getElementById('chkElectricity').checked = !!camp.electricity;
@@ -494,6 +504,7 @@ function openEditorModal(camp = null) {
     const deleteBtn = document.getElementById('deleteBtn');
     if (deleteBtn) deleteBtn.style.display = 'none';
   }
+  
   editorModalOverlay.classList.add('open');
   lockScroll();
 }
