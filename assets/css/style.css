@@ -1,8 +1,9 @@
 :root {
-  --bg-dark-earth: #1C2826;
-  --camo-green: #2E4036;
-  --retro-olive: #A3C9A8;
-  --canvas-cream: #ECE5C8;
+  --bg-dark-earth: #313738;
+  --camo-green: #362e04;
+  --retro-olive: #787f4b;
+  --canvas-cream: #cdd3bc;
+  --accent-blue: #0c2454;
 }
 
 html {
