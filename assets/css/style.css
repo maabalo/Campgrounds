@@ -199,7 +199,8 @@ body::before {
 }
 
 .pixel-input,
-.pixel-btn {
+.pixel-btn,
+.pixel-file-input {
   font-family: 'Press Start 2P', cursive;
   font-size: 0.6rem;
   padding: 0.6rem 0.8rem;
@@ -208,6 +209,10 @@ body::before {
   border: 3px solid var(--bg-dark-earth);
   outline: none;
   cursor: pointer;
+}
+
+.pixel-file-input {
+  width: 100%;
 }
 
 .pixel-input::placeholder {
@@ -673,7 +678,7 @@ body::before {
   resize: vertical;
 }
 
-.suggest-form .form-group:has(#editName, #editLoc, #editCampUrl, #editMapUrl, #editCountry, #editImg, #editDesc) {
+.suggest-form .form-group:has(#editName, #editLoc, #editCampUrl, #editMapUrl, #editCountry, #editDesc) {
   display: grid;
   grid-template-columns: 200px 1fr;
   align-items: center;
@@ -689,10 +694,54 @@ body::before {
 .suggest-form #editCampUrl,
 .suggest-form #editMapUrl,
 .suggest-form #editCountry,
-.suggest-form #editImg,
 .suggest-form #editDesc {
   width: 100%;
   box-sizing: border-box;
+}
+
+/* --------------------------------------------------
+   IMAGE COMPONENT STYLES
+   -------------------------------------------------- */
+.image-toggle-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.img-toggle-btn {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  background-color: var(--bg-dark-earth);
+  color: var(--canvas-cream);
+  border: 2px solid var(--canvas-cream);
+  cursor: pointer;
+}
+
+.img-toggle-btn.active {
+  background-color: var(--retro-olive);
+  color: var(--bg-dark-earth);
+}
+
+.helper-text {
+  display: block;
+  font-size: 0.45rem;
+  color: var(--canvas-cream);
+  opacity: 0.8;
+  margin-top: 0.4rem;
+}
+
+.image-preview-container {
+  margin-top: 0.8rem;
+  text-align: center;
+}
+
+.image-preview-container img {
+  display: none;
+  max-width: 100%;
+  max-height: 180px;
+  border: 2px solid var(--canvas-cream);
+  border-radius: 4px;
 }
 
 .checkbox-grid {
@@ -727,7 +776,7 @@ body::before {
 }
 
 @media (max-width: 600px) {
-  .suggest-form .form-group:has(#editName, #editLoc, #editCampUrl, #editMapUrl, #editCountry, #editImg, #editDesc) {
+  .suggest-form .form-group:has(#editName, #editLoc, #editCampUrl, #editMapUrl, #editCountry, #editDesc) {
     grid-template-columns: 1fr;
     gap: 0.4rem;
   }
