@@ -63,11 +63,31 @@ const PIXEL_ICONS = {
   restroom: `<svg class="pixel-icon" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" xml:space="preserve"><style type="text/css">.st0{fill:#000000;}</style><g><path class="st0" d="M12.344 4.786a2.334 2.334 0 1 0 0 -4.669 2.334 2.334 0 0 0 0 4.669"/><path class="st0" d="M3.656 4.786a2.334 2.334 0 1 0 0 -4.669 2.334 2.334 0 0 0 0 4.669"/><path class="st0" d="m15.883 13.838 -3.202 -7.531a0.375 0.375 0 0 0 -0.338 -0.223 0.375 0.375 0 0 0 -0.338 0.223l-3.202 7.531a1.469 1.469 0 0 0 0.127 1.386 1.469 1.469 0 0 0 1.227 0.659h4.372a1.469 1.469 0 0 0 1.227 -0.659 1.469 1.469 0 0 0 0.127 -1.386"/><path class="st0" d="M5.842 6.081H1.47a1.469 1.469 0 0 0 -1.353 2.045l3.202 7.531a0.367 0.367 0 0 0 0.677 0l3.202 -7.531a1.469 1.469 0 0 0 -1.353 -2.045"/></g></svg>`,
   electricity: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M9 1H6v5H3l5 9V9h3z"/></svg>`,
   wifi: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M2 3h12v2H2zM4 6h8v2H4zM6 9h4v2H6zM7 12h2v2H7z"/></svg>`,
-  pisoWifi: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M6 1h4v2H6zM4 3h8v2H6zM3 5h10v6H3zM4 11h8v2H4zM6 13h4v2H6zM7 6h2v4H7z"/></svg>`,
+  pisoWifi: `<svg class="pixel-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <title>i</title>
+  <g id="Complete">
+    <g id="signal">
+      <g>
+        <path d="M2.5,12A9.5,9.5,0,1,1,12,21.5" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path d="M7.5,12A4.5,4.5,0,1,1,12,16.5" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>`,
   signal: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M1 12h2v3H1zM5 9h2v6H5zM9 6h2v9H9zM13 2h2v13h-2z"/></svg>`,
-  parking: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M3 2h6v2H3zM3 4h2v10H3zM5 4h5v4H5z"/></svg>`,
+  parking: `<svg class="pixel-icon" viewBox="0 0 15 15" version="1.1" id="parking" xmlns="http://www.w3.org/2000/svg">
+  <path d="M11.85,8.37c-0.9532,0.7086-2.1239,1.0623-3.31,1H5.79V14H3V1h5.72c1.1305-0.0605,2.244,0.2952,3.13,1&#xA;&#x9;c0.8321,0.8147,1.2543,1.9601,1.15,3.12C13.1271,6.3214,12.7045,7.5159,11.85,8.37z M9.75,3.7C9.3254,3.3892,8.8052,3.237,8.28,3.27&#xA;&#x9;H5.79v3.82h2.49c0.5315,0.0326,1.056-0.1351,1.47-0.47c0.3795-0.3947,0.5693-0.9346,0.52-1.48C10.324,4.606,10.1327,4.0763,9.75,3.7&#xA;&#x9;z"/>
+</svg>`,
   carCamping: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M3 5h10v3H3zM1 8h14v4H1zM3 12h3v2H3zM10 12h3v2h-3z"/></svg>`,
-  motorCamping: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M10 4h3v2h-3zM2 8h4v2H2zM10 8h4v2H2zM10 10h4v4h-4zM6 9h4v2H6z"/></svg>`,
+  motorCamping: `<svg class="pixel-icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 260.004 260.004" style="enable-background:new 0 0 260.004 260.004;" xml:space="preserve">
+<path id="XMLID_451_" d="M200.002,0h-140c-8.284,0-15,6.716-15,15c0,8.284,6.716,15,15,15h27.58c-1.665,4.695-2.58,9.742-2.58,15
+	c0,19.555,12.541,36.228,30,42.42V110h-25c-8.284,0-15,6.716-15,15v55.017c0,8.284,6.716,15,15,15h10v49.987c0,8.284,6.716,15,15,15
+	h30c8.284,0,15-6.716,15-15v-49.987h10c8.284,0,15-6.716,15-15V125c0-8.284-6.716-15-15-15h-25V87.42
+	c17.459-6.192,30-22.865,30-42.42c0-5.258-0.915-10.305-2.58-15h27.58c8.284,0,15-6.716,15-15C215.002,6.716,208.286,0,200.002,0z
+	 M155.002,165.017h-10h-30h-10V140h50V165.017z M145.002,45c0,8.271-6.729,15-15,15s-15-6.729-15-15c0-8.271,6.729-15,15-15
+	S145.002,36.729,145.002,45z"/>
+</svg>`,
   tentOnly: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M8 2L1 14h14L8 2zm0 3.5l4 7H4l4-7z"/><path d="M7 9h2v5H7z"/></svg>`,
   forest: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M4 3h2v2H4zM3 5h4v2H3zM2 7h6v2H2zM5 9h2v3H5zM10 1h2v2h-2zM9 3h4v2H9zM8 5h6v2H8zM7 7h8v2H7zM11 9h2v4h-2z"/></svg>`,
   mountain: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M8 2l5 10H3l5-10zm0 3L6 9h4L8 5z"/></svg>`,
