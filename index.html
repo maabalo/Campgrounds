@@ -3,236 +3,149 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23EBF4DD' d='M8 1L1 14h14L8 1zm0 3l4.5 8h-9L8 4z'/><path fill='%2390AB8B' d='M8 4l2.5 8h-5L8 4z'/></svg>">
-  <title>Campgrounds</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  
+  <title>Campground Directory</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <h1 class="site-title">CAMPGROUNDS</h1>
-    <p class="site-subtitle">Discover Nature, Adventure, and the Perfect Place to Camp</p>
+  <header class="main-header">
+    <div class="header-container">
+      <h1 class="logo">CAMPGROUNDS</h1>
+      <button id="suggestBtn" class="btn-primary">+ ADD CAMPSITE</button>
+    </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="container">
-
-    <!-- Structured Filter Layout -->
-    <div class="filter-bar">
-      <button id="suggestBtn" class="box-suggest-btn">+ ADD NEW</button>
-
-      <!-- COLUMN 1: Search, Location, and Sort -->
-      <div class="filter-column filter-column-inputs">
-        
-        <!-- Search Input -->
-        <div class="filter-group">
-          <label for="searchInput" class="filter-label">SEARCH</label>
-          <input type="text" id="searchInput" class="pixel-input" placeholder="Type a name...">
-        </div>
-
-        <!-- Custom Dropdown -->
-        <div class="filter-group">
-          <label class="filter-label">LOCATION</label>
-          <div class="custom-dropdown" id="customDropdown">
-            <button class="dropdown-trigger" id="dropdownTrigger">
-              <span id="selectedOptionText">ALL LOCATIONS</span>
-              <span class="arrow">▼</span>
-            </button>
-            <div class="dropdown-menu" id="dropdownMenu"></div>
-          </div>
-        </div>
-
-        <!-- Sort Toggle -->
-        <div class="filter-group">
-          <label class="filter-label">SORT</label>
-          <button id="sortBtn" class="pixel-btn" data-sort="asc">SORT: A-Z</button>
-        </div>
-
+  <main class="main-container">
+    <!-- Controls & Filters Section -->
+    <section class="controls-section">
+      <div class="search-bar-wrapper">
+        <input type="text" id="searchInput" placeholder="Search campsites...">
       </div>
 
-      <!-- COLUMN 2: Organized Tags & Filters -->
-      <div class="filter-column filter-column-tags">
-        
-        <!-- Sub-Category: Amenities -->
-        <div class="tag-category">
-          <span class="category-label">AMENITIES</span>
-          <div class="amenity-filter-bar">
-            <button class="amenity-toggle-btn" data-amenity="wifi">WI-FI</button>
-            <button class="amenity-toggle-btn" data-amenity="pisoWifi">PISO WI-FI</button>
-            <button class="amenity-toggle-btn" data-amenity="restroom">RESTROOM</button>
-            <button class="amenity-toggle-btn" data-amenity="electricity">POWER</button>
-            <button class="amenity-toggle-btn" data-amenity="parking">PARKING</button>
-            <button class="amenity-toggle-btn" data-amenity="trees">TREES</button>
-            <button class="amenity-toggle-btn" data-amenity="signal">SIGNAL</button>
-          </div>
+      <div class="filter-controls">
+        <!-- Custom Location Dropdown -->
+        <div id="customDropdown" class="custom-dropdown">
+          <button id="dropdownTrigger" class="dropdown-btn">
+            <span id="selectedOptionText">ALL LOCATIONS</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div id="dropdownMenu" class="dropdown-menu"></div>
         </div>
 
-        <!-- Sub-Category: Camping Style -->
-        <div class="tag-category">
-          <span class="category-label">CAMPING STYLE</span>
-          <div class="amenity-filter-bar">
-            <button class="amenity-toggle-btn" data-amenity="carCamping">CAR CAMP</button>
-            <button class="amenity-toggle-btn" data-amenity="motorCamping">MOTOR CAMP</button>
-            <button class="amenity-toggle-btn" data-amenity="tentOnly">TENT</button>
-          </div>
-        </div>
-
-        <!-- Sub-Category: Terrain & Activities -->
-        <div class="tag-category">
-          <span class="category-label">TERRAIN & ACTIVITIES</span>
-          <div class="amenity-filter-bar">
-            <button class="amenity-toggle-btn" data-amenity="forest">FOREST</button>
-            <button class="amenity-toggle-btn" data-amenity="mountain">MOUNTAIN</button>
-            <button class="amenity-toggle-btn" data-amenity="river">RIVER</button>
-            <button class="amenity-toggle-btn" data-amenity="beach">BEACH</button>
-            <button class="amenity-toggle-btn" data-amenity="hiking">HIKING</button>
-            <button class="amenity-toggle-btn" data-amenity="trail">TRAIL</button>
-          </div>
-        </div>
-
+        <button id="sortBtn" class="btn-secondary" data-sort="asc">SORT: A-Z</button>
       </div>
-    </div>
+    </section>
 
-    <!-- Icon Legend Toggle Section -->
-    <div class="legend-wrapper">
-      <button id="legendToggleBtn" class="legend-toggle-btn">
-        <span>ICON LEGEND</span>
-        <span class="arrow">▼</span>
+    <!-- Legend Collapsible Section -->
+    <section class="legend-wrapper">
+      <button id="legendToggleBtn" class="legend-toggle">
+        <span>LEGEND & AMENITIES</span>
+        <span class="toggle-icon">▼</span>
       </button>
-      
-      <div id="legendContainer" class="legend-container">
-        <div id="legendGrid" class="legend-grid"></div>
-      </div>
-    </div>
+      <div id="legendGrid" class="legend-grid"></div>
+    </section>
 
-    <!-- Campsite Cards Grid (Dynamic JS) -->
-    <div class="card-grid" id="cardGrid"></div>
-
-    <!-- No Results Message -->
-    <p id="noResults" class="no-results" style="display: none;">NO CAMPSITES FOUND.</p>
-
+    <!-- Campsite Cards Grid -->
+    <section id="cardGrid" class="card-grid"></section>
+    <p id="noResults" class="no-results" style="display: none;">No campsites match your search.</p>
   </main>
 
-  <!-- Detail View Modal -->
-  <div class="modal-overlay" id="modalOverlay">
+  <!-- Detail Modal -->
+  <div id="modalOverlay" class="modal-overlay">
     <div class="modal-card">
-      <button class="modal-close" id="modalClose">X</button>
-      
-      <div class="modal-image-wrapper">
-        <img id="modalImg" src="" alt="Campground" class="modal-image">
-      </div>
-
+      <button id="modalClose" class="modal-close">&times;</button>
       <div class="modal-body">
-        <h2 id="modalTitle" class="modal-title">CAMPSITE NAME</h2>
-        <div class="modal-location-container">
-          <span id="modalLoc" class="modal-location">LOCATION</span>
-          <a id="modalMapLink" class="modal-map-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">MAP ↗</a>
-        </div>
+        <img id="modalImg" src="" alt="Campsite Preview" class="modal-image">
+        <h2 id="modalTitle" class="modal-title"></h2>
+        <p id="modalLoc" class="modal-location"></p>
+        <p id="modalDesc" class="modal-description"></p>
         
-        <p id="modalDesc" class="modal-description">Description goes here...</p>
+        <div id="amenitiesGrid" class="amenities-grid"></div>
 
-        <div class="amenities-container">
-          <p class="amenities-heading">TAGS & FEATURES</p>
-          <div id="amenitiesGrid" class="amenities-grid"></div>
+        <div class="modal-links-row">
+          <a id="modalMapLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-link" style="display: none;">VIEW ON MAP</a>
+          <!-- Social Media / Website Button -->
+          <a id="modalCampsiteLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-link btn-link-alt" style="display: none;">VISIT PAGE / WEBSITE</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Add / Edit Modal -->
-  <div class="modal-overlay" id="editorModalOverlay">
-    <div class="modal-card suggest-modal-card">
-      <button class="modal-close" id="editorModalClose">X</button>
-      <div class="modal-body">
-        <h2 id="editorTitle" class="modal-title">EDIT CAMPSITE</h2>
-        
-        <form id="editorForm" class="suggest-form">
-          <input type="hidden" id="editCampId">
+  <!-- Editor Form Modal -->
+  <div id="editorModalOverlay" class="modal-overlay">
+    <div class="modal-card modal-editor">
+      <button id="editorModalClose" class="modal-close">&times;</button>
+      <h2 id="editorTitle">ADD NEW SPOT</h2>
 
-          <div class="form-group">
-            <label for="editName" class="filter-label">NAME</label>
-            <input type="text" id="editName" class="pixel-input" required>
-          </div>
+      <form id="editorForm">
+        <input type="hidden" id="editCampId">
 
-          <div class="form-group">
-            <label for="editLoc" class="filter-label">LOCATION DETAILS</label>
-            <input type="text" id="editLoc" class="pixel-input" placeholder="e.g. OREGON, USA" required>
-          </div>
+        <div class="form-group">
+          <label for="editName">CAMPSITE NAME</label>
+          <input type="text" id="editName" required placeholder="E.G. MOUNT CAMP">
+        </div>
 
-          <div class="form-group">
-            <label for="editMapUrl" class="filter-label">GOOGLE MAPS URL</label>
-            <input type="url" id="editMapUrl" class="pixel-input" placeholder="https://maps.google.com/...">
-          </div>
+        <div class="form-group">
+          <label for="editCountry">LOCATION / PROVINCE</label>
+          <input type="text" id="editCountry" required placeholder="E.G. CEBU">
+        </div>
 
-          <div class="form-group">
-            <label for="editCountry" class="filter-label">COUNTRY / REGION</label>
-            <input type="text" id="editCountry" class="pixel-input" placeholder="e.g. USA, CANADA, PHILIPPINES" required>
-          </div>
+        <div class="form-group">
+          <label for="editLoc">LOCATION DETAILS</label>
+          <input type="text" id="editLoc" required placeholder="E.G. BALAMBAN, CEBU">
+        </div>
 
-          <div class="form-group">
-            <label for="editImg" class="filter-label">IMAGE URL</label>
-            <input type="text" id="editImg" class="pixel-input" required>
-          </div>
+        <div class="form-group">
+          <label for="editImg">IMAGE URL</label>
+          <input type="url" id="editImg" required placeholder="https://example.com/image.jpg">
+        </div>
 
-          <div class="form-group">
-            <label for="editDesc" class="filter-label">DESCRIPTION</label>
-            <textarea id="editDesc" class="pixel-input pixel-textarea" rows="3" required></textarea>
-          </div>
+        <div class="form-group">
+          <label for="editMapUrl">GOOGLE MAPS LINK</label>
+          <input type="url" id="editMapUrl" placeholder="https://maps.google.com/...">
+        </div>
 
-          <!-- Amenities -->
-          <div class="form-group">
-            <label class="filter-label">AMENITIES</label>
-            <div class="checkbox-grid">
-              <label><input type="checkbox" id="chkTrees"> TREES</label>
-              <label><input type="checkbox" id="chkRestroom"> RESTROOM</label>
-              <label><input type="checkbox" id="chkElectricity"> POWER</label>
-              <label><input type="checkbox" id="chkWifi"> WI-FI</label>
-              <label><input type="checkbox" id="chkPisoWifi"> PISO WI-FI</label>
-              <label><input type="checkbox" id="chkSignal"> SIGNAL</label>
-              <label><input type="checkbox" id="chkParking"> PARKING</label>
-            </div>
-          </div>
+        <!-- NEW FIELD: Social Media / Official Page Link -->
+        <div class="form-group">
+          <label for="editLink">SOCIAL MEDIA / OFFICIAL PAGE LINK</label>
+          <input type="url" id="editLink" placeholder="https://facebook.com/..., instagram.com/..., etc.">
+        </div>
 
-          <!-- Camping Style -->
-          <div class="form-group">
-            <label class="filter-label">CAMPING STYLE</label>
-            <div class="checkbox-grid">
-              <label><input type="checkbox" id="chkCarCamping"> CAR CAMP</label>
-              <label><input type="checkbox" id="chkMotorCamping"> MOTOR CAMP</label>
-              <label><input type="checkbox" id="chkTentOnly"> TENT</label>
-            </div>
-          </div>
+        <div class="form-group">
+          <label for="editDesc">DESCRIPTION</label>
+          <textarea id="editDesc" rows="3" placeholder="Brief description..."></textarea>
+        </div>
 
-          <!-- Terrain & Activities -->
-          <div class="form-group">
-            <label class="filter-label">TERRAIN & ACTIVITIES</label>
-            <div class="checkbox-grid">
-              <label><input type="checkbox" id="chkForest"> FOREST</label>
-              <label><input type="checkbox" id="chkMountain"> MOUNTAIN</label>
-              <label><input type="checkbox" id="chkRiver"> RIVER</label>
-              <label><input type="checkbox" id="chkBeach"> BEACH</label>
-              <label><input type="checkbox" id="chkHiking"> HIKING</label>
-              <label><input type="checkbox" id="chkTrail"> TRAIL</label>
-            </div>
+        <fieldset class="checkbox-fieldset">
+          <legend>AMENITIES & FEATURES</legend>
+          <div class="checkbox-grid">
+            <label><input type="checkbox" id="chkTrees"> Trees</label>
+            <label><input type="checkbox" id="chkRestroom"> Restroom</label>
+            <label><input type="checkbox" id="chkElectricity"> Power</label>
+            <label><input type="checkbox" id="chkWifi"> Wi-Fi</label>
+            <label><input type="checkbox" id="chkPisoWifi"> Piso Wi-Fi</label>
+            <label><input type="checkbox" id="chkSignal"> Signal</label>
+            <label><input type="checkbox" id="chkParking"> Parking</label>
+            <label><input type="checkbox" id="chkCarCamping"> Car Camp</label>
+            <label><input type="checkbox" id="chkMotorCamping"> Motor Camp</label>
+            <label><input type="checkbox" id="chkTentOnly"> Tent Only</label>
+            <label><input type="checkbox" id="chkForest"> Forest</label>
+            <label><input type="checkbox" id="chkMountain"> Mountain</label>
+            <label><input type="checkbox" id="chkRiver"> River</label>
+            <label><input type="checkbox" id="chkBeach"> Beach</label>
+            <label><input type="checkbox" id="chkHiking"> Hiking</label>
+            <label><input type="checkbox" id="chkTrail"> Trail</label>
           </div>
+        </fieldset>
 
-          <div class="editor-actions">
-            <button type="submit" class="pixel-btn submit-btn">SAVE CHANGES</button>
-            <button type="button" id="deleteBtn" class="pixel-btn delete-btn">DELETE</button>
-          </div>
-        </form>
-      </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">SAVE CAMPSITE</button>
+          <button type="button" id="deleteBtn" class="btn-danger" style="display: none;">DELETE</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- Updated JS script module tag -->
   <script type="module" src="assets/js/script.js"></script>
 </body>
 </html>
