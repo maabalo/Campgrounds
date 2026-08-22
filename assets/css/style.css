@@ -86,19 +86,23 @@ body::before {
   margin: 0 auto;
 }
 
-/* Filter Bar Styling */
+/* Structured 2-Column Filter Bar */
 .filter-bar {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: space-between;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.8rem;
   background-color: var(--camo-green);
-  padding: 2.5rem 1.2rem 1.2rem 1.2rem;
+  padding: 2.5rem 1.5rem 1.5rem 1.5rem;
   border: 4px solid var(--canvas-cream);
   box-shadow: 6px 6px 0px var(--retro-olive);
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    grid-template-columns: 1fr;
+  }
 }
 
 .box-suggest-btn {
@@ -121,12 +125,47 @@ body::before {
   transform: translateY(-2px);
 }
 
+/* Filter Column 1: Search, Location, Sort */
+.filter-column-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  border-right: 3px dashed var(--canvas-cream);
+  padding-right: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .filter-column-inputs {
+    border-right: none;
+    border-bottom: 3px dashed var(--canvas-cream);
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* Filter Column 2: Organized Tags */
+.filter-column-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.tag-category {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.category-label {
+  font-size: 0.55rem;
+  color: var(--retro-olive);
+  letter-spacing: 1px;
+}
+
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  flex: 1;
-  min-width: 200px;
+  gap: 0.4rem;
   position: relative;
 }
 
@@ -135,10 +174,42 @@ body::before {
   color: var(--canvas-cream);
 }
 
+/* Amenity Filter Toggle Buttons */
+.amenity-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.amenity-toggle-btn {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  background-color: var(--canvas-cream);
+  color: var(--bg-dark-earth);
+  border: 2px solid var(--bg-dark-earth);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.65;
+}
+
+.amenity-toggle-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.amenity-toggle-btn.active {
+  opacity: 1;
+  background-color: var(--retro-olive);
+  color: var(--bg-dark-earth);
+  border-color: var(--canvas-cream);
+  box-shadow: 2px 2px 0px var(--bg-dark-earth);
+}
+
 .pixel-input,
 .pixel-btn {
   font-family: 'Press Start 2P', cursive;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   padding: 0.6rem 0.8rem;
   background-color: var(--canvas-cream);
   color: var(--bg-dark-earth);
@@ -153,7 +224,7 @@ body::before {
 
 .pixel-btn {
   background-color: var(--retro-olive);
-  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .pixel-btn:hover {
@@ -173,13 +244,13 @@ body::before {
   justify-content: space-between;
   align-items: center;
   font-family: 'Press Start 2P', cursive;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   padding: 0.6rem 0.8rem;
   background-color: var(--canvas-cream);
   color: var(--bg-dark-earth);
   border: 3px solid var(--bg-dark-earth);
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .dropdown-trigger:hover {
@@ -214,7 +285,7 @@ body::before {
 }
 
 .dropdown-item {
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   padding: 0.6rem 0.8rem;
   color: var(--canvas-cream);
   cursor: pointer;
@@ -231,7 +302,72 @@ body::before {
   color: var(--canvas-cream);
 }
 
-/* Card Grid */
+/* Icon Legend Drawer Component */
+.legend-wrapper {
+  margin-bottom: 2.5rem;
+}
+
+.legend-toggle-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  padding: 0.7rem 1rem;
+  background-color: var(--camo-green);
+  color: var(--canvas-cream);
+  border: 3px solid var(--canvas-cream);
+  box-shadow: 4px 4px 0px var(--retro-olive);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.legend-toggle-btn:hover {
+  background-color: var(--retro-olive);
+  color: var(--bg-dark-earth);
+}
+
+.legend-toggle-btn .arrow {
+  font-size: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.legend-wrapper.open .legend-toggle-btn .arrow {
+  transform: rotate(180deg);
+}
+
+.legend-container {
+  display: none;
+  background-color: var(--bg-dark-earth);
+  border: 3px solid var(--canvas-cream);
+  border-top: none;
+  padding: 1.2rem;
+  box-shadow: 4px 6px 0px var(--retro-olive);
+}
+
+.legend-wrapper.open .legend-container {
+  display: block;
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.8rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: var(--canvas-cream);
+  color: var(--bg-dark-earth);
+  padding: 0.4rem 0.6rem;
+  border: 2px solid var(--bg-dark-earth);
+  font-size: 0.5rem;
+}
+
+/* Card Grid & Card Components */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -239,16 +375,79 @@ body::before {
 }
 
 .camp-card {
+  position: relative;
   background-color: var(--camo-green);
   border: 4px solid var(--canvas-cream);
   box-shadow: 6px 6px 0px var(--retro-olive);
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 
 .camp-card:hover {
   transform: translateY(-8px);
   box-shadow: 10px 14px 0px var(--canvas-cream);
+}
+
+/* Three Dots Menu Button & Dropdown */
+.card-menu-container {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 5;
+}
+
+.card-menu-btn {
+  background-color: var(--bg-dark-earth);
+  color: var(--canvas-cream);
+  border: 2px solid var(--canvas-cream);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--retro-olive);
+}
+
+.card-menu-btn:hover {
+  background-color: var(--retro-olive);
+  color: var(--bg-dark-earth);
+}
+
+.card-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background-color: var(--bg-dark-earth);
+  border: 2px solid var(--canvas-cream);
+  box-shadow: 3px 3px 0px var(--retro-olive);
+  z-index: 10;
+}
+
+.card-dropdown-menu.open {
+  display: block;
+}
+
+.card-edit-btn {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.55rem;
+  padding: 0.5rem 0.8rem;
+  background-color: transparent;
+  color: var(--canvas-cream);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+  text-align: left;
+}
+
+.card-edit-btn:hover {
+  background-color: var(--retro-olive);
+  color: var(--bg-dark-earth);
 }
 
 .card-image-wrapper {
@@ -262,7 +461,7 @@ body::before {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.4s ease;
 }
 
 .camp-card:hover .card-image {
@@ -277,6 +476,37 @@ body::before {
   font-size: 1rem;
   color: var(--canvas-cream);
   margin-bottom: 0.8rem;
+}
+
+/* Card Icons Display */
+.card-icons-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.8rem;
+}
+
+.card-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--canvas-cream);
+  padding: 0.25rem;
+  border: 1px solid var(--bg-dark-earth);
+  border-radius: 2px;
+}
+
+.card-icon-badge .pixel-icon {
+  width: 14px;
+  height: 14px;
+  fill: var(--bg-dark-earth);
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .camp-location {
@@ -371,6 +601,13 @@ body::before {
   margin-bottom: 0.5rem;
 }
 
+.modal-location-container {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
 .modal-location {
   font-size: 0.6rem;
   color: var(--bg-dark-earth);
@@ -378,7 +615,19 @@ body::before {
   display: inline-block;
   padding: 0.3rem 0.5rem;
   border: 2px solid var(--canvas-cream);
-  margin-bottom: 1.2rem;
+}
+
+.modal-map-link {
+  font-size: 0.55rem;
+  color: var(--bg-dark-earth);
+  background-color: var(--canvas-cream);
+  padding: 0.3rem 0.5rem;
+  border: 2px solid var(--bg-dark-earth);
+  text-decoration: none;
+}
+
+.modal-map-link:hover {
+  background-color: var(--retro-olive);
 }
 
 .modal-description {
@@ -427,29 +676,73 @@ body::before {
   flex-shrink: 0;
 }
 
-/* Suggestion Modal */
-.suggest-subtitle {
-  font-size: 0.55rem;
-  color: var(--retro-olive);
-  margin-bottom: 1.5rem;
-}
-
+/* Form Styles & Editor Checkboxes */
 .suggest-form {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
 .pixel-textarea {
   resize: vertical;
 }
 
-.submit-btn {
+/* Form Alignment for Text Fields */
+.suggest-form .form-group:has(#editName, #editLoc, #editMapUrl, #editCountry, #editImg, #editDesc) {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.suggest-form .form-group:has(#editDesc) {
+  align-items: start;
+}
+
+.suggest-form #editName,
+.suggest-form #editLoc,
+.suggest-form #editMapUrl,
+.suggest-form #editCountry,
+.suggest-form #editImg,
+.suggest-form #editDesc {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+  font-size: 0.55rem;
+  color: var(--canvas-cream);
+  background-color: rgba(0,0,0,0.2);
+  padding: 0.8rem;
+  border: 2px solid var(--canvas-cream);
+}
+
+.checkbox-grid input {
+  accent-color: var(--retro-olive);
+  cursor: pointer;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 0.8rem;
   margin-top: 0.5rem;
+}
+
+.delete-btn {
+  background-color: #A94442;
+  color: #FFF;
+}
+
+.delete-btn:hover {
+  background-color: #D9534F;
+}
+
+@media (max-width: 600px) {
+  .suggest-form .form-group:has(#editName, #editLoc, #editMapUrl, #editCountry, #editImg, #editDesc) {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
 }
