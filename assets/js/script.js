@@ -26,7 +26,7 @@ const db = getFirestore(app);
 const campsCollection = collection(db, "campsites");
 
 // Default Philippine Cities to populate dropdown
-const PH_CITIES = ['CEBU', 'MANILA', 'TANAY', 'BAGUIO', 'DAVAO', 'TAGAYTAY'];
+const PH_CITIES = ['CEBU'];
 
 let camps = [];
 let currentLocationFilter = 'ALL CITIES';
