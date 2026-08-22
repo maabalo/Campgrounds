@@ -26,7 +26,7 @@ const db = getFirestore(app);
 const campsCollection = collection(db, "campsites");
 
 // Default Philippine Cities to populate dropdown
-const PH_CITIES = ['CEBU'];
+const PH_CITIES = ['CEBU', 'MANILA', 'TANAY', 'BAGUIO', 'DAVAO', 'TAGAYTAY'];
 
 let camps = [];
 let currentLocationFilter = 'ALL CITIES';
@@ -54,7 +54,7 @@ async function saveCampToCloud(campData) {
 
 // Delete Document from Firestore
 async function deleteCampFromCloud(id) {
-  await deleteDoc(doc(db, "campsites", id));
+  await deleteDoc(db, "campsites", id);
 }
 
 // Pixel Icons Library
@@ -63,7 +63,7 @@ const PIXEL_ICONS = {
   restroom: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M2 2h5v2H2zM2 4h1v10H2zM6 4h1v10H6zM3 7h3v2H3zM10 2h4v2h-4zM11 4h2v5h-2zM9 9h6v2H9zM10 11h1v3h-1zM13 11h1v3h-1z"/></svg>`,
   electricity: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M9 1H6v5H3l5 9V9h3z"/></svg>`,
   wifi: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M2 3h12v2H2zM4 6h8v2H4zM6 9h4v2H6zM7 12h2v2H7z"/></svg>`,
-  pisoWifi: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M6 1h4v2H6zM4 3h8v2H4zM3 5h10v6H3zM4 11h8v2H4zM6 13h4v2H6zM7 6h2v4H7z"/></svg>`,
+  pisoWifi: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M6 1h4v2H6zM4 3h8v2H6zM3 5h10v6H3zM4 11h8v2H4zM6 13h4v2H6zM7 6h2v4H7z"/></svg>`,
   signal: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M1 12h2v3H1zM5 9h2v6H5zM9 6h2v9H9zM13 2h2v13h-2z"/></svg>`,
   parking: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M3 2h6v2H3zM3 4h2v10H3zM5 4h5v4H5z"/></svg>`,
   carCamping: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M3 5h10v3H3zM1 8h14v4H1zM3 12h3v2H3zM10 12h3v2h-3z"/></svg>`,
@@ -180,7 +180,6 @@ function renderCards() {
 
     const iconsHtml = activeIcons.map(iconSvg => `<span class="card-icon-badge">${iconSvg}</span>`).join('');
 
-    // Combine Location Details and City for Card View Badge
     const displayLocation = [camp.locDetails, camp.location].filter(Boolean).join(', ');
 
     const card = document.createElement('article');
@@ -240,6 +239,15 @@ document.addEventListener('click', () => {
   document.querySelectorAll('.card-dropdown-menu').forEach(m => m.classList.remove('open'));
 });
 
+// Helper functions for locking background scroll
+function lockScroll() {
+  document.body.classList.add('modal-open');
+}
+
+function unlockScroll() {
+  document.body.classList.remove('modal-open');
+}
+
 const modalOverlay = document.getElementById('modalOverlay');
 function openDetailModal(camp) {
   if (!modalOverlay) return;
@@ -247,27 +255,37 @@ function openDetailModal(camp) {
   document.getElementById('modalTitle').textContent = camp.name || '';
   
   const displayLocation = [camp.locDetails, camp.location].filter(Boolean).join(', ');
-  document.getElementById('modalLoc').textContent = displayLocation || '';
+  document.getElementById('modalLocText').textContent = displayLocation || 'LOCATION UNKNOWN';
   document.getElementById('modalDesc').textContent = camp.desc || '';
 
   const campUrlLink = document.getElementById('modalCampUrlLink');
+  const mapLink = document.getElementById('modalMapLink');
+  const visitContainer = document.getElementById('modalVisitContainer');
+
+  let hasLinks = false;
+
   if (campUrlLink) {
     if (camp.campUrl && camp.campUrl.trim() !== '') {
       campUrlLink.href = camp.campUrl;
       campUrlLink.style.display = 'inline-block';
+      hasLinks = true;
     } else {
       campUrlLink.style.display = 'none';
     }
   }
 
-  const mapLink = document.getElementById('modalMapLink');
   if (mapLink) {
     if (camp.mapUrl && camp.mapUrl.trim() !== '') {
       mapLink.href = camp.mapUrl;
       mapLink.style.display = 'inline-block';
+      hasLinks = true;
     } else {
       mapLink.style.display = 'none';
     }
+  }
+
+  if (visitContainer) {
+    visitContainer.style.display = hasLinks ? 'block' : 'none';
   }
 
   const grid = document.getElementById('amenitiesGrid');
@@ -281,11 +299,15 @@ function openDetailModal(camp) {
   }
 
   modalOverlay.classList.add('open');
+  lockScroll();
 }
 
 const modalCloseBtn = document.getElementById('modalClose');
 if (modalCloseBtn && modalOverlay) {
-  modalCloseBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
+  modalCloseBtn.addEventListener('click', () => {
+    modalOverlay.classList.remove('open');
+    unlockScroll();
+  });
 }
 
 /* ==================================================
@@ -300,7 +322,6 @@ const editImgFile = document.getElementById('editImgFile');
 const editImgUrl = document.getElementById('editImgUrl');
 const editImgPreview = document.getElementById('editImgPreview');
 
-// Mode Switch: File Upload
 if (btnUploadMode) {
   btnUploadMode.addEventListener('click', () => {
     btnUploadMode.classList.add('active');
@@ -312,7 +333,6 @@ if (btnUploadMode) {
   });
 }
 
-// Mode Switch: Direct URL
 if (btnUrlMode) {
   btnUrlMode.addEventListener('click', () => {
     btnUrlMode.classList.add('active');
@@ -324,7 +344,6 @@ if (btnUrlMode) {
   });
 }
 
-// Client-Side Canvas Resizing & Quality Compression
 if (editImgFile) {
   editImgFile.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -367,7 +386,6 @@ if (editImgFile) {
   });
 }
 
-// Image URL Handling
 if (editImgUrl) {
   editImgUrl.addEventListener('input', (e) => {
     const url = e.target.value.trim();
@@ -419,7 +437,6 @@ function openEditorModal(camp = null) {
     document.getElementById('editCountry').value = camp.location || '';
     document.getElementById('editDesc').value = camp.desc || '';
 
-    // Initialize Image View Logic for Edit Mode
     currentImageData = camp.img || '';
     if (currentImageData) {
       showImagePreview(currentImageData);
@@ -466,11 +483,15 @@ function openEditorModal(camp = null) {
     if (deleteBtn) deleteBtn.style.display = 'none';
   }
   editorModalOverlay.classList.add('open');
+  lockScroll();
 }
 
 const editorModalCloseBtn = document.getElementById('editorModalClose');
 if (editorModalCloseBtn && editorModalOverlay) {
-  editorModalCloseBtn.addEventListener('click', () => editorModalOverlay.classList.remove('open'));
+  editorModalCloseBtn.addEventListener('click', () => {
+    editorModalOverlay.classList.remove('open');
+    unlockScroll();
+  });
 }
 
 const suggestBtn = document.getElementById('suggestBtn');
@@ -478,7 +499,6 @@ if (suggestBtn) {
   suggestBtn.addEventListener('click', () => openEditorModal());
 }
 
-// Form submit event connected to Firestore with error handling and button locking
 if (editorForm) {
   editorForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -529,7 +549,10 @@ if (editorForm) {
       };
 
       await saveCampToCloud(campData);
-      if (editorModalOverlay) editorModalOverlay.classList.remove('open');
+      if (editorModalOverlay) {
+        editorModalOverlay.classList.remove('open');
+        unlockScroll();
+      }
     } catch (error) {
       console.error("Failed to save data to Firestore:", error);
       alert("Error saving campsite: " + error.message);
@@ -542,7 +565,6 @@ if (editorForm) {
   });
 }
 
-// Delete click event connected to Firestore
 const deleteBtn = document.getElementById('deleteBtn');
 if (deleteBtn) {
   deleteBtn.addEventListener('click', async () => {
@@ -550,7 +572,10 @@ if (deleteBtn) {
     if (confirm('ARE YOU SURE YOU WANT TO DELETE THIS CAMPSITE?')) {
       try {
         await deleteCampFromCloud(id);
-        if (editorModalOverlay) editorModalOverlay.classList.remove('open');
+        if (editorModalOverlay) {
+          editorModalOverlay.classList.remove('open');
+          unlockScroll();
+        }
       } catch (error) {
         console.error("Failed to delete campsite:", error);
         alert("Error deleting campsite: " + error.message);
