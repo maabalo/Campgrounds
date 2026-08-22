@@ -1,3 +1,4 @@
+// Firebase SDK Modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
   getFirestore, 
@@ -14,6 +15,7 @@ import {
   onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+// YOUR FIREBASE CONFIGURATION
 const firebaseConfig = {
   apiKey: "AIzaSyAVe2Xpm7QmWuQht9Qsk0zydRrv7Zvtqys",
   authDomain: "campground-da569.firebaseapp.com",
@@ -24,14 +26,21 @@ const firebaseConfig = {
   measurementId: "G-PBDZSJ09E5"
 };
 
+// Initialize Firebase Services
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const campsCollection = collection(db, "campsites");
 
+// Dynamic Globals
+const PH_CITIES = [];
+let camps = [];
+let currentLocationFilter = 'ALL CITIES';
+const activeAmenities = new Set();
+let currentImageData = ''; 
 let currentUser = null;
 
-// Track auth state
+// Track Auth State & Re-render Cards
 onAuthStateChanged(auth, (user) => {
   currentUser = user;
   const adminLoginBtn = document.getElementById('adminLoginBtn');
@@ -44,15 +53,10 @@ onAuthStateChanged(auth, (user) => {
     if (adminLoginBtn) adminLoginBtn.style.display = 'inline-block';
     if (adminLogoutBtn) adminLogoutBtn.style.display = 'none';
   }
+
+  // Instantly re-render cards when user logs in/out
+  renderCards();
 });
-
-// Default Philippine Cities to populate dropdown
-const PH_CITIES = ['CEBU'];
-
-let camps = [];
-let currentLocationFilter = 'ALL CITIES';
-const activeAmenities = new Set();
-let currentImageData = ''; // Holds direct URL or Canvas Compressed Base64 String
 
 // Realtime Listener for Cloud Data Updates
 onSnapshot(campsCollection, (snapshot) => {
@@ -257,20 +261,24 @@ function renderCards() {
     const iconsHtml = activeIcons.map(iconSvg => `<span class="card-icon-badge">${iconSvg}</span>`).join('');
     const displayLocation = [camp.locDetails, camp.location].filter(Boolean).join(', ');
 
-    // Fallback logic for missing card images
     const imageContainerHtml = camp.img && camp.img.trim() !== '' 
       ? `<img src="${camp.img}" alt="${camp.name || 'Campsite'}" class="card-image">`
       : `<div class="no-image-placeholder">NO IMAGE</div>`;
 
-    const card = document.createElement('article');
-    card.className = 'camp-card';
-    card.innerHTML = `
+    // 3-dots menu HTML rendered ONLY if logged in
+    const adminMenuHtml = currentUser ? `
       <div class="card-menu-container">
         <button class="card-menu-btn" title="Options">⋮</button>
         <div class="card-dropdown-menu">
           <button class="card-edit-btn" data-id="${camp.id}">EDIT</button>
         </div>
       </div>
+    ` : '';
+
+    const card = document.createElement('article');
+    card.className = 'camp-card';
+    card.innerHTML = `
+      ${adminMenuHtml}
       <div class="card-image-wrapper">
         ${imageContainerHtml}
       </div>
@@ -285,27 +293,35 @@ function renderCards() {
       </div>
     `;
 
-    const menuBtn = card.querySelector('.card-menu-btn');
-    const dropdownMenu = card.querySelector('.card-dropdown-menu');
+    // Menu logic attached ONLY if logged in
+    if (currentUser) {
+      const menuBtn = card.querySelector('.card-menu-btn');
+      const dropdownMenu = card.querySelector('.card-dropdown-menu');
 
-    menuBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      document.querySelectorAll('.card-dropdown-menu').forEach(m => {
-        if (m !== dropdownMenu) m.classList.remove('open');
-      });
-      dropdownMenu.classList.toggle('open');
-    });
+      if (menuBtn && dropdownMenu) {
+        menuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.card-dropdown-menu').forEach(m => {
+            if (m !== dropdownMenu) m.classList.remove('open');
+          });
+          dropdownMenu.classList.toggle('open');
+        });
+      }
+
+      const editBtn = card.querySelector('.card-edit-btn');
+      if (editBtn) {
+        editBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (dropdownMenu) dropdownMenu.classList.remove('open');
+          openEditorModal(camp);
+        });
+      }
+    }
 
     card.addEventListener('click', (e) => {
       if (!e.target.closest('.card-menu-container')) {
         openDetailModal(camp);
       }
-    });
-
-    card.querySelector('.card-edit-btn').addEventListener('click', (e) => {
-      e.stopPropagation();
-      dropdownMenu.classList.remove('open');
-      openEditorModal(camp);
     });
 
     cardGrid.appendChild(card);
@@ -417,7 +433,6 @@ if (btnUploadMode) {
     fileUploadSection.style.display = 'block';
     urlUploadSection.style.display = 'none';
     
-    // Maintain existing Base64 file image preview if present
     if (currentImageData && currentImageData.startsWith('data:image')) {
       showImagePreview(currentImageData);
     } else if (!currentImageData) {
@@ -433,7 +448,6 @@ if (btnUrlMode) {
     urlUploadSection.style.display = 'block';
     fileUploadSection.style.display = 'none';
     
-    // Maintain existing URL preview if present
     if (currentImageData && !currentImageData.startsWith('data:image')) {
       editImgUrl.value = currentImageData;
       showImagePreview(currentImageData);
@@ -536,10 +550,7 @@ function openEditorModal(camp = null) {
     document.getElementById('editCountry').value = camp.location || '';
     document.getElementById('editDesc').value = camp.desc || '';
 
-    // Clear file input value to avoid ghost file reference
     if (editImgFile) editImgFile.value = '';
-
-    // Preserve image string from existing campsite item
     currentImageData = camp.img || '';
 
     const helperText = fileUploadSection ? fileUploadSection.querySelector('.helper-text') : null;
@@ -797,8 +808,7 @@ if (sortBtn) {
   });
 }
 
-renderLegend();
-// Handle Login Form Submit
+// Authentication Handlers
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
   loginForm.addEventListener('submit', async (e) => {
@@ -809,18 +819,18 @@ if (loginForm) {
     try {
       await signInWithEmailAndPassword(auth, email, pass);
       document.getElementById('loginModalOverlay').classList.remove('open');
-      alert("Logged in successfully!");
+      loginForm.reset();
     } catch (err) {
       alert("Login failed: " + err.message);
     }
   });
 }
 
-// Handle Logout Button
 const adminLogoutBtn = document.getElementById('adminLogoutBtn');
 if (adminLogoutBtn) {
   adminLogoutBtn.addEventListener('click', async () => {
     await signOut(auth);
-    alert("Logged out.");
   });
 }
+
+renderLegend();
