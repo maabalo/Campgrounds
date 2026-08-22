@@ -60,7 +60,7 @@ async function deleteCampFromCloud(id) {
 // Pixel Icons Library
 const PIXEL_ICONS = {
   trees: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M7 1h2v2H7zM6 3h4v2H6zM5 5h6v2H5zM4 7h8v2H4zM3 9h10v2H3zM7 11h2v4H7z"/></svg>`,
-  restroom: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M2 2h5v2H2zM2 4h1v10H2zM6 4h1v10H6zM3 7h3v2H3zM10 2h4v2h-4zM11 4h2v5h-2zM9 9h6v2H9zM10 11h1v3h-1zM13 11h1v3h-1z"/></svg>`,
+  restroom: `<svg height="25px" width="25px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" xml:space="preserve"><style type="text/css">.st0{fill:#000000;}</style><g><path class="st0" d="M12.344 4.786a2.334 2.334 0 1 0 0 -4.669 2.334 2.334 0 0 0 0 4.669"/><path class="st0" d="M3.656 4.786a2.334 2.334 0 1 0 0 -4.669 2.334 2.334 0 0 0 0 4.669"/><path class="st0" d="m15.883 13.838 -3.202 -7.531a0.375 0.375 0 0 0 -0.338 -0.223 0.375 0.375 0 0 0 -0.338 0.223l-3.202 7.531a1.469 1.469 0 0 0 0.127 1.386 1.469 1.469 0 0 0 1.227 0.659h4.372a1.469 1.469 0 0 0 1.227 -0.659 1.469 1.469 0 0 0 0.127 -1.386"/><path class="st0" d="M5.842 6.081H1.47a1.469 1.469 0 0 0 -1.353 2.045l3.202 7.531a0.367 0.367 0 0 0 0.677 0l3.202 -7.531a1.469 1.469 0 0 0 -1.353 -2.045"/></g></svg>`,
   electricity: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M9 1H6v5H3l5 9V9h3z"/></svg>`,
   wifi: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M2 3h12v2H2zM4 6h8v2H4zM6 9h4v2H6zM7 12h2v2H7z"/></svg>`,
   pisoWifi: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M6 1h4v2H6zM4 3h8v2H6zM3 5h10v6H3zM4 11h8v2H4zM6 13h4v2H6zM7 6h2v4H7z"/></svg>`,
