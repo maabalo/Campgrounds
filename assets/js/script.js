@@ -37,25 +37,20 @@ onSnapshot(campsCollection, (snapshot) => {
   }));
   
   renderCards();
+}, (error) => {
+  console.error("Firestore realtime listener error:", error);
+  alert("Error connecting to database. Check console for details.");
 });
 
 // Save / Update Document to Firestore
 async function saveCampToCloud(campData) {
-  try {
-    const docRef = doc(db, "campsites", campData.id);
-    await setDoc(docRef, campData);
-  } catch (error) {
-    console.error("Error saving campsite to cloud: ", error);
-  }
+  const docRef = doc(db, "campsites", campData.id);
+  await setDoc(docRef, campData);
 }
 
 // Delete Document from Firestore
 async function deleteCampFromCloud(id) {
-  try {
-    await deleteDoc(doc(db, "campsites", id));
-  } catch (error) {
-    console.error("Error deleting campsite: ", error);
-  }
+  await deleteDoc(doc(db, "campsites", id));
 }
 
 // Pixel Icons Library
@@ -99,6 +94,7 @@ const ICON_LABELS = {
 
 function renderLegend() {
   const legendGrid = document.getElementById('legendGrid');
+  if (!legendGrid) return;
   legendGrid.innerHTML = '';
 
   Object.keys(PIXEL_ICONS).forEach(key => {
@@ -110,12 +106,16 @@ function renderLegend() {
 }
 
 const legendWrapper = document.querySelector('.legend-wrapper');
-document.getElementById('legendToggleBtn').addEventListener('click', () => {
-  legendWrapper.classList.toggle('open');
-});
+const legendToggleBtn = document.getElementById('legendToggleBtn');
+if (legendToggleBtn && legendWrapper) {
+  legendToggleBtn.addEventListener('click', () => {
+    legendWrapper.classList.toggle('open');
+  });
+}
 
 function populateLocationDropdown() {
   const dropdownMenu = document.getElementById('dropdownMenu');
+  if (!dropdownMenu) return;
   dropdownMenu.innerHTML = '';
 
   const uniqueLocations = ['ALL LOCATIONS', ...new Set(camps.map(c => c.location ? c.location.toUpperCase() : ''))];
@@ -123,7 +123,9 @@ function populateLocationDropdown() {
   if (!uniqueLocations.includes(currentLocationFilter)) {
     currentLocationFilter = 'ALL LOCATIONS';
   }
-  document.getElementById('selectedOptionText').textContent = currentLocationFilter;
+  
+  const selectedTextEl = document.getElementById('selectedOptionText');
+  if (selectedTextEl) selectedTextEl.textContent = currentLocationFilter;
 
   uniqueLocations.forEach(loc => {
     if (!loc) return;
@@ -136,8 +138,9 @@ function populateLocationDropdown() {
       document.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('selected'));
       item.classList.add('selected');
       currentLocationFilter = loc;
-      document.getElementById('selectedOptionText').textContent = loc;
-      document.getElementById('customDropdown').classList.remove('open');
+      if (selectedTextEl) selectedTextEl.textContent = loc;
+      const customDropdown = document.getElementById('customDropdown');
+      if (customDropdown) customDropdown.classList.remove('open');
       filterCards();
     });
 
@@ -148,6 +151,7 @@ function populateLocationDropdown() {
 const cardGrid = document.getElementById('cardGrid');
 
 function renderCards() {
+  if (!cardGrid) return;
   cardGrid.innerHTML = '';
 
   camps.forEach(camp => {
@@ -181,15 +185,15 @@ function renderCards() {
         </div>
       </div>
       <div class="card-image-wrapper">
-        <img src="${camp.img}" alt="${camp.name}" class="card-image">
+        <img src="${camp.img || ''}" alt="${camp.name || 'Campsite'}" class="card-image">
       </div>
       <div class="card-content">
-        <h2 class="camp-title">${camp.name}</h2>
+        <h2 class="camp-title">${camp.name || ''}</h2>
         <div class="card-icons-row">
           ${iconsHtml}
         </div>
         <div class="card-actions">
-          <span class="camp-location">${camp.locDetails}</span>
+          <span class="camp-location">${camp.locDetails || ''}</span>
         </div>
       </div>
     `;
@@ -230,46 +234,55 @@ document.addEventListener('click', () => {
 
 const modalOverlay = document.getElementById('modalOverlay');
 function openDetailModal(camp) {
-  document.getElementById('modalImg').src = camp.img;
-  document.getElementById('modalTitle').textContent = camp.name;
-  document.getElementById('modalLoc').textContent = camp.locDetails;
-  document.getElementById('modalDesc').textContent = camp.desc;
+  if (!modalOverlay) return;
+  document.getElementById('modalImg').src = camp.img || '';
+  document.getElementById('modalTitle').textContent = camp.name || '';
+  document.getElementById('modalLoc').textContent = camp.locDetails || '';
+  document.getElementById('modalDesc').textContent = camp.desc || '';
 
   const mapLink = document.getElementById('modalMapLink');
-  if (camp.mapUrl && camp.mapUrl.trim() !== '') {
-    mapLink.href = camp.mapUrl;
-    mapLink.style.display = 'inline-block';
-  } else {
-    mapLink.style.display = 'none';
+  if (mapLink) {
+    if (camp.mapUrl && camp.mapUrl.trim() !== '') {
+      mapLink.href = camp.mapUrl;
+      mapLink.style.display = 'inline-block';
+    } else {
+      mapLink.style.display = 'none';
+    }
   }
 
   const grid = document.getElementById('amenitiesGrid');
-  grid.innerHTML = '';
-
-  Object.keys(PIXEL_ICONS).forEach(key => {
-    if (camp[key]) {
-      grid.innerHTML += `<div class="amenity-chip">${PIXEL_ICONS[key]} ${ICON_LABELS[key]}</div>`;
-    }
-  });
+  if (grid) {
+    grid.innerHTML = '';
+    Object.keys(PIXEL_ICONS).forEach(key => {
+      if (camp[key]) {
+        grid.innerHTML += `<div class="amenity-chip">${PIXEL_ICONS[key]} ${ICON_LABELS[key]}</div>`;
+      }
+    });
+  }
 
   modalOverlay.classList.add('open');
 }
 
-document.getElementById('modalClose').addEventListener('click', () => modalOverlay.classList.remove('open'));
+const modalCloseBtn = document.getElementById('modalClose');
+if (modalCloseBtn && modalOverlay) {
+  modalCloseBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
+}
 
 const editorModalOverlay = document.getElementById('editorModalOverlay');
 const editorForm = document.getElementById('editorForm');
 
 function openEditorModal(camp = null) {
+  if (!editorModalOverlay || !editorForm) return;
+
   if (camp) {
     document.getElementById('editorTitle').textContent = 'EDIT CAMPSITE';
     document.getElementById('editCampId').value = camp.id;
-    document.getElementById('editName').value = camp.name;
-    document.getElementById('editLoc').value = camp.locDetails;
+    document.getElementById('editName').value = camp.name || '';
+    document.getElementById('editLoc').value = camp.locDetails || '';
     document.getElementById('editMapUrl').value = camp.mapUrl || '';
-    document.getElementById('editCountry').value = camp.location;
-    document.getElementById('editImg').value = camp.img;
-    document.getElementById('editDesc').value = camp.desc;
+    document.getElementById('editCountry').value = camp.location || '';
+    document.getElementById('editImg').value = camp.img || '';
+    document.getElementById('editDesc').value = camp.desc || '';
 
     document.getElementById('chkTrees').checked = !!camp.trees;
     document.getElementById('chkRestroom').checked = !!camp.restroom;
@@ -290,65 +303,102 @@ function openEditorModal(camp = null) {
     document.getElementById('chkHiking').checked = !!camp.hiking;
     document.getElementById('chkTrail').checked = !!camp.trail;
 
-    document.getElementById('deleteBtn').style.display = 'block';
+    const deleteBtn = document.getElementById('deleteBtn');
+    if (deleteBtn) deleteBtn.style.display = 'block';
   } else {
     document.getElementById('editorTitle').textContent = 'ADD NEW SPOT';
     editorForm.reset();
     document.getElementById('editCampId').value = '';
-    document.getElementById('deleteBtn').style.display = 'none';
+    const deleteBtn = document.getElementById('deleteBtn');
+    if (deleteBtn) deleteBtn.style.display = 'none';
   }
   editorModalOverlay.classList.add('open');
 }
 
-document.getElementById('editorModalClose').addEventListener('click', () => editorModalOverlay.classList.remove('open'));
-document.getElementById('suggestBtn').addEventListener('click', () => openEditorModal());
+const editorModalCloseBtn = document.getElementById('editorModalClose');
+if (editorModalCloseBtn && editorModalOverlay) {
+  editorModalCloseBtn.addEventListener('click', () => editorModalOverlay.classList.remove('open'));
+}
 
-// Form submit event connected to Firestore
-editorForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+const suggestBtn = document.getElementById('suggestBtn');
+if (suggestBtn) {
+  suggestBtn.addEventListener('click', () => openEditorModal());
+}
 
-  const id = document.getElementById('editCampId').value;
-  const campData = {
-    id: id || 'camp_' + Date.now(),
-    name: document.getElementById('editName').value.toUpperCase(),
-    locDetails: document.getElementById('editLoc').value.toUpperCase(),
-    mapUrl: document.getElementById('editMapUrl').value.trim(),
-    location: document.getElementById('editCountry').value.toUpperCase().trim(),
-    img: document.getElementById('editImg').value,
-    desc: document.getElementById('editDesc').value,
+// Form submit event connected to Firestore with error handling and button locking
+if (editorForm) {
+  editorForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    trees: document.getElementById('chkTrees').checked,
-    restroom: document.getElementById('chkRestroom').checked,
-    electricity: document.getElementById('chkElectricity').checked,
-    wifi: document.getElementById('chkWifi').checked,
-    pisoWifi: document.getElementById('chkPisoWifi').checked,
-    signal: document.getElementById('chkSignal').checked,
-    parking: document.getElementById('chkParking').checked,
-    
-    carCamping: document.getElementById('chkCarCamping').checked,
-    motorCamping: document.getElementById('chkMotorCamping').checked,
-    tentOnly: document.getElementById('chkTentOnly').checked,
-    
-    forest: document.getElementById('chkForest').checked,
-    mountain: document.getElementById('chkMountain').checked,
-    river: document.getElementById('chkRiver').checked,
-    beach: document.getElementById('chkBeach').checked,
-    hiking: document.getElementById('chkHiking').checked,
-    trail: document.getElementById('chkTrail').checked
-  };
+    const submitBtn = editorForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn ? submitBtn.textContent : '';
 
-  await saveCampToCloud(campData);
-  editorModalOverlay.classList.remove('open');
-});
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'SAVING...';
+    }
+
+    try {
+      const id = document.getElementById('editCampId').value;
+      const campData = {
+        id: id || 'camp_' + Date.now(),
+        name: document.getElementById('editName').value.toUpperCase(),
+        locDetails: document.getElementById('editLoc').value.toUpperCase(),
+        mapUrl: document.getElementById('editMapUrl').value.trim(),
+        location: document.getElementById('editCountry').value.toUpperCase().trim(),
+        img: document.getElementById('editImg').value,
+        desc: document.getElementById('editDesc').value,
+
+        trees: document.getElementById('chkTrees').checked,
+        restroom: document.getElementById('chkRestroom').checked,
+        electricity: document.getElementById('chkElectricity').checked,
+        wifi: document.getElementById('chkWifi').checked,
+        pisoWifi: document.getElementById('chkPisoWifi').checked,
+        signal: document.getElementById('chkSignal').checked,
+        parking: document.getElementById('chkParking').checked,
+        
+        carCamping: document.getElementById('chkCarCamping').checked,
+        motorCamping: document.getElementById('chkMotorCamping').checked,
+        tentOnly: document.getElementById('chkTentOnly').checked,
+        
+        forest: document.getElementById('chkForest').checked,
+        mountain: document.getElementById('chkMountain').checked,
+        river: document.getElementById('chkRiver').checked,
+        beach: document.getElementById('chkBeach').checked,
+        hiking: document.getElementById('chkHiking').checked,
+        trail: document.getElementById('chkTrail').checked
+      };
+
+      await saveCampToCloud(campData);
+      if (editorModalOverlay) editorModalOverlay.classList.remove('open');
+    } catch (error) {
+      console.error("Failed to save data to Firestore:", error);
+      alert("Error saving campsite: " + error.message);
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    }
+  });
+}
 
 // Delete click event connected to Firestore
-document.getElementById('deleteBtn').addEventListener('click', async () => {
-  const id = document.getElementById('editCampId').value;
-  if (confirm('ARE YOU SURE YOU WANT TO DELETE THIS CAMPSITE?')) {
-    await deleteCampFromCloud(id);
-    editorModalOverlay.classList.remove('open');
-  }
-});
+const deleteBtn = document.getElementById('deleteBtn');
+if (deleteBtn) {
+  deleteBtn.addEventListener('click', async () => {
+    const id = document.getElementById('editCampId').value;
+    if (confirm('ARE YOU SURE YOU WANT TO DELETE THIS CAMPSITE?')) {
+      try {
+        await deleteCampFromCloud(id);
+        if (editorModalOverlay) editorModalOverlay.classList.remove('open');
+      } catch (error) {
+        console.error("Failed to delete campsite:", error);
+        alert("Error deleting campsite: " + error.message);
+      }
+    }
+  });
+}
 
 document.querySelectorAll('.amenity-toggle-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -367,6 +417,7 @@ document.querySelectorAll('.amenity-toggle-btn').forEach(btn => {
 const searchInput = document.getElementById('searchInput');
 
 function filterCards() {
+  if (!searchInput) return;
   const query = searchInput.value.toLowerCase().trim();
   const selectedLoc = currentLocationFilter;
 
@@ -377,7 +428,7 @@ function filterCards() {
     const camp = camps[index];
     if (!camp) return;
 
-    const matchesSearch = query === '' || camp.name.toLowerCase().startsWith(query);
+    const matchesSearch = query === '' || (camp.name && camp.name.toLowerCase().startsWith(query));
     const matchesLocation = selectedLoc === 'ALL LOCATIONS' || camp.location === selectedLoc;
 
     let matchesAmenities = true;
@@ -395,27 +446,44 @@ function filterCards() {
     }
   });
 
-  document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+  const noResults = document.getElementById('noResults');
+  if (noResults) {
+    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
 }
 
 const customDropdown = document.getElementById('customDropdown');
-document.getElementById('dropdownTrigger').addEventListener('click', (e) => {
-  e.stopPropagation();
-  customDropdown.classList.toggle('open');
+const dropdownTrigger = document.getElementById('dropdownTrigger');
+if (dropdownTrigger && customDropdown) {
+  dropdownTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    customDropdown.classList.toggle('open');
+  });
+}
+
+document.addEventListener('click', () => {
+  if (customDropdown) customDropdown.classList.remove('open');
 });
 
-document.addEventListener('click', () => customDropdown.classList.remove('open'));
-searchInput.addEventListener('input', filterCards);
+if (searchInput) {
+  searchInput.addEventListener('input', filterCards);
+}
 
 const sortBtn = document.getElementById('sortBtn');
-sortBtn.addEventListener('click', () => {
-  const isAsc = sortBtn.getAttribute('data-sort') === 'asc';
-  camps.sort((a, b) => isAsc ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name));
-  
-  sortBtn.setAttribute('data-sort', isAsc ? 'desc' : 'asc');
-  sortBtn.textContent = isAsc ? 'SORT: Z-A' : 'SORT: A-Z';
-  
-  renderCards();
-});
+if (sortBtn) {
+  sortBtn.addEventListener('click', () => {
+    const isAsc = sortBtn.getAttribute('data-sort') === 'asc';
+    camps.sort((a, b) => {
+      const nameA = a.name || '';
+      const nameB = b.name || '';
+      return isAsc ? nameB.localeCompare(nameA) : nameA.localeCompare(nameB);
+    });
+    
+    sortBtn.setAttribute('data-sort', isAsc ? 'desc' : 'asc');
+    sortBtn.textContent = isAsc ? 'SORT: Z-A' : 'SORT: A-Z';
+    
+    renderCards();
+  });
+}
 
 renderLegend();
