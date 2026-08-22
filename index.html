@@ -21,6 +21,33 @@
     <p class="site-subtitle">Discover Nature, Adventure, and the Perfect Place to Camp</p>
   </header>
 
+  <!-- Top Navigation Bar / Controls -->
+<div class="admin-controls">
+  <button id="adminLoginBtn" onclick="document.getElementById('loginModalOverlay').classList.add('open')">
+    ADMIN LOGIN
+  </button>
+  <button id="adminLogoutBtn" style="display:none;">LOGOUT</button>
+</div>
+
+<!-- Admin Pending Review Section (Placed above or below your card grid) -->
+<section id="pendingSection" style="display:none;" class="admin-panel">
+  <h2>PENDING SUGGESTIONS REVIEW</h2>
+  <div id="pendingGrid"></div>
+</section>
+
+<!-- Admin Login Modal Overlay -->
+<div id="loginModalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <h3>ADMIN LOGIN</h3>
+    <input type="email" id="loginEmail" placeholder="Admin Email" />
+    <input type="password" id="loginPass" placeholder="Password" />
+    <div class="modal-actions">
+      <button id="submitLoginBtn">LOGIN</button>
+      <button type="button" onclick="document.getElementById('loginModalOverlay').classList.remove('open')">CANCEL</button>
+    </div>
+  </div>
+</div>
+
   <!-- Main Container -->
   <main class="container">
 
