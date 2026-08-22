@@ -879,4 +879,32 @@ if (adminLogoutBtn) {
   });
 }
 
+// Global Event Listeners & Modal Controls
+if (suggestBtn) {
+  suggestBtn.addEventListener('click', () => openEditorModal(null, false));
+}
+
+// Target the button
+const closeEditorBtn = document.getElementById('closeEditorBtn');
+
+// Attach click event to close modal and unlock scroll
+if (editorModalClose) {
+  closeEditorBtn.addEventListener('click', () => {
+    if (editorModalOverlay) {
+      editorModalOverlay.classList.remove('open');
+      unlockScroll();
+    }
+  });
+}
+
+// Optional: Allow clicking outside the modal box (overlay backdrop) to close it
+if (editorModalOverlay) {
+  editorModalOverlay.addEventListener('click', (e) => {
+    if (e.target === editorModalOverlay) {
+      editorModalOverlay.classList.remove('open');
+      unlockScroll();
+    }
+  });
+}
+
 renderLegend();
