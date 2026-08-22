@@ -26,7 +26,7 @@ const db = getFirestore(app);
 const campsCollection = collection(db, "campsites");
 
 // Default Philippine Cities to populate dropdown
-const PH_CITIES = ['CEBU'];
+const PH_CITIES = ['CEBU', 'MANILA', 'TANAY', 'BAGUIO', 'DAVAO', 'TAGAYTAY'];
 
 let camps = [];
 let currentLocationFilter = 'ALL CITIES';
@@ -67,7 +67,7 @@ const PIXEL_ICONS = {
   signal: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M1 12h2v3H1zM5 9h2v6H5zM9 6h2v9H9zM13 2h2v13h-2z"/></svg>`,
   parking: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M3 2h6v2H3zM3 4h2v10H3zM5 4h5v4H5z"/></svg>`,
   carCamping: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M3 5h10v3H3zM1 8h14v4H1zM3 12h3v2H3zM10 12h3v2h-3z"/></svg>`,
-  motorCamping: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M10 4h3v2h-3zM2 8h4v2H2zM10 8h4v2h-4zM2 10h4v4H2zM10 10h4v4h-4zM6 9h4v2H6z"/></svg>`,
+  motorCamping: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M10 4h3v2h-3zM2 8h4v2H2zM10 8h4v2H2zM10 10h4v4h-4zM6 9h4v2H6z"/></svg>`,
   tentOnly: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M8 2L1 14h14L8 2zm0 3.5l4 7H4l4-7z"/><path d="M7 9h2v5H7z"/></svg>`,
   forest: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M4 3h2v2H4zM3 5h4v2H3zM2 7h6v2H2zM5 9h2v3H5zM10 1h2v2h-2zM9 3h4v2H9zM8 5h6v2H8zM7 7h8v2H7zM11 9h2v4h-2z"/></svg>`,
   mountain: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M8 2l5 10H3l5-10zm0 3L6 9h4L8 5z"/></svg>`,
@@ -179,8 +179,12 @@ function renderCards() {
     if (camp.trail) activeIcons.push(PIXEL_ICONS.trail);
 
     const iconsHtml = activeIcons.map(iconSvg => `<span class="card-icon-badge">${iconSvg}</span>`).join('');
-
     const displayLocation = [camp.locDetails, camp.location].filter(Boolean).join(', ');
+
+    // Fallback logic for missing card images
+    const imageContainerHtml = camp.img && camp.img.trim() !== '' 
+      ? `<img src="${camp.img}" alt="${camp.name || 'Campsite'}" class="card-image">`
+      : `<div class="no-image-placeholder">NO IMAGE</div>`;
 
     const card = document.createElement('article');
     card.className = 'camp-card';
@@ -192,7 +196,7 @@ function renderCards() {
         </div>
       </div>
       <div class="card-image-wrapper">
-        <img src="${camp.img || ''}" alt="${camp.name || 'Campsite'}" class="card-image">
+        ${imageContainerHtml}
       </div>
       <div class="card-content">
         <h2 class="camp-title">${camp.name || ''}</h2>
@@ -249,9 +253,17 @@ function unlockScroll() {
 }
 
 const modalOverlay = document.getElementById('modalOverlay');
+
 function openDetailModal(camp) {
   if (!modalOverlay) return;
-  document.getElementById('modalImg').src = camp.img || '';
+
+  const modalImgWrapper = document.querySelector('.modal-image-wrapper');
+  if (camp.img && camp.img.trim() !== '') {
+    modalImgWrapper.innerHTML = `<img id="modalImg" src="${camp.img}" alt="${camp.name || 'Campsite'}" class="modal-image">`;
+  } else {
+    modalImgWrapper.innerHTML = `<div class="no-image-placeholder">NO IMAGE</div>`;
+  }
+
   document.getElementById('modalTitle').textContent = camp.name || '';
   
   const displayLocation = [camp.locDetails, camp.location].filter(Boolean).join(', ');
@@ -267,7 +279,7 @@ function openDetailModal(camp) {
   if (campUrlLink) {
     if (camp.campUrl && camp.campUrl.trim() !== '') {
       campUrlLink.href = camp.campUrl;
-      campUrlLink.style.display = 'inline-block';
+      campUrlLink.style.display = 'inline-flex';
       hasLinks = true;
     } else {
       campUrlLink.style.display = 'none';
@@ -277,7 +289,7 @@ function openDetailModal(camp) {
   if (mapLink) {
     if (camp.mapUrl && camp.mapUrl.trim() !== '') {
       mapLink.href = camp.mapUrl;
-      mapLink.style.display = 'inline-block';
+      mapLink.style.display = 'inline-flex';
       hasLinks = true;
     } else {
       mapLink.style.display = 'none';
@@ -503,11 +515,6 @@ if (editorForm) {
   editorForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if (!currentImageData) {
-      alert('Please upload an image file or provide an image URL.');
-      return;
-    }
-
     const submitBtn = editorForm.querySelector('button[type="submit"]');
     const originalText = submitBtn ? submitBtn.textContent : '';
 
@@ -525,7 +532,7 @@ if (editorForm) {
         campUrl: document.getElementById('editCampUrl').value.trim(),
         mapUrl: document.getElementById('editMapUrl').value.trim(),
         location: document.getElementById('editCountry').value.toUpperCase().trim(),
-        img: currentImageData,
+        img: currentImageData || '',
         desc: document.getElementById('editDesc').value,
 
         trees: document.getElementById('chkTrees').checked,
