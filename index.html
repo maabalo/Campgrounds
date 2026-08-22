@@ -182,9 +182,31 @@
             <input type="url" id="editMapUrl" class="pixel-input" placeholder="https://maps.google.com/...">
           </div>
 
-          <div class="form-group">
-            <label for="editImg" class="filter-label">IMAGE URL</label>
-            <input type="text" id="editImg" class="pixel-input" required>
+          <!-- Dual Mode Image Input Section -->
+          <div class="form-group full-width-group">
+            <label class="filter-label">IMAGE SOURCE</label>
+            
+            <div class="image-toggle-container">
+              <button type="button" id="btnUploadMode" class="img-toggle-btn active">UPLOAD FILE</button>
+              <button type="button" id="btnUrlMode" class="img-toggle-btn">IMAGE URL</button>
+            </div>
+
+            <!-- Mode 1: File Upload -->
+            <div id="fileUploadSection">
+              <input type="file" id="editImgFile" class="pixel-file-input" accept="image/*">
+              <small class="helper-text">Picks photo from device (Auto-compressed &lt; 500KB)</small>
+            </div>
+
+            <!-- Mode 2: Direct URL -->
+            <div id="urlUploadSection" style="display: none;">
+              <input type="url" id="editImgUrl" class="pixel-input" placeholder="https://example.com/photo.jpg">
+              <small class="helper-text">Direct image URL ending in .jpg, .png, or webp</small>
+            </div>
+
+            <!-- Image Preview Box -->
+            <div id="imagePreviewContainer" class="image-preview-container">
+              <img id="editImgPreview" src="" alt="Preview">
+            </div>
           </div>
 
           <div class="form-group">
