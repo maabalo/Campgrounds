@@ -1,4 +1,3 @@
-// Firebase SDK Modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
   getFirestore, 
@@ -8,8 +7,13 @@ import {
   setDoc, 
   deleteDoc 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { 
+  getAuth, 
+  signInWithEmailAndPassword, 
+  signOut, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// YOUR FIREBASE CONFIGURATION
 const firebaseConfig = {
   apiKey: "AIzaSyAVe2Xpm7QmWuQht9Qsk0zydRrv7Zvtqys",
   authDomain: "campground-da569.firebaseapp.com",
@@ -20,13 +24,30 @@ const firebaseConfig = {
   measurementId: "G-PBDZSJ09E5"
 };
 
-// Initialize Firebase App and Firestore Instance
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 const campsCollection = collection(db, "campsites");
 
+let currentUser = null;
+
+// Track auth state
+onAuthStateChanged(auth, (user) => {
+  currentUser = user;
+  const adminLoginBtn = document.getElementById('adminLoginBtn');
+  const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+  
+  if (user) {
+    if (adminLoginBtn) adminLoginBtn.style.display = 'none';
+    if (adminLogoutBtn) adminLogoutBtn.style.display = 'inline-block';
+  } else {
+    if (adminLoginBtn) adminLoginBtn.style.display = 'inline-block';
+    if (adminLogoutBtn) adminLogoutBtn.style.display = 'none';
+  }
+});
+
 // Default Philippine Cities to populate dropdown
-const PH_CITIES = ['CEBU', 'MANILA', 'TANAY', 'BAGUIO', 'DAVAO', 'TAGAYTAY'];
+const PH_CITIES = ['CEBU'];
 
 let camps = [];
 let currentLocationFilter = 'ALL CITIES';
