@@ -1,50 +1,62 @@
-// Default Datasets
-const DEFAULT_CAMPS = [
-  {
-    id: 'camp_1',
-    name: 'PINE VALLEY',
-    location: 'USA',
-    locDetails: 'OREGON, USA',
-    mapUrl: 'https://maps.google.com',
-    desc: 'Nestled deep within the Oregon pines, offering shaded campsites, quiet trails, and river access.',
-    img: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80',
-    trees: true, restroom: true, electricity: true, wifi: false, pisoWifi: true, signal: true, parking: true,
-    carCamping: true, motorCamping: true, tentOnly: false,
-    forest: true, mountain: true, river: true, beach: false, hiking: true, trail: true
-  },
-  {
-    id: 'camp_2',
-    name: 'MISTY LAKE',
-    location: 'CANADA',
-    locDetails: 'ALBERTA, CANADA',
-    mapUrl: '',
-    desc: 'A serene lakeside campground known for morning fog, beach access, and clear night skies.',
-    img: 'https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=600&q=80',
-    trees: true, restroom: true, electricity: false, wifi: true, pisoWifi: false, signal: false, parking: true,
-    carCamping: false, motorCamping: true, tentOnly: true,
-    forest: false, mountain: false, river: false, beach: true, hiking: true, trail: false
-  },
-  {
-    id: 'camp_3',
-    name: 'STARLIGHT RIDGE',
-    location: 'USA',
-    locDetails: 'COLORADO, USA',
-    mapUrl: '',
-    desc: 'High-elevation camping area with panoramic mountain views and full power hookups.',
-    img: 'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=600&q=80',
-    trees: false, restroom: true, electricity: true, wifi: true, pisoWifi: false, signal: true, parking: true,
-    carCamping: true, motorCamping: true, tentOnly: false,
-    forest: true, mountain: true, river: false, beach: false, hiking: true, trail: true
-  }
-];
+// Import Firebase SDK modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { 
+  getFirestore, 
+  collection, 
+  onSnapshot, 
+  doc, 
+  setDoc, 
+  deleteDoc 
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Load from LocalStorage or initialize defaults
-let camps = JSON.parse(localStorage.getItem('campgroundsData')) || DEFAULT_CAMPS;
+// 1. YOUR FIREBASE CONFIG (Paste your keys from Step 1 here)
+const firebaseConfig = {
+  apiKey: "AIzaSyAVe2Xpm7QmWuQht9Qsk0zydRrv7Zvtqys",
+  authDomain: "campground-da569.firebaseapp.com",
+  projectId: "campground-da569",
+  storageBucket: "campground-da569.firebasestorage.app",
+  messagingSenderId: "336185176947",
+  appId: "1:336185176947:web:b6e0597134a889f0604b06",
+  measurementId: "G-PBDZSJ09E5"
+};
+
+// 2. Initialize Firebase & Firestore
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const campsCollection = collection(db, "campsites");
+
+let camps = [];
 let currentLocationFilter = 'ALL LOCATIONS';
 const activeAmenities = new Set();
 
-function saveToStorage() {
-  localStorage.setItem('campgroundsData', JSON.stringify(camps));
+// 3. REAL-TIME DATA LISTENER (Replaces localStorage)
+// Automatically updates the page whenever ANY user adds, edits, or deletes a campsite!
+onSnapshot(campsCollection, (snapshot) => {
+  camps = snapshot.docs.map(document => ({
+    id: document.id,
+    ...document.data()
+  }));
+  
+  renderCards();
+});
+
+// 4. SAVE / UPDATE CAMPSITE TO CLOUD
+async function saveCampToCloud(campData) {
+  try {
+    const docRef = doc(db, "campsites", campData.id);
+    await setDoc(docRef, campData);
+  } catch (error) {
+    console.error("Error saving campsite: ", error);
+  }
+}
+
+// 5. DELETE CAMPSITE FROM CLOUD
+async function deleteCampFromCloud(id) {
+  try {
+    await deleteDoc(doc(db, "campsites", id));
+  } catch (error) {
+    console.error("Error deleting campsite: ", error);
+  }
 }
 
 // Pixel Icons Library
