@@ -850,3 +850,13 @@ body::before {
   width: 100%;
   box-sizing: border-box;
 }
+
+/* Search bar in admin bar */
+.admin-bar .pixel-input {
+  font-size: 0.55rem;
+  padding: 0.6rem 0.8rem;
+  width: 100%;
+  background-color: var(--canvas-cream);
+  color: var(--bg-dark-earth);
+  border: 3px solid var(--bg-dark-earth);
+}
