@@ -104,6 +104,23 @@ const PIXEL_ICONS = {
   carCamping: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M3 5h10v3H3zM1 8h14v4H1zM3 12h3v2H3zM10 12h3v2h-3z"/></svg>`,
   motorCamping: `<svg class="pixel-icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 260.004 260.004" style="enable-background:new 0 0 260.004 260.004;" xml:space="preserve"><path id="XMLID_451_" d="M200.002,0h-140c-8.284,0-15,6.716-15,15c0,8.284,6.716,15,15,15h27.58c-1.665,4.695-2.58,9.742-2.58,15c0,19.555,12.541,36.228,30,42.42V110h-25c-8.284,0-15,6.716-15,15v55.017c0,8.284,6.716,15,15,15h10v49.987c0,8.284,6.716,15,15,15h30c8.284,0,15-6.716,15-15v-49.987h10c8.284,0,15-6.716,15-15V125c0-8.284-6.716-15-15-15h-25V87.42c17.459-6.192,30-22.865,30-42.42c0-5.258-0.915-10.305-2.58-15h27.58c8.284,0,15-6.716,15-15C215.002,6.716,208.286,0,200.002,0z M155.002,165.017h-10h-30h-10V140h50V165.017z M145.002,45c0,8.271-6.729,15-15,15s-15-6.729-15-15c0-8.271,6.729-15,15-15S145.002,36.729,145.002,45z"/></svg>`,
   tentOnly: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M8 2L1 14h14L8 2zm0 3.5l4 7H4l4-7z"/><path d="M7 9h2v5H7z"/></svg>`,
+  hammock: `<svg class="pixel-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60.626 60.626" style="enable-background:new 0 0 60.626 60.626;" xml:space="preserve">
+  <g>
+    <g>
+      <path style="fill:#010002;" d="M59.601,20.867L33.927,43.31c-1.605,1.404-3.213,2.068-4.778,1.971
+			c-2.286-0.145-3.798-1.882-3.812-1.898L1.066,20.46L0,21.324l24.196,22.847c0.248,0.28,2.037,2.192,4.833,2.375
+			c0.143,0.01,0.285,0.016,0.429,0.016c1.863,0,3.71-0.791,5.496-2.352l25.672-22.444L59.601,20.867z"/>
+      <circle style="fill:#010002;" cx="41.755" cy="18.658" r="4.594"/>
+      <path style="fill:#010002;" d="M27.054,40.402c0.007,0.008,0.014,0.018,0.022,0.023c0.109,0.108,0.223,0.209,0.34,0.301
+			c0.24,0.215,0.48,0.43,0.72,0.646c1.487,1.33,3.379,0.664,4.26-0.591c0.17-0.118,0.334-0.243,0.488-0.386
+			c2.815-2.574,5.631-5.15,8.443-7.727c0.16-0.086,0.318-0.188,0.471-0.324c3.469-3.104,6.938-6.207,10.404-9.311
+			c2.111-1.887-0.998-4.974-3.098-3.097c-2.492,2.229-4.982,4.458-7.474,6.687c-0.013-0.011-0.022-0.025-0.034-0.037
+			c-1.652-1.63-4.158-1.48-5.81,0.031c-2.629,2.403-5.255,4.807-7.881,7.208c-4.991-4.468-9.982-8.936-14.972-13.403
+			c-2.62-2.348-6.507,1.511-3.87,3.872C15.061,29.665,21.057,35.033,27.054,40.402z"/>
+    </g>
+  </g>
+</svg>
+`,
   forest: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M4 3h2v2H4zM3 5h4v2H3zM2 7h6v2H2zM5 9h2v3H5zM10 1h2v2h-2zM9 3h4v2H9zM8 5h6v2H8zM7 7h8v2H7zM11 9h2v4h-2z"/></svg>`,
   mountain: `<svg class="pixel-icon" viewBox="0 0 16 16"><path d="M8 2l5 10H3l5-10zm0 3L6 9h4L8 5z"/></svg>`,
   river: `<svg class="pixel-icon" viewBox="0 0 1024 1024" fill="#000000" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M808.728649 847.058316a128.534411 128.534411 0 0 1 6.619798-188.526329 211.143973 211.143973 0 0 0 10.205522-310.716768l-16.411583-16.135758a128.534411 128.534411 0 0 1 5.654411-188.52633L979.188447 0.137912h-126.051987l-92.677172 80.678788a211.281886 211.281886 0 0 0-9.240134 310.027206l16.411582 16.135757a128.396498 128.396498 0 0 1-6.20606 188.940068 211.143973 211.143973 0 0 0-10.895084 310.027205l119.018451 118.053064h117.087676z m-688.183165-95.711245a127.155286 127.155286 0 0 1 44.545724-92.815084 211.143973 211.143973 0 0 0 10.205522-310.716768l-16.411583-16.135758a128.534411 128.534411 0 0 1 5.654411-188.52633L328.931208 0.137912h-126.051987L110.202049 80.8167a211.281886 211.281886 0 0 0-9.240134 310.027206l16.411582 16.135757a128.396498 128.396498 0 0 1-6.20606 188.940068 211.143973 211.143973 0 0 0-10.895085 310.027205l119.018452 118.053064h117.087676L158.333497 847.472054a127.155286 127.155286 0 0 1-37.788013-96.124983zM292.660231 505.311246a209.213199 209.213199 0 0 1-3.585724 31.168215L639.785888 185.768081a211.695623 211.695623 0 0 1 65.232592-104.951381L797.695652 0.137912h-70.335353L285.212959 442.836902a210.592323 210.592323 0 0 1 7.447272 62.474344zM475.394238 0h-92.815084l-41.373738 35.443502-159.564713 159.564713a128.672323 128.672323 0 0 0 2.206599 95.297509zM229.496326 347.815219a210.178586 210.178586 0 0 1 32.133602 41.373737L650.405147 0.55165H552.901039L217.084204 335.265185z m405.048888-79.437576L178.468716 724.454141a130.603098 130.603098 0 0 0-3.723636 26.89293 127.431111 127.431111 0 0 0 13.791246 61.233131l469.867744-470.833131a211.971448 211.971448 0 0 1-23.720943-73.369428z m1.1033 524.06734L404.23141 1023.862088h97.504107l160.530101-160.530101a212.10936 212.10936 0 0 1-26.479191-70.887004z m148.393805 201.765926l-29.099529 29.651179h59.578182z m-71.990303-587.369158l-16.411583-16.411583c-1.379125-1.379125-2.620337-2.896162-3.999461-4.275286L221.91114 855.884714l48.958923 48.545185 465.316633-465.316633a129.086061 129.086061 0 0 0-24.13468-32.271515z m-132.671785 617.020337h97.504108l68.956229-68.956229-48.958923-48.545186z m-220.659932-31.995691L637.027639 713.559057a211.695623 211.695623 0 0 1 68.956229-117.777239 127.017374 127.017374 0 0 0 44.545724-93.090909L309.899288 943.321212z"/></svg>`,
@@ -123,6 +140,7 @@ const ICON_LABELS = {
   carCamping: 'CAR CAMP',
   motorCamping: 'MOTOR CAMP',
   tentOnly: 'TENT',
+  hammock: 'HAMMOCK',
   forest: 'FOREST',
   mountain: 'MOUNTAIN',
   river: 'RIVER',
@@ -214,6 +232,7 @@ function renderCards() {
     if (camp.carCamping) activeIcons.push(PIXEL_ICONS.carCamping);
     if (camp.motorCamping) activeIcons.push(PIXEL_ICONS.motorCamping);
     if (camp.tentOnly) activeIcons.push(PIXEL_ICONS.tentOnly);
+    if (camp.hammock) activeIcons.push(PIXEL_ICONS.hammock);
     if (camp.forest) activeIcons.push(PIXEL_ICONS.forest);
     if (camp.mountain) activeIcons.push(PIXEL_ICONS.mountain);
     if (camp.river) activeIcons.push(PIXEL_ICONS.river);
@@ -589,6 +608,7 @@ function openEditorModal(camp = null, isAdminAction = false) {
     document.getElementById('chkCarCamping').checked = !!camp.carCamping;
     document.getElementById('chkMotorCamping').checked = !!camp.motorCamping;
     document.getElementById('chkTentOnly').checked = !!camp.tentOnly;
+    document.getElementById('chkHammock').checked = !!camp.hammock;
     
     document.getElementById('chkForest').checked = !!camp.forest;
     document.getElementById('chkMountain').checked = !!camp.mountain;
@@ -661,6 +681,7 @@ if (editorForm) {
         carCamping: document.getElementById('chkCarCamping').checked,
         motorCamping: document.getElementById('chkMotorCamping').checked,
         tentOnly: document.getElementById('chkTentOnly').checked,
+        hammock: document.getElementById('chkHammock').checked,
         
         forest: document.getElementById('chkForest').checked,
         mountain: document.getElementById('chkMountain').checked,
