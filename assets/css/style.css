@@ -9,6 +9,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Utility Class to Hide Elements */
+.hidden {
+  display: none !important;
+}
+
 /* Prevent body scrolling when modal is open */
 body.modal-open {
   overflow: hidden;
@@ -42,7 +47,7 @@ body {
   line-height: 1.6;
   position: relative;
   min-height: 100vh;
-  min-height: 100dvh; /* Dynamic viewport height unit for mobile nav bars */
+  min-height: 100dvh;
 }
 
 body::before {
@@ -467,7 +472,6 @@ body::before {
   transform: scale(1.08);
 }
 
-/* Fallback container for missing images */
 .no-image-placeholder {
   width: 100%;
   height: 100%;
@@ -541,14 +545,13 @@ body::before {
   padding: 3rem 0;
 }
 
-/* UPDATED FOR MOBILE NAVIGATION BAR COMPATIBILITY */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  height: 100dvh; /* Adapts dynamically to mobile UI bars */
+  height: 100dvh;
   background-color: rgba(59, 73, 83, 0.85);
   display: flex;
   align-items: center;
@@ -558,7 +561,7 @@ body::before {
   transition: opacity 0.25s ease;
   z-index: 1000;
   padding: 1rem;
-  padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); /* Safe Area inset for modern mobile bars */
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
 }
 
 .modal-overlay.open {
@@ -574,9 +577,9 @@ body::before {
   width: 100%;
   max-width: 520px;
   max-height: 85vh;
-  max-height: 85dvh; /* Restricts height dynamically inside mobile viewport */
+  max-height: 85dvh;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* Smooth scroll support on iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-close {
@@ -656,7 +659,6 @@ body::before {
   flex-wrap: wrap;
 }
 
-/* Styled Retro Buttons for Links */
 .modal-map-link {
   font-family: 'Press Start 2P', cursive;
   font-size: 0.55rem;
@@ -826,17 +828,17 @@ body::before {
 }
 
 @media (max-width: 600px) {
+  .modal-card {
+    max-height: 80dvh;
+  }
+
   .suggest-form .form-group:has(#editName, #editLoc, #editCampUrl, #editMapUrl, #editCountry, #editDesc) {
     grid-template-columns: 1fr;
     gap: 0.4rem;
   }
 
-  .modal-card {
-    max-height: 80dvh; /* Extra breathing space for small screen height */
-  }
-
   .modal-image-wrapper {
-    height: 160px; /* Reduced header image height on small devices */
+    height: 160px;
   }
 }
 
