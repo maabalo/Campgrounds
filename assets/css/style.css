@@ -42,6 +42,7 @@ body {
   line-height: 1.6;
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height unit for mobile nav bars */
 }
 
 body::before {
@@ -540,12 +541,14 @@ body::before {
   padding: 3rem 0;
 }
 
+/* UPDATED FOR MOBILE NAVIGATION BAR COMPATIBILITY */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh; /* Adapts dynamically to mobile UI bars */
   background-color: rgba(59, 73, 83, 0.85);
   display: flex;
   align-items: center;
@@ -555,6 +558,7 @@ body::before {
   transition: opacity 0.25s ease;
   z-index: 1000;
   padding: 1rem;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); /* Safe Area inset for modern mobile bars */
 }
 
 .modal-overlay.open {
@@ -569,8 +573,10 @@ body::before {
   box-shadow: 8px 8px 0px var(--retro-olive);
   width: 100%;
   max-width: 520px;
-  max-height: 90vh;
+  max-height: 85vh;
+  max-height: 85dvh; /* Restricts height dynamically inside mobile viewport */
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scroll support on iOS */
 }
 
 .modal-close {
@@ -823,6 +829,14 @@ body::before {
   .suggest-form .form-group:has(#editName, #editLoc, #editCampUrl, #editMapUrl, #editCountry, #editDesc) {
     grid-template-columns: 1fr;
     gap: 0.4rem;
+  }
+
+  .modal-card {
+    max-height: 80dvh; /* Extra breathing space for small screen height */
+  }
+
+  .modal-image-wrapper {
+    height: 160px; /* Reduced header image height on small devices */
   }
 }
 
