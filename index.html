@@ -26,18 +26,25 @@
   <!-- Main Container -->
   <main class="container">
   <!-- Admin Controls -->
-  <div class="admin-bar" style="text-align: right; margin-bottom: 1rem;">
-    <!-- LEFT SIDE: Suggest Button -->
-    <div style="display: flex;">
-      <button id="suggestBtn" class="pixel-btn" style="position: absolute;">+ SUGGEST CAMPSITE</button>
+  <div class="admin-bar" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; gap: 1rem;">
+
+    <!-- LEFT: Suggest Button -->
+    <div style="flex-shrink: 0;">
+      <button id="suggestBtn" class="pixel-btn" style="position: static;">+ SUGGEST CAMPSITE</button>
     </div>
- 
-    <!-- RIGHT SIDE: Admin Buttons -->
-    <div style="display: flex;gap: 0.5rem;align-items: center;justify-content: flex-end;">
+
+    <!-- CENTER: Search Input -->
+    <div style="flex: 1; max-width: 400px;">
+      <input type="text" id="searchInput" class="pixel-input" placeholder="SEARCH CAMPSITE..." style="width: 100%;">
+    </div>
+
+    <!-- RIGHT: Admin Buttons -->
+    <div style="display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0;">
       <button id="adminLoginBtn" class="pixel-btn" onclick="document.getElementById('loginModalOverlay').classList.add('open')" style="display: inline-block;">ADMIN LOGIN</button>
       <button id="adminAddNewBtn" class="pixel-btn" style="display:none; background-color: #2C5745; color: #EBE3A7;">+ ADD NEW</button>
       <button id="adminLogoutBtn" class="pixel-btn" style="display:none; background-color: #A94442;">LOGOUT</button>
     </div>
+
   </div>
 
 <!-- Admin Login Modal -->
@@ -64,12 +71,6 @@
       <!-- COLUMN 1: Search, Location, and Sort -->
       <div class="filter-column filter-column-inputs">
         
-        <!-- Search Input -->
-        <div class="filter-group">
-          <label for="searchInput" class="filter-label">SEARCH</label>
-          <input type="text" id="searchInput" class="pixel-input" placeholder="Type a name...">
-        </div>
-
         <!-- Custom Dropdown -->
         <div class="filter-group">
           <label class="filter-label">LOCATION</label>
