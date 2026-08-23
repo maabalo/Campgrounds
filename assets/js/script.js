@@ -170,6 +170,15 @@ if (legendToggleBtn && legendWrapper) {
   });
 }
 
+// Filter toggle (collapsible like legend)
+const filterWrapper = document.querySelector('.filter-wrapper');
+const filterToggleBtn = document.getElementById('filterToggleBtn');
+if (filterToggleBtn && filterWrapper) {
+  filterToggleBtn.addEventListener('click', () => {
+    filterWrapper.classList.toggle('open');
+  });
+}
+
 function populateLocationDropdown() {
   const dropdownMenu = document.getElementById('dropdownMenu');
   if (!dropdownMenu) return;
