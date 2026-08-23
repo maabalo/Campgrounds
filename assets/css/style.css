@@ -754,7 +754,7 @@ body::before {
 }
 
 .suggest-form .form-group:has(#editName, #editLoc, #editCampUrl, #editMapUrl, #editCountry, #editDesc) {
-  display: grid;
+  display: block;
   grid-template-columns: 200px 1fr;
   align-items: center;
   gap: 1rem;
