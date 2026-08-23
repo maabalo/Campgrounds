@@ -100,9 +100,6 @@ body::before {
   gap: 1.8rem;
   background-color: var(--camo-green);
   padding: 2.5rem 1.5rem 1.5rem 1.5rem;
-  border: 4px solid var(--canvas-cream);
-  box-shadow: 6px 6px 0px var(--retro-olive);
-  margin-bottom: 1.5rem;
 }
 
 @media (max-width: 768px) {
@@ -305,6 +302,31 @@ body::before {
 .dropdown-item.selected {
   background-color: var(--camo-green);
   color: var(--canvas-cream);
+}
+
+
+/* ── Collapsible Filter Box (mirrors legend-wrapper) ── */
+.filter-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.filter-container {
+  display: none;
+  border: 4px solid var(--canvas-cream);
+  border-top: none;
+  box-shadow: 6px 6px 0px var(--retro-olive);
+}
+
+.filter-wrapper.open .filter-container {
+  display: block;
+}
+
+.filter-wrapper .legend-toggle-btn .arrow {
+  transition: transform 0.2s ease;
+}
+
+.filter-wrapper.open .legend-toggle-btn .arrow {
+  transform: rotate(180deg);
 }
 
 .legend-wrapper {
