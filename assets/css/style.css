@@ -852,3 +852,9 @@ body::before {
   width: 100%;
   box-sizing: border-box;
 }
+
+#suggestBtn {
+  position: static;
+  font-size: 0.55rem;
+  padding: 0.5rem 0.8rem;
+}
