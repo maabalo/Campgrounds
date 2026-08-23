@@ -703,7 +703,7 @@ if (editorForm) {
       await saveCampToCloud(campData);
       
       if (!currentUser) {
-        alert('Thank you! Your campsite suggestion has been submitted for review.');
+        alert('Thank you! Your campsite suggestion has been submitted for review.\n\nNOTE:If your submitted campsite is not displayed, it may mean that the page owner is currently busy or has declined the submission.');
       }
 
       if (editorModalOverlay) {
