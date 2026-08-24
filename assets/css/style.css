@@ -485,7 +485,6 @@ body::before {
 .filter-container {
   display: none;
   border: 4px solid var(--canvas-cream);
-  border-top: none;
   box-shadow: 6px 6px 0px var(--retro-olive);
 }
 
@@ -539,7 +538,6 @@ body::before {
   display: none;
   background-color: var(--bg-dark-earth);
   border: 3px solid var(--canvas-cream);
-  border-top: none;
   padding: 1.2rem;
   box-shadow: 4px 6px 0px var(--retro-olive);
 }
