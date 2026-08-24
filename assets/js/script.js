@@ -162,6 +162,16 @@ function renderLegend() {
   });
 }
 
+// Filter toggle (now in admin bar)
+const filterWrapper = document.querySelector('.filter-wrapper');
+const filterToggleBtn = document.getElementById('filterToggleBtn');
+if (filterToggleBtn && filterWrapper) {
+  filterToggleBtn.addEventListener('click', () => {
+    filterWrapper.classList.toggle('open');
+  });
+}
+
+// Legend toggle (now in admin bar)
 const legendWrapper = document.querySelector('.legend-wrapper');
 const legendToggleBtn = document.getElementById('legendToggleBtn');
 if (legendToggleBtn && legendWrapper) {
@@ -170,12 +180,18 @@ if (legendToggleBtn && legendWrapper) {
   });
 }
 
-// Filter toggle (collapsible like legend)
-const filterWrapper = document.querySelector('.filter-wrapper');
-const filterToggleBtn = document.getElementById('filterToggleBtn');
-if (filterToggleBtn && filterWrapper) {
-  filterToggleBtn.addEventListener('click', () => {
-    filterWrapper.classList.toggle('open');
+// Burger menu toggle
+const burgerBtn = document.getElementById('burgerBtn');
+const burgerDropdown = document.getElementById('burgerDropdown');
+if (burgerBtn && burgerDropdown) {
+  burgerBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    burgerDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if (!burgerDropdown.contains(e.target) && e.target !== burgerBtn) {
+      burgerDropdown.classList.remove('open');
+    }
   });
 }
 
