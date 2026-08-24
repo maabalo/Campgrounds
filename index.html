@@ -26,23 +26,48 @@
   <!-- Main Container -->
   <main class="container">
   <!-- Admin Controls -->
-  <div class="admin-bar" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; gap: 1rem;">
+  <div class="admin-bar">
 
-    <!-- LEFT: Suggest Button -->
-    <div style="flex-shrink: 0;">
+    <!-- LEFT: Search + Filter + Legend toggle buttons -->
+    <div class="admin-left-group">
+
+      <!-- Search Input -->
+      <input type="text" id="searchInput" class="pixel-input admin-search-input" placeholder="SEARCH CAMPSITE...">
+
+      <!-- Filter Toggle Button (inline) -->
+      <button id="filterToggleBtn" class="admin-toggle-btn" title="Filters">
+        <span>FILTERS</span>
+        <span class="arrow">▼</span>
+      </button>
+
+      <!-- Legend Toggle Button (inline) -->
+      <button id="legendToggleBtn" class="admin-toggle-btn" title="Icon Legend">
+        <span>LEGEND</span>
+        <span class="arrow">▼</span>
+      </button>
+
+    </div>
+
+    <!-- RIGHT: Suggest + Burger Menu -->
+    <div class="admin-right-group">
+
+      <!-- Suggest Campsite Button -->
       <button id="suggestBtn" class="pixel-btn" style="position: static;">+ SUGGEST CAMPSITE</button>
-    </div>
 
-    <!-- CENTER: Search Input -->
-    <div style="flex: 1; max-width: 400px;">
-      <input type="text" id="searchInput" class="pixel-input" placeholder="SEARCH CAMPSITE..." style="width: 100%;">
-    </div>
+      <!-- Burger Menu -->
+      <div class="burger-menu">
+        <button id="burgerBtn" class="burger-btn" title="Admin Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="burger-dropdown" id="burgerDropdown">
+          <button id="adminLoginBtn" class="burger-item" onclick="document.getElementById('loginModalOverlay').classList.add('open'); document.getElementById('burgerDropdown').classList.remove('open');">ADMIN LOGIN</button>
+          <button id="adminAddNewBtn" class="burger-item" style="display:none;">+ ADD NEW</button>
+          <button id="adminLogoutBtn" class="burger-item burger-item-danger" style="display:none;">LOGOUT</button>
+        </div>
+      </div>
 
-    <!-- RIGHT: Admin Buttons -->
-    <div style="display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0;">
-      <button id="adminLoginBtn" class="pixel-btn" onclick="document.getElementById('loginModalOverlay').classList.add('open')" style="display: inline-block;">ADMIN LOGIN</button>
-      <button id="adminAddNewBtn" class="pixel-btn" style="display:none; background-color: #2C5745; color: #EBE3A7;">+ ADD NEW</button>
-      <button id="adminLogoutBtn" class="pixel-btn" style="display:none; background-color: #A94442;">LOGOUT</button>
     </div>
 
   </div>
@@ -67,10 +92,6 @@
 </div>
     <!-- Structured Filter Layout -->
     <div class="filter-wrapper">
-      <button id="filterToggleBtn" class="legend-toggle-btn">
-        <span>FILTERS</span>
-        <span class="arrow">▼</span>
-      </button>
       <div class="filter-container">
         <div class="filter-bar">
 
@@ -145,11 +166,6 @@
 
     <!-- Icon Legend Toggle Section -->
     <div class="legend-wrapper">
-      <button id="legendToggleBtn" class="legend-toggle-btn">
-        <span>ICON LEGEND</span>
-        <span class="arrow">▼</span>
-      </button>
-      
       <div id="legendContainer" class="legend-container">
         <div id="legendGrid" class="legend-grid"></div>
       </div>
