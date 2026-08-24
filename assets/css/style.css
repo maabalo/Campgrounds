@@ -306,6 +306,178 @@ body::before {
 
 
 /* ── Collapsible Filter Box (mirrors legend-wrapper) ── */
+
+/* ── New Admin Bar Layout ── */
+.admin-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-left-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.admin-search-input {
+  flex: 1;
+  min-width: 140px;
+  max-width: 300px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  padding: 0.55rem 0.7rem;
+  background-color: var(--canvas-cream);
+  color: var(--bg-dark-earth);
+  border: 3px solid var(--bg-dark-earth);
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* Inline toggle buttons (FILTERS / LEGEND) in admin bar */
+.admin-toggle-btn {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  background-color: var(--camo-green);
+  color: var(--canvas-cream);
+  border: 3px solid var(--canvas-cream);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  box-shadow: 3px 3px 0px var(--retro-olive);
+}
+
+.admin-toggle-btn:hover {
+  background-color: var(--retro-olive);
+  color: var(--bg-dark-earth);
+}
+
+.admin-toggle-btn .arrow {
+  font-size: 0.4rem;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.filter-wrapper.open .admin-toggle-btn#filterToggleBtn .arrow,
+.legend-wrapper.open .admin-toggle-btn#legendToggleBtn .arrow {
+  transform: rotate(180deg);
+}
+
+.admin-right-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* ── Burger Menu ── */
+.burger-menu {
+  position: relative;
+}
+
+.burger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 36px;
+  height: 36px;
+  background-color: var(--camo-green);
+  border: 3px solid var(--canvas-cream);
+  cursor: pointer;
+  box-shadow: 3px 3px 0px var(--retro-olive);
+  padding: 0;
+}
+
+.burger-btn span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background-color: var(--canvas-cream);
+}
+
+.burger-btn:hover {
+  background-color: var(--retro-olive);
+}
+
+.burger-btn:hover span {
+  background-color: var(--bg-dark-earth);
+}
+
+.burger-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background-color: var(--bg-dark-earth);
+  border: 3px solid var(--canvas-cream);
+  box-shadow: 4px 4px 0px var(--retro-olive);
+  z-index: 999;
+  min-width: 160px;
+  flex-direction: column;
+}
+
+.burger-dropdown.open {
+  display: flex;
+}
+
+.burger-item {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  padding: 0.7rem 1rem;
+  background: transparent;
+  color: var(--canvas-cream);
+  border: none;
+  border-bottom: 1px solid var(--camo-green);
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.burger-item:hover {
+  background-color: var(--camo-green);
+}
+
+.burger-item-danger {
+  color: #FF6B6B;
+}
+
+.burger-item-danger:hover {
+  background-color: #A94442;
+  color: var(--canvas-cream);
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .admin-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-left-group {
+    width: 100%;
+  }
+
+  .admin-search-input {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .admin-right-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
 .filter-wrapper {
   margin-bottom: 1.5rem;
 }
@@ -871,14 +1043,4 @@ body::before {
 #urlUploadSection .pixel-file-input {
   width: 100%;
   box-sizing: border-box;
-}
-
-/* Search bar in admin bar */
-.admin-bar .pixel-input {
-  font-size: 0.55rem;
-  padding: 0.6rem 0.8rem;
-  width: 100%;
-  background-color: var(--canvas-cream);
-  color: var(--bg-dark-earth);
-  border: 3px solid var(--bg-dark-earth);
 }
