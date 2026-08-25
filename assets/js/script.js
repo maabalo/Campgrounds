@@ -35,7 +35,7 @@ const campsCollection = collection(db, "campsites");
 // Dynamic Globals
 const PH_CITIES = [];
 let camps = [];
-let currentLocationFilter = 'ALL CITIES';
+let currentLocationFilter = 'PROVINCES';
 const activeAmenities = new Set();
 let currentImageData = ''; 
 let currentUser = null;
@@ -201,10 +201,10 @@ function populateLocationDropdown() {
   dropdownMenu.innerHTML = '';
 
   const dynamicCities = camps.map(c => c.location ? c.location.toUpperCase() : '').filter(Boolean);
-  const uniqueCities = ['ALL CITIES', ...new Set([...PH_CITIES, ...dynamicCities])];
+  const uniqueCities = ['PROVINCES', ...new Set([...PH_CITIES, ...dynamicCities])];
 
   if (!uniqueCities.includes(currentLocationFilter)) {
-    currentLocationFilter = 'ALL CITIES';
+    currentLocationFilter = 'PROVINCES';
   }
   
   const selectedTextEl = document.getElementById('selectedOptionText');
