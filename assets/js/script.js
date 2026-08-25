@@ -779,7 +779,7 @@ const searchInput = document.getElementById('searchInput');
 
 function filterCards() {
   const query = searchInput?.value.toLowerCase().trim() || '';
-  const selectedLoc = currentLocationFilter === 'ALL CITIES' ? '' : currentLocationFilter;
+  const selectedLoc = currentLocationFilter === 'ALL PROVINCES' ? '' : currentLocationFilter;
 
   const cards = cardGrid.querySelectorAll('.camp-card');
   let visibleCount = 0;
