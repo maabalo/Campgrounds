@@ -48,28 +48,25 @@
 
     </div>
 
-    <!-- RIGHT: Suggest + Burger Menu -->
+    <!-- RIGHT: Suggest Button -->
     <div class="admin-right-group">
-
-      <!-- Suggest Campsite Button -->
       <button id="suggestBtn" class="admin-toggle-btn" style="position: static;">+ SUGGEST CAMPSITE</button>
-
-      <!-- Burger Menu -->
-      <div class="burger-menu">
-        <button id="burgerBtn" class="burger-btn" title="Admin Menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <div class="burger-dropdown" id="burgerDropdown">
-          <button id="adminLoginBtn" class="burger-item" onclick="document.getElementById('loginModalOverlay').classList.add('open'); document.getElementById('burgerDropdown').classList.remove('open');">ADMIN LOGIN</button>
-          <button id="adminAddNewBtn" class="burger-item" style="display:none;">+ ADD NEW</button>
-          <button id="adminLogoutBtn" class="burger-item burger-item-danger" style="display:none;">LOGOUT</button>
-        </div>
-      </div>
-
     </div>
 
+  </div>
+
+  <!-- Floating Burger Menu (fixed top-right) -->
+  <div class="burger-float">
+    <button id="burgerBtn" class="burger-btn" title="Admin Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="burger-dropdown" id="burgerDropdown">
+      <button id="adminLoginBtn" class="burger-item" onclick="document.getElementById('loginModalOverlay').classList.add('open'); document.getElementById('burgerDropdown').classList.remove('open');">ADMIN LOGIN</button>
+      <button id="adminAddNewBtn" class="burger-item" style="display:none;">+ ADD NEW</button>
+      <button id="adminLogoutBtn" class="burger-item burger-item-danger" style="display:none;">LOGOUT</button>
+    </div>
   </div>
 
 <!-- Admin Login Modal -->
