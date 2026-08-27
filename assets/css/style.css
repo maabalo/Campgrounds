@@ -378,9 +378,12 @@ body::before {
   flex-shrink: 0;
 }
 
-/* ── Burger Menu ── */
-.burger-menu {
-  position: relative;
+/* ── Floating Burger Menu (fixed top-right) ── */
+.burger-float {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 500; /* BELOW modal (1000) but ABOVE page content */
 }
 
 .burger-btn {
@@ -389,8 +392,8 @@ body::before {
   justify-content: center;
   align-items: center;
   gap: 4px;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   background-color: var(--camo-green);
   border: 3px solid var(--canvas-cream);
   cursor: pointer;
@@ -400,7 +403,7 @@ body::before {
 
 .burger-btn span {
   display: block;
-  width: 16px;
+  width: 18px;
   height: 2px;
   background-color: var(--canvas-cream);
 }
@@ -421,8 +424,8 @@ body::before {
   background-color: var(--bg-dark-earth);
   border: 3px solid var(--canvas-cream);
   box-shadow: 4px 4px 0px var(--retro-olive);
-  z-index: 999;
-  min-width: 160px;
+  z-index: 500;
+  min-width: 180px;
   flex-direction: column;
 }
 
@@ -458,13 +461,21 @@ body::before {
 
 /* Mobile adjustments */
 @media (max-width: 600px) {
+
+  /* Admin bar: full column stack */
   .admin-bar {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.5rem;
+    padding-right: 3rem; /* space for floating burger */
   }
 
+  /* Search: full width */
   .admin-left-group {
     width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
   }
 
   .admin-search-input {
@@ -472,9 +483,21 @@ body::before {
     width: 100%;
   }
 
-  .admin-right-group {
+  /* FILTERS and LEGEND buttons: full width row */
+  #filterToggleBtn,
+  #legendToggleBtn {
     width: 100%;
     justify-content: space-between;
+  }
+
+  /* Suggest button: full width */
+  .admin-right-group {
+    width: 100%;
+  }
+
+  #suggestBtn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
