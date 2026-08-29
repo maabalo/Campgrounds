@@ -843,7 +843,15 @@ if (sortBtn) {
     
     sortBtn.setAttribute('data-sort', isAsc ? 'desc' : 'asc');
     sortBtn.textContent = isAsc ? 'SORT: Z-A' : 'SORT: A-Z';
-    
+
+// Add this at the bottom of renderCards() in script.js
+	if (typeof window.buildProvinceList === 'function') {
+	  window.buildProvinceList(camps, currentLocationFilter, (loc) => {
+	    currentLocationFilter = loc;
+	    filterCards();
+	  });
+	}
+	  
     renderCards();
   });
 }
@@ -899,4 +907,8 @@ if (editorModalOverlay) {
   });
 }
 
+
+
 renderLegend();
+
+
