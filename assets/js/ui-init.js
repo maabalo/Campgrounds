@@ -1,5 +1,4 @@
-// ── UI INIT: Panel toggles & Burger menu ──
-// This runs after the DOM is ready since script.js is type="module"
+// ── UI INIT: Panel toggles, Burger menu, Category strip ──
 
 // Filter panel toggle
 const filterToggleBtn = document.getElementById('filterToggleBtn');
@@ -29,9 +28,45 @@ if (burgerBtn && burgerDropdown) {
     e.stopPropagation();
     burgerDropdown.classList.toggle('open');
   });
-
-  // Close burger when clicking anywhere else
   document.addEventListener('click', () => {
     burgerDropdown.classList.remove('open');
   });
 }
+
+// ── CATEGORY STRIP — Airbnb-style quick filter ──
+const stripItems = document.querySelectorAll('.category-strip-item');
+
+stripItems.forEach(item => {
+  item.addEventListener('click', () => {
+    // Update active state
+    stripItems.forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+
+    const amenity = item.getAttribute('data-amenity');
+
+    // Clear all amenity filter buttons first
+    document.querySelectorAll('.amenity-toggle-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    if (amenity === 'all') {
+      // Clear all active amenities — show everything
+      if (window.activeAmenities) window.activeAmenities.clear();
+    } else {
+      // Set the matching amenity filter button active
+      const matchingBtn = document.querySelector(`.amenity-toggle-btn[data-amenity="${amenity}"]`);
+      if (matchingBtn) matchingBtn.classList.add('active');
+
+      // Sync with script.js activeAmenities Set
+      if (window.activeAmenities) {
+        window.activeAmenities.clear();
+        window.activeAmenities.add(amenity);
+      }
+    }
+
+    // Trigger filterCards if it exists on window
+    if (typeof window.filterCards === 'function') {
+      window.filterCards();
+    }
+  });
+});
