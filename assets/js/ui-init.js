@@ -1,55 +1,74 @@
-// ── UI INIT: Category strip + panel arrow toggles ──
-// Note: burger, filter, and legend toggles are already in script.js
-// This file only handles the category strip and arrow indicator
+// ── UI INIT: Sidebar toggles, Burger, Province list ──
 
-// ── Arrow indicator for filter/legend toggle buttons ──
+// Burger menu
+const burgerBtn      = document.getElementById('burgerBtn');
+const burgerDropdown = document.getElementById('burgerDropdown');
+if (burgerBtn && burgerDropdown) {
+  burgerBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    burgerDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if (!burgerDropdown.contains(e.target) && e.target !== burgerBtn) {
+      burgerDropdown.classList.remove('open');
+    }
+  });
+}
+
+// Filter toggle (sidebar)
 const filterToggleBtn = document.getElementById('filterToggleBtn');
 const filterWrapper   = document.getElementById('filterWrapper');
 if (filterToggleBtn && filterWrapper) {
   filterToggleBtn.addEventListener('click', () => {
-    filterToggleBtn.classList.toggle('panel-open');
+    filterWrapper.classList.toggle('open');
+    filterToggleBtn.classList.toggle('open');
   });
 }
 
+// Legend toggle (sidebar)
 const legendToggleBtn = document.getElementById('legendToggleBtn');
 const legendWrapper   = document.getElementById('legendWrapper');
 if (legendToggleBtn && legendWrapper) {
   legendToggleBtn.addEventListener('click', () => {
-    legendToggleBtn.classList.toggle('panel-open');
+    legendWrapper.classList.toggle('open');
+    legendToggleBtn.classList.toggle('open');
   });
 }
 
-// ── CATEGORY STRIP — Airbnb-style quick filter ──
-const stripItems = document.querySelectorAll('.category-strip-item');
+// ── Province list (populated from camps data) ──
+// Called from script.js after camps load via window.buildProvinceList
+window.buildProvinceList = function(camps, currentLocationFilter, onSelect) {
+  const container = document.getElementById('provinceList');
+  if (!container) return;
+  container.innerHTML = '';
 
-stripItems.forEach(item => {
-  item.addEventListener('click', () => {
-    // Update active highlight
-    stripItems.forEach(i => i.classList.remove('active'));
-    item.classList.add('active');
+  const locations = [...new Set(camps.map(c => c.location).filter(Boolean))].sort();
+  const all = ['ALL PROVINCES', ...locations];
 
-    const amenity = item.getAttribute('data-amenity');
+  all.forEach(loc => {
+    const item = document.createElement('div');
+    item.className = 'province-item' + (loc === currentLocationFilter ? ' selected' : '');
 
-    // Sync with amenity filter buttons in the filter panel
-    document.querySelectorAll('.amenity-toggle-btn').forEach(btn => {
-      btn.classList.remove('active');
+    const count = loc === 'ALL PROVINCES'
+      ? camps.length
+      : camps.filter(c => c.location === loc).length;
+
+    item.innerHTML = `
+      <input type="checkbox" ${loc === currentLocationFilter ? 'checked' : ''}>
+      <span style="flex:1">${loc}</span>
+      <span class="province-count">(${count})</span>
+    `;
+
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.province-item').forEach(i => {
+        i.classList.remove('selected');
+        i.querySelector('input').checked = false;
+      });
+      item.classList.add('selected');
+      item.querySelector('input').checked = true;
+      onSelect(loc);
     });
 
-    if (amenity !== 'all') {
-      const matchingBtn = document.querySelector(`.amenity-toggle-btn[data-amenity="${amenity}"]`);
-      if (matchingBtn) matchingBtn.classList.add('active');
-
-      if (window.activeAmenities) {
-        window.activeAmenities.clear();
-        window.activeAmenities.add(amenity);
-      }
-    } else {
-      if (window.activeAmenities) window.activeAmenities.clear();
-    }
-
-    // Trigger filter refresh
-    if (typeof window.filterCards === 'function') {
-      window.filterCards();
-    }
+    container.appendChild(item);
   });
-});
+};
