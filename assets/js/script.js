@@ -141,16 +141,20 @@ const campingStyleText     = document.getElementById('campingStyleText');
 if (campingStyleTrigger && campingStyleDropdown) {
   campingStyleTrigger.addEventListener('click', (e) => {
     e.stopPropagation();
+    e.preventDefault();
     campingStyleDropdown.classList.toggle('open');
   });
 
+  // Close on outside click — use capture phase to not conflict with stopPropagation
   document.addEventListener('click', (e) => {
-    if (!campingStyleDropdown.contains(e.target)) {
+    if (!campingStyleDropdown.contains(e.target) && e.target !== campingStyleTrigger) {
       campingStyleDropdown.classList.remove('open');
     }
   });
 
+  // Stop clicks inside menu from bubbling up and closing dropdown
   campingStyleMenu.addEventListener('click', (e) => e.stopPropagation());
+  campingStyleMenu.addEventListener('change', (e) => e.stopPropagation());
 
   campingStyleMenu.querySelectorAll('input[type="checkbox"]').forEach(cb => {
     cb.addEventListener('change', () => {
@@ -166,12 +170,13 @@ if (campingStyleTrigger && campingStyleDropdown) {
         campingStyleText.textContent = `${amenities.length} SELECTED`;
       }
 
-      // Directly update activeAmenities and filter — no need for hidden buttons
+      // Directly update activeAmenities and call filterCards
       const allKeys = [...campingStyleMenu.querySelectorAll('input[data-amenity]')]
         .map(i => i.getAttribute('data-amenity'));
       allKeys.forEach(key => activeAmenities.delete(key));
       amenities.forEach(key => activeAmenities.add(key));
-      filterCards();
+
+      if (cardGrid && cardGrid.children.length > 0) filterCards();
     });
   });
 }
@@ -709,8 +714,10 @@ if (dropdownTrigger && customDropdown) {
   });
 }
 
-document.addEventListener('click', () => {
-  if (customDropdown) customDropdown.classList.remove('open');
+document.addEventListener('click', (e) => {
+  if (customDropdown && !customDropdown.contains(e.target)) {
+    customDropdown.classList.remove('open');
+  }
 });
 
 // ═══════════════════════════════════════════════
