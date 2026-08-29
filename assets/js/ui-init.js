@@ -1,6 +1,6 @@
-// ── UI INIT: Sidebar toggles, Burger, Province list ──
+// ── UI INIT ──
 
-// Burger menu
+// FIX 1: Burger menu
 const burgerBtn      = document.getElementById('burgerBtn');
 const burgerDropdown = document.getElementById('burgerDropdown');
 if (burgerBtn && burgerDropdown) {
@@ -15,17 +15,7 @@ if (burgerBtn && burgerDropdown) {
   });
 }
 
-// Filter toggle (sidebar)
-const filterToggleBtn = document.getElementById('filterToggleBtn');
-const filterWrapper   = document.getElementById('filterWrapper');
-if (filterToggleBtn && filterWrapper) {
-  filterToggleBtn.addEventListener('click', () => {
-    filterWrapper.classList.toggle('open');
-    filterToggleBtn.classList.toggle('open');
-  });
-}
-
-// Legend toggle (sidebar)
+// FIX 5: Legend toggle
 const legendToggleBtn = document.getElementById('legendToggleBtn');
 const legendWrapper   = document.getElementById('legendWrapper');
 if (legendToggleBtn && legendWrapper) {
@@ -35,8 +25,65 @@ if (legendToggleBtn && legendWrapper) {
   });
 }
 
-// ── Province list (populated from camps data) ──
-// Called from script.js after camps load via window.buildProvinceList
+// FIX 2: Camping Style multi-select dropdown
+const campingStyleTrigger = document.getElementById('campingStyleTrigger');
+const campingStyleDropdown = document.getElementById('campingStyleDropdown');
+const campingStyleMenu    = document.getElementById('campingStyleMenu');
+const campingStyleText    = document.getElementById('campingStyleText');
+
+if (campingStyleTrigger && campingStyleDropdown) {
+  // Toggle dropdown open/close
+  campingStyleTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    campingStyleDropdown.classList.toggle('open');
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!campingStyleDropdown.contains(e.target)) {
+      campingStyleDropdown.classList.remove('open');
+    }
+  });
+
+  // Prevent dropdown from closing when clicking inside
+  campingStyleMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  // Handle checkbox changes
+  campingStyleMenu.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const checked = [...campingStyleMenu.querySelectorAll('input:checked')];
+      const amenities = checked.map(c => c.getAttribute('data-amenity'));
+
+      // Update label text
+      if (amenities.length === 0) {
+        campingStyleText.textContent = 'SELECT CAMPING STYLE';
+      } else if (amenities.length === 1) {
+        campingStyleText.textContent = checked[0].parentElement.textContent.trim();
+      } else {
+        campingStyleText.textContent = `${amenities.length} SELECTED`;
+      }
+
+      // Sync with activeAmenities in script.js
+      if (window.activeAmenities) {
+        // Remove all camping/terrain amenities first
+        const allStyleAmenities = [
+          'carCamping','motorCamping','tentOnly','hammock',
+          'forest','mountain','river','beach','hiking','trail',
+          'wifi','pisoWifi','restroom','electricity','parking','trees','signal'
+        ];
+        allStyleAmenities.forEach(a => window.activeAmenities.delete(a));
+        amenities.forEach(a => window.activeAmenities.add(a));
+      }
+
+      // Trigger filter
+      if (typeof window.filterCards === 'function') window.filterCards();
+    });
+  });
+}
+
+// Province list builder
 window.buildProvinceList = function(camps, currentLocationFilter, onSelect) {
   const container = document.getElementById('provinceList');
   if (!container) return;
