@@ -533,7 +533,7 @@ body::before {
    ══════════════════════════════════ */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.2rem;
 }
 
@@ -670,7 +670,8 @@ body::before {
 }
 
 .card-location-icon {
-  font-size: 0.7rem;
+  display: inline-flex;
+  align-items: center;
   flex-shrink: 0;
 }
 
@@ -931,8 +932,12 @@ body::before {
 /* ══════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════ */
+@media (max-width: 1200px) {
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
 @media (max-width: 900px) {
-  .card-grid { grid-template-columns: 1fr 1fr; }
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
   .sidebar { width: 220px; }
 }
 
@@ -945,7 +950,7 @@ body::before {
     border-right: none;
     border-bottom: 3px solid var(--canvas-cream);
   }
-  .card-grid { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
   .topbar-nav { display: none; }
   .topbar { padding: 0.7rem 1rem; }
   .searchbar { flex-direction: column; }
