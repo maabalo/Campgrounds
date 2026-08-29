@@ -12,26 +12,30 @@
 </head>
 <body>
 
-  <!-- ══ TOPBAR: Logo | Search | Actions ══ -->
+  <!-- ── STICKY TOP BAR ── -->
   <header class="topbar">
-
-    <!-- LEFT: Brand -->
     <div class="topbar-brand">
       <h1 class="site-title">NextCamp</h1>
       <p class="site-subtitle">Discover Your Next Camp, One Adventure at a Time.</p>
     </div>
 
-    <!-- CENTER: Search pill — same height as buttons -->
-    <div class="topbar-search">
-      <input type="text" id="searchInput" placeholder="SEARCH CAMPSITE...">
-      <button class="topbar-search-btn" title="Search">⌕</button>
-    </div>
-
-    <!-- RIGHT: Suggest + Burger -->
     <div class="topbar-actions">
-      <button id="suggestBtn" class="admin-toggle-btn">+ SUGGEST</button>
+      <!-- Filter Toggle -->
+      <button id="filterToggleBtn" class="admin-toggle-btn" title="Filters">
+        FILTERS <span class="arrow">▼</span>
+      </button>
 
-      <!-- FIX 3: Burger with proper z-index so dropdown shows -->
+      <!-- Legend Toggle -->
+      <button id="legendToggleBtn" class="admin-toggle-btn" title="Icon Legend">
+        LEGEND <span class="arrow">▼</span>
+      </button>
+
+      <!-- Suggest -->
+      <button id="suggestBtn" class="admin-toggle-btn" title="Suggest a Campsite">
+        + SUGGEST
+      </button>
+
+      <!-- Burger (Admin) -->
       <div class="burger-float">
         <button id="burgerBtn" class="burger-btn" title="Admin Menu">
           <span></span><span></span><span></span>
@@ -46,78 +50,22 @@
         </div>
       </div>
     </div>
-
   </header>
 
-  <!-- ══ AIRBNB CATEGORY STRIP ══ -->
-  <nav class="category-strip" id="categoryStrip">
+  <!-- ── SEARCH BAR ── -->
+  <div class="searchbar">
+    <div class="searchbar-input-wrap">
+      <span class="search-icon-label">⌕</span>
+      <input type="text" id="searchInput" class="admin-search-input" placeholder="SEARCH CAMPSITE...">
+    </div>
+    <button id="sortBtn" class="admin-toggle-btn" data-sort="asc">SORT: A–Z</button>
+  </div>
 
-    <div class="category-strip-item active" data-amenity="all">
-      <span class="strip-icon">🏕️</span>
-      <span class="strip-label">ALL</span>
-    </div>
-    <div class="category-strip-item" data-amenity="forest">
-      <span class="strip-icon">🌲</span>
-      <span class="strip-label">FOREST</span>
-    </div>
-    <div class="category-strip-item" data-amenity="mountain">
-      <span class="strip-icon">⛰️</span>
-      <span class="strip-label">MOUNTAIN</span>
-    </div>
-    <div class="category-strip-item" data-amenity="beach">
-      <span class="strip-icon">🏖️</span>
-      <span class="strip-label">BEACH</span>
-    </div>
-    <div class="category-strip-item" data-amenity="river">
-      <span class="strip-icon">🏞️</span>
-      <span class="strip-label">RIVER</span>
-    </div>
-    <div class="category-strip-item" data-amenity="hiking">
-      <span class="strip-icon">🥾</span>
-      <span class="strip-label">HIKING</span>
-    </div>
-    <div class="category-strip-item" data-amenity="carCamping">
-      <span class="strip-icon">🚗</span>
-      <span class="strip-label">CAR CAMP</span>
-    </div>
-    <div class="category-strip-item" data-amenity="motorCamping">
-      <span class="strip-icon">🏍️</span>
-      <span class="strip-label">MOTOR CAMP</span>
-    </div>
-    <div class="category-strip-item" data-amenity="tentOnly">
-      <span class="strip-icon">⛺</span>
-      <span class="strip-label">TENT</span>
-    </div>
-    <div class="category-strip-item" data-amenity="hammock">
-      <span class="strip-icon">🪢</span>
-      <span class="strip-label">HAMMOCK</span>
-    </div>
-    <div class="category-strip-item" data-amenity="wifi">
-      <span class="strip-icon">📶</span>
-      <span class="strip-label">WI-FI</span>
-    </div>
-    <div class="category-strip-item" data-amenity="electricity">
-      <span class="strip-icon">⚡</span>
-      <span class="strip-label">POWER</span>
-    </div>
-    <div class="category-strip-item" data-amenity="parking">
-      <span class="strip-icon">🅿️</span>
-      <span class="strip-label">PARKING</span>
-    </div>
-
-    <!-- FIX 5: Filters, Sort, Legend on the right -->
-    <div class="strip-right">
-      <button id="sortBtn" class="admin-toggle-btn" data-sort="asc">SORT: A–Z</button>
-      <button id="filterToggleBtn" class="admin-toggle-btn">FILTERS <span class="arrow">▼</span></button>
-      <button id="legendToggleBtn" class="admin-toggle-btn">LEGEND <span class="arrow">▼</span></button>
-    </div>
-
-  </nav>
-
-  <!-- ══ FIX 5: FILTER PANEL (collapsible, original layout) ══ -->
+  <!-- ── FILTER PANEL (collapsible) ── -->
   <div class="filter-wrapper" id="filterWrapper">
     <div class="filter-bar">
 
+      <!-- LEFT: Province + Sort -->
       <div class="filter-column filter-column-inputs">
         <div class="filter-group">
           <label class="filter-label">PROVINCES</label>
@@ -131,7 +79,9 @@
         </div>
       </div>
 
+      <!-- RIGHT: Tag Filters -->
       <div class="filter-column filter-column-tags">
+
         <div class="tag-category">
           <span class="category-label">AMENITIES</span>
           <div class="amenity-filter-bar">
@@ -144,6 +94,7 @@
             <button class="amenity-toggle-btn" data-amenity="signal">SIGNAL</button>
           </div>
         </div>
+
         <div class="tag-category">
           <span class="category-label">CAMPING STYLE</span>
           <div class="amenity-filter-bar">
@@ -153,6 +104,7 @@
             <button class="amenity-toggle-btn" data-amenity="hammock">HAMMOCK</button>
           </div>
         </div>
+
         <div class="tag-category">
           <span class="category-label">TERRAIN & ACTIVITIES</span>
           <div class="amenity-filter-bar">
@@ -164,28 +116,35 @@
             <button class="amenity-toggle-btn" data-amenity="trail">TRAIL</button>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </div>
 
-  <!-- ══ FIX 5: LEGEND PANEL (collapsible, icons from script.js) ══ -->
+  <!-- ── LEGEND PANEL (collapsible) ── -->
   <div class="legend-wrapper" id="legendWrapper">
     <div class="legend-container">
       <div id="legendGrid" class="legend-grid"></div>
     </div>
   </div>
 
-  <!-- ══ MAIN CONTENT ══ -->
+  <!-- ── MAIN CONTENT ── -->
   <main class="container">
+
+    <!-- Results count -->
     <div class="results-bar">
       <span class="results-count" id="resultsCount"></span>
     </div>
+
+    <!-- Card Grid -->
     <div class="card-grid" id="cardGrid"></div>
+
+    <!-- No Results -->
     <p id="noResults" class="no-results" style="display:none;">NO CAMPSITES FOUND.</p>
+
   </main>
 
-  <!-- ══ ADMIN LOGIN MODAL ══ -->
+  <!-- ── ADMIN LOGIN MODAL ── -->
   <div class="modal-overlay" id="loginModalOverlay">
     <div class="modal-card" style="padding: 1.5rem; max-width: 380px;">
       <button class="modal-close" onclick="document.getElementById('loginModalOverlay').classList.remove('open')">X</button>
@@ -204,7 +163,7 @@
     </div>
   </div>
 
-  <!-- ══ CAMPSITE DETAIL MODAL ══ -->
+  <!-- ── CAMPSITE DETAIL MODAL ── -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal-card">
       <button class="modal-close" id="modalClose">X</button>
@@ -235,7 +194,7 @@
     </div>
   </div>
 
-  <!-- ══ ADD / EDIT MODAL ══ -->
+  <!-- ── ADD / EDIT MODAL ── -->
   <div class="modal-overlay" id="editorModalOverlay">
     <div class="modal-card suggest-modal-card">
       <button class="modal-close" id="editorModalClose">X</button>
@@ -243,26 +202,32 @@
         <h2 id="editorTitle" class="modal-title">EDIT CAMPSITE</h2>
         <form id="editorForm" class="suggest-form">
           <input type="hidden" id="editCampId">
+
           <div class="form-group">
             <label for="editName" class="filter-label">*NAME</label>
             <input type="text" id="editName" class="pixel-input" required>
           </div>
+
           <div class="form-group">
             <label for="editLoc" class="filter-label">*BARANGAY</label>
             <input type="text" id="editLoc" class="pixel-input" placeholder="e.g. BRGY. SIRAO" required>
           </div>
+
           <div class="form-group">
             <label for="editCountry" class="filter-label">*PROVINCES</label>
             <input type="text" id="editCountry" class="pixel-input" placeholder="e.g. CEBU, MANILA" required>
           </div>
+
           <div class="form-group">
             <label for="editCampUrl" class="filter-label">CAMPSITE LINK (OPTIONAL)</label>
             <input type="url" id="editCampUrl" class="pixel-input" placeholder="https://facebook.com/...">
           </div>
+
           <div class="form-group">
             <label for="editMapUrl" class="filter-label">*GOOGLE MAPS URL</label>
             <input type="url" id="editMapUrl" class="pixel-input" placeholder="https://maps.google.com/...">
           </div>
+
           <div class="form-group full-width-group">
             <label class="filter-label">IMAGE SOURCE (OPTIONAL)</label>
             <div class="image-toggle-container">
@@ -281,10 +246,12 @@
               <img id="editImgPreview" src="" alt="Preview">
             </div>
           </div>
+
           <div class="form-group">
             <label for="editDesc" class="filter-label">*DESCRIPTION</label>
             <textarea id="editDesc" class="pixel-textarea" rows="3" required></textarea>
           </div>
+
           <div class="form-group">
             <label class="filter-label">AMENITIES</label>
             <div class="checkbox-grid">
@@ -297,6 +264,7 @@
               <label><input type="checkbox" id="chkParking"> PARKING</label>
             </div>
           </div>
+
           <div class="form-group">
             <label class="filter-label">CAMPING STYLE</label>
             <div class="checkbox-grid">
@@ -306,6 +274,7 @@
               <label><input type="checkbox" id="chkHammock"> HAMMOCK</label>
             </div>
           </div>
+
           <div class="form-group">
             <label class="filter-label">TERRAIN & ACTIVITIES</label>
             <div class="checkbox-grid">
@@ -317,6 +286,7 @@
               <label><input type="checkbox" id="chkTrail"> TRAIL</label>
             </div>
           </div>
+
           <div class="editor-actions">
             <button type="submit" id="saveSubmitBtn" class="pixel-btn submit-btn">SUBMIT</button>
             <button type="button" id="deleteBtn" class="pixel-btn delete-btn">DELETE</button>
