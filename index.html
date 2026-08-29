@@ -28,7 +28,6 @@
             onclick="document.getElementById('loginModalOverlay').classList.add('open'); document.getElementById('burgerDropdown').classList.remove('open');">
             ADMIN LOGIN
           </button>
-          <button id="adminAddNewBtn" class="burger-item" style="display:none;">+ ADD NEW</button>
           <button id="adminLogoutBtn" class="burger-item burger-item-danger" style="display:none;">LOGOUT</button>
         </div>
       </div>
@@ -60,7 +59,7 @@
 
     <!-- FIX 2: Camping Style multi-select dropdown -->
     <div class="searchbar-section searchbar-style">
-      <span class="searchbar-icon"><svg fill="#EB7D00" width="16px" height="16px" viewBox="0 0 24 24" id="filter" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path id="primary" d="M18,2H6A2,2,0,0,0,4,4V6.64a2,2,0,0,0,.46,1.28L9,13.36V21a1,1,0,0,0,.47.85A1,1,0,0,0,10,22a1,1,0,0,0,.45-.11l4-2A1,1,0,0,0,15,19V13.36l4.54-5.44A2,2,0,0,0,20,6.64V4A2,2,0,0,0,18,2Z" style="fill: rgb(0, 0, 0);"></path></svg></span>
+      <span class="searchbar-icon"><svg fill="#EB7D00" width="16px" height="16px" viewBox="0 0 24 24" id="filter" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path id="primary" d="M18,2H6A2,2,0,0,0,4,4V6.64a2,2,0,0,0,.46,1.28L9,13.36V21a1,1,0,0,0,.47.85A1,1,0,0,0,10,22a1,1,0,0,0,.45-.11l4-2A1,1,0,0,0,15,19V13.36l4.54-5.44A2,2,0,0,0,20,6.64V4A2,2,0,0,0,18,2Z" style="fill: #EB7D00;"></path></svg></span>
       <div class="custom-dropdown" id="campingStyleDropdown">
         <button class="dropdown-trigger" id="campingStyleTrigger">
           <span id="campingStyleText">FILTER</span>
@@ -115,6 +114,7 @@
 
       <!-- Province List -->
       <div class="sidebar-section">
+        <div><h2 class="camp-title">PROVINCES</h2></div>
         <div class="province-list" id="provinceList"></div>
       </div>
 
