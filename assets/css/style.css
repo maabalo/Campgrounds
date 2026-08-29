@@ -761,7 +761,7 @@ body::before {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.5rem;
-  color: var(--canvas-cream);
+  color: var(--retro-olive);
 }
 
 .modal-location-chip .pixel-icon { fill: var(--retro-olive); }
