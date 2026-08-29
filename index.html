@@ -12,26 +12,26 @@
 </head>
 <body>
 
-  <!-- ══ AIRBNB-STYLE TOPBAR: Logo | Search | Actions ══ -->
+  <!-- ══ TOPBAR: Logo | Search | Actions ══ -->
   <header class="topbar">
 
     <!-- LEFT: Brand -->
     <div class="topbar-brand">
       <h1 class="site-title">NextCamp</h1>
-      <p class="site-subtitle">Discover Your Next Camp.</p>
+      <p class="site-subtitle">Discover Your Next Camp, One Adventure at a Time.</p>
     </div>
 
-    <!-- CENTER: Search pill -->
+    <!-- CENTER: Search pill — same height as buttons -->
     <div class="topbar-search">
       <input type="text" id="searchInput" placeholder="SEARCH CAMPSITE...">
       <button class="topbar-search-btn" title="Search">⌕</button>
     </div>
 
-    <!-- RIGHT: Actions + Burger -->
+    <!-- RIGHT: Suggest + Burger -->
     <div class="topbar-actions">
-      <button id="suggestBtn" class="admin-toggle-btn" title="Suggest a Campsite">
-        + SUGGEST
-      </button>
+      <button id="suggestBtn" class="admin-toggle-btn">+ SUGGEST</button>
+
+      <!-- FIX 3: Burger with proper z-index so dropdown shows -->
       <div class="burger-float">
         <button id="burgerBtn" class="burger-btn" title="Admin Menu">
           <span></span><span></span><span></span>
@@ -49,7 +49,7 @@
 
   </header>
 
-  <!-- ══ AIRBNB-STYLE CATEGORY STRIP ══ -->
+  <!-- ══ AIRBNB CATEGORY STRIP ══ -->
   <nav class="category-strip" id="categoryStrip">
 
     <div class="category-strip-item active" data-amenity="all">
@@ -105,20 +105,16 @@
       <span class="strip-label">PARKING</span>
     </div>
 
-    <!-- Right: Filters + Sort + Legend -->
+    <!-- FIX 5: Filters, Sort, Legend on the right -->
     <div class="strip-right">
       <button id="sortBtn" class="admin-toggle-btn" data-sort="asc">SORT: A–Z</button>
-      <button id="filterToggleBtn" class="admin-toggle-btn">
-        FILTERS <span class="arrow">▼</span>
-      </button>
-      <button id="legendToggleBtn" class="admin-toggle-btn">
-        LEGEND <span class="arrow">▼</span>
-      </button>
+      <button id="filterToggleBtn" class="admin-toggle-btn">FILTERS <span class="arrow">▼</span></button>
+      <button id="legendToggleBtn" class="admin-toggle-btn">LEGEND <span class="arrow">▼</span></button>
     </div>
 
   </nav>
 
-  <!-- ══ FILTER PANEL (collapsible) ══ -->
+  <!-- ══ FIX 5: FILTER PANEL (collapsible, original layout) ══ -->
   <div class="filter-wrapper" id="filterWrapper">
     <div class="filter-bar">
 
@@ -136,7 +132,6 @@
       </div>
 
       <div class="filter-column filter-column-tags">
-
         <div class="tag-category">
           <span class="category-label">AMENITIES</span>
           <div class="amenity-filter-bar">
@@ -149,7 +144,6 @@
             <button class="amenity-toggle-btn" data-amenity="signal">SIGNAL</button>
           </div>
         </div>
-
         <div class="tag-category">
           <span class="category-label">CAMPING STYLE</span>
           <div class="amenity-filter-bar">
@@ -159,7 +153,6 @@
             <button class="amenity-toggle-btn" data-amenity="hammock">HAMMOCK</button>
           </div>
         </div>
-
         <div class="tag-category">
           <span class="category-label">TERRAIN & ACTIVITIES</span>
           <div class="amenity-filter-bar">
@@ -171,12 +164,12 @@
             <button class="amenity-toggle-btn" data-amenity="trail">TRAIL</button>
           </div>
         </div>
-
       </div>
+
     </div>
   </div>
 
-  <!-- ══ LEGEND PANEL (collapsible) ══ -->
+  <!-- ══ FIX 5: LEGEND PANEL (collapsible, icons from script.js) ══ -->
   <div class="legend-wrapper" id="legendWrapper">
     <div class="legend-container">
       <div id="legendGrid" class="legend-grid"></div>
