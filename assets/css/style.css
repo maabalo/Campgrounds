@@ -655,7 +655,7 @@ body::before {
 }
 
 .camp-title {
-  font-size: 0.58rem;
+  font-size: 0.8rem;
   color: var(--canvas-cream);
   line-height: 1.5;
 }
@@ -677,7 +677,7 @@ body::before {
 }
 
 .camp-location {
-  font-size: 0.42rem;
+  font-size: 0.65rem;
   color: var(--retro-olive);
 }
 
