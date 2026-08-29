@@ -321,7 +321,7 @@ function renderCards() {
         <div class="card-actions">
           <span class="card-location-icon">
             <svg viewBox="0 0 16 16" width="12" height="12" xmlns="http://www.w3.org/2000/svg">
-              <path fill="#4a7c59" d="M8 1a5 5 0 00-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 00-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/>
+              <path fill="#EB7D00" d="M8 1a5 5 0 00-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 00-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/>
             </svg>
           </span>
           <span class="camp-location">${displayLocation || 'LOCATION UNKNOWN'}</span>
