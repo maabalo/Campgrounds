@@ -15,15 +15,10 @@
   <!-- ══ TOPBAR ══ -->
   <header class="topbar">
     <div class="topbar-brand">
-      <h1 class="site-title">Next<span class="title-accent">Camp</span></h1>
+      <h1 class="site-title">NextCamp</h1>
+      <p class="site-subtitle">Discover Your Next Camp, One Adventure at a Time.</p>
     </div>
-    <nav class="topbar-nav">
-      <span class="nav-link active">HOME</span>
-      <span class="nav-link">EXPLORE</span>
-      <span class="nav-link">PROVINCES</span>
-    </nav>
     <div class="topbar-actions">
-      <button id="suggestBtn" class="btn-suggest">+ ADD CAMPSITE</button>
       <div class="burger-float">
         <button id="burgerBtn" class="burger-btn" title="Admin Menu">
           <span></span><span></span><span></span>
@@ -58,10 +53,35 @@
       </div>
     </div>
     <div class="searchbar-divider"></div>
+
+    <!-- FIX 2: Camping Style multi-select dropdown -->
     <div class="searchbar-section searchbar-style">
       <span class="searchbar-icon">🏕️</span>
-      <span class="searchbar-label">SELECT CAMPING STYLE</span>
-      <span class="arrow">▼</span>
+      <div class="custom-dropdown" id="campingStyleDropdown">
+        <button class="dropdown-trigger" id="campingStyleTrigger">
+          <span id="campingStyleText">SELECT CAMPING STYLE</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu camping-style-menu" id="campingStyleMenu">
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="carCamping"> CAR CAMP</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="motorCamping"> MOTOR CAMP</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="tentOnly"> TENT</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="hammock"> HAMMOCK</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="forest"> FOREST</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="mountain"> MOUNTAIN</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="river"> RIVER</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="beach"> BEACH</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="hiking"> HIKING</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="trail"> TRAIL</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="wifi"> WI-FI</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="pisoWifi"> PISO WI-FI</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="restroom"> RESTROOM</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="electricity"> POWER</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="parking"> PARKING</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="trees"> TREES</label>
+          <label class="dropdown-check-item"><input type="checkbox" data-amenity="signal"> SIGNAL</label>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -71,7 +91,12 @@
     <!-- LEFT SIDEBAR -->
     <aside class="sidebar">
 
-      <!-- Legend toggle -->
+      <!-- FIX 3: Add Campsite button at top of sidebar -->
+      <div class="sidebar-section">
+        <button id="suggestBtn" class="sidebar-suggest-btn">+ ADD CAMPSITE</button>
+      </div>
+
+      <!-- FIX 5: Legend toggle — fixed with inline JS -->
       <div class="sidebar-section">
         <button id="legendToggleBtn" class="sidebar-toggle-btn">
           ICON LEGEND <span class="arrow">▼</span>
@@ -81,51 +106,7 @@
         </div>
       </div>
 
-      <!-- Amenity Filters -->
-      <div class="sidebar-section">
-        <button id="filterToggleBtn" class="sidebar-toggle-btn">
-          FILTERS <span class="arrow">▼</span>
-        </button>
-        <div class="filter-wrapper" id="filterWrapper">
-
-          <div class="sidebar-group">
-            <p class="sidebar-group-label">AMENITIES</p>
-            <div class="amenity-filter-bar">
-              <button class="amenity-toggle-btn" data-amenity="wifi">WI-FI</button>
-              <button class="amenity-toggle-btn" data-amenity="pisoWifi">PISO WI-FI</button>
-              <button class="amenity-toggle-btn" data-amenity="restroom">RESTROOM</button>
-              <button class="amenity-toggle-btn" data-amenity="electricity">POWER</button>
-              <button class="amenity-toggle-btn" data-amenity="parking">PARKING</button>
-              <button class="amenity-toggle-btn" data-amenity="trees">TREES</button>
-              <button class="amenity-toggle-btn" data-amenity="signal">SIGNAL</button>
-            </div>
-          </div>
-
-          <div class="sidebar-group">
-            <p class="sidebar-group-label">CAMPING STYLE</p>
-            <div class="amenity-filter-bar">
-              <button class="amenity-toggle-btn" data-amenity="carCamping">CAR CAMP</button>
-              <button class="amenity-toggle-btn" data-amenity="motorCamping">MOTOR CAMP</button>
-              <button class="amenity-toggle-btn" data-amenity="tentOnly">TENT</button>
-              <button class="amenity-toggle-btn" data-amenity="hammock">HAMMOCK</button>
-            </div>
-          </div>
-
-          <div class="sidebar-group">
-            <p class="sidebar-group-label">TERRAIN & ACTIVITIES</p>
-            <div class="amenity-filter-bar">
-              <button class="amenity-toggle-btn" data-amenity="forest">FOREST</button>
-              <button class="amenity-toggle-btn" data-amenity="mountain">MOUNTAIN</button>
-              <button class="amenity-toggle-btn" data-amenity="river">RIVER</button>
-              <button class="amenity-toggle-btn" data-amenity="beach">BEACH</button>
-              <button class="amenity-toggle-btn" data-amenity="hiking">HIKING</button>
-              <button class="amenity-toggle-btn" data-amenity="trail">TRAIL</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
+      <!-- FIX 4: Filters removed, Province list stays -->
       <!-- Province List -->
       <div class="sidebar-section">
         <p class="sidebar-heading">PROVINCES</p>
