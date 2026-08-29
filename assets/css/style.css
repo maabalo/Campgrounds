@@ -330,6 +330,7 @@ body::before {
   top: 60px;
   height: calc(100vh - 60px);
   overflow-y: auto;
+  align-self: flex-start;
 }
 
 .sidebar-section {
@@ -947,11 +948,13 @@ body::before {
     width: 100%;
     position: static;
     height: auto;
+    min-height: unset;
     border-right: none;
     border-bottom: 3px solid var(--canvas-cream);
+    padding: 0.8rem 1rem;
   }
+  .province-list { max-height: 180px; }
   .card-grid { grid-template-columns: 1fr 1fr; }
-  .topbar-nav { display: none; }
   .topbar { padding: 0.7rem 1rem; }
   .searchbar { flex-direction: column; }
   .searchbar-divider { width: 100%; height: 3px; }
