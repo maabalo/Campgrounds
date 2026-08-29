@@ -677,7 +677,7 @@ body::before {
 }
 
 .camp-location {
-  font-size: 0.65rem;
+  font-size: 0.5rem;
   color: var(--retro-olive);
 }
 
