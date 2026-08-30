@@ -270,7 +270,7 @@ body::before {
 
 .searchbar-section .dropdown-menu {
   position: absolute;
-  top: calc(100% + 3px);
+  top: 100%;
   left: 0;
   right: 0;
   width: 100%;
@@ -281,6 +281,12 @@ body::before {
   z-index: 100;
   max-height: 260px;
   overflow-y: auto;
+}
+
+/* Ensure custom-dropdown inside section doesn't clip the menu */
+.searchbar-section .custom-dropdown {
+  flex: 1;
+  position: static;
 }
 
 .searchbar-section .custom-dropdown.open .dropdown-menu { display: block; }
