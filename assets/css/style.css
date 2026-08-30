@@ -183,6 +183,18 @@ body::before {
   gap: 0.6rem;
   padding: 0.7rem 1.5rem;
   flex: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  user-select: none;
+}
+
+.searchbar-section:hover {
+  background-color: rgba(235, 227, 167, 0.08);
+}
+
+.searchbar-section:has(input:focus),
+.searchbar-section:has(.custom-dropdown.open) {
+  background-color: rgba(235, 227, 167, 0.12);
 }
 
 .searchbar-main { flex: 2; }
@@ -206,6 +218,13 @@ body::before {
   outline: none;
   color: var(--canvas-cream);
   width: 100%;
+  cursor: text;
+  pointer-events: auto;
+}
+
+.searchbar-section .custom-dropdown,
+.searchbar-section .dropdown-trigger {
+  pointer-events: auto;
 }
 
 .searchbar-input::placeholder { color: rgba(235,227,167,0.5); }
