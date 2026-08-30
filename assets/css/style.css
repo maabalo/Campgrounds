@@ -1002,6 +1002,11 @@ body::before {
   .card-grid { grid-template-columns: 1fr; }
   .topbar { padding: 0.7rem 1rem; }
 
+  /* Hide province list on mobile */
+  #provinceList,
+  #provinceList + * ,
+  .sidebar-section:has(#provinceList) { display: none; }
+
   /* Stack searchbar vertically */
   .searchbar {
     flex-direction: column;
