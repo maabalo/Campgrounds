@@ -131,6 +131,40 @@ if (filterToggleBtn && filterWrapper) {
 }
 
 // ═══════════════════════════════════════════════
+// SEARCHBAR — whole section clickable
+// ═══════════════════════════════════════════════
+
+// Section 1: Search — click anywhere focuses the input
+const searchbarMain = document.querySelector('.searchbar-main');
+const searchInputEl = document.getElementById('searchInput');
+if (searchbarMain && searchInputEl) {
+  searchbarMain.addEventListener('click', () => searchInputEl.focus());
+}
+
+// Section 2: Province — click anywhere opens the dropdown
+const searchbarProvince = document.querySelector('.searchbar-province');
+const dropdownTriggerEl = document.getElementById('dropdownTrigger');
+if (searchbarProvince && dropdownTriggerEl) {
+  searchbarProvince.addEventListener('click', (e) => {
+    // Don't double-fire if clicking the trigger itself
+    if (!e.target.closest('.dropdown-trigger') && !e.target.closest('.dropdown-menu')) {
+      dropdownTriggerEl.click();
+    }
+  });
+}
+
+// Section 3: Filter — click anywhere opens the camping style dropdown
+const searchbarStyle    = document.querySelector('.searchbar-style');
+const campingTriggerEl  = document.getElementById('campingStyleTrigger');
+if (searchbarStyle && campingTriggerEl) {
+  searchbarStyle.addEventListener('click', (e) => {
+    if (!e.target.closest('.dropdown-trigger') && !e.target.closest('.dropdown-menu')) {
+      campingTriggerEl.click();
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════
 // CAMPING STYLE MULTI-SELECT DROPDOWN
 // ═══════════════════════════════════════════════
 const campingStyleTrigger  = document.getElementById('campingStyleTrigger');
