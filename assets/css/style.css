@@ -183,23 +183,6 @@ body::before {
   gap: 0.6rem;
   padding: 0.7rem 1.5rem;
   flex: 1;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-  user-select: none;
-}
-
-.searchbar-section:hover {
-  background-color: rgba(235, 227, 167, 0.08);
-}
-
-.searchbar-section:has(input:focus),
-.searchbar-section:has(.custom-dropdown.open) {
-  background-color: rgba(235, 227, 167, 0.12);
-}
-
-.searchbar-province,
-.searchbar-style {
-  position: relative;
 }
 
 .searchbar-main { flex: 2; }
@@ -223,13 +206,6 @@ body::before {
   outline: none;
   color: var(--canvas-cream);
   width: 100%;
-  cursor: text;
-  pointer-events: auto;
-}
-
-.searchbar-section .custom-dropdown,
-.searchbar-section .dropdown-trigger {
-  pointer-events: auto;
 }
 
 .searchbar-input::placeholder { color: rgba(235,227,167,0.5); }
@@ -270,10 +246,9 @@ body::before {
 
 .searchbar-section .dropdown-menu {
   position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  width: 100%;
+  top: calc(100% + 12px);
+  left: -1.5rem;
+  min-width: 220px;
   background-color: var(--bg-dark-earth);
   border: 3px solid var(--canvas-cream);
   box-shadow: var(--shadow-lg);
@@ -281,12 +256,6 @@ body::before {
   z-index: 100;
   max-height: 260px;
   overflow-y: auto;
-}
-
-/* Ensure custom-dropdown inside section doesn't clip the menu */
-.searchbar-section .custom-dropdown {
-  flex: 1;
-  position: static;
 }
 
 .searchbar-section .custom-dropdown.open .dropdown-menu { display: block; }
@@ -305,21 +274,36 @@ body::before {
 
 /* Camping style multi-select */
 .camping-style-menu {
-  max-height: 260px;
+  max-height: 400px;
   overflow-y: auto;
+  padding: 0.3rem 0;
 }
+
+/* Section headers inside dropdown */
+.filter-section-header {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.4rem;
+  color: var(--retro-olive);
+  padding: 0.7rem 0.8rem 0.4rem;
+  letter-spacing: 0.8px;
+  border-bottom: 2px solid rgba(235,227,167,0.15);
+  margin-top: 0.3rem;
+  background-color: rgba(0,0,0,0.15);
+}
+
+.filter-section-header:first-child { margin-top: 0; }
 
 .dropdown-check-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   font-family: 'Press Start 2P', cursive;
   font-size: 0.42rem;
-  padding: 0.55rem 0.8rem;
+  padding: 0.6rem 0.8rem;
   color: var(--canvas-cream);
   cursor: pointer;
   transition: background-color 0.15s;
-  border-bottom: 1px solid rgba(235,227,167,0.1);
+  border-bottom: 1px solid rgba(235,227,167,0.06);
 }
 
 .dropdown-check-item:hover { background-color: var(--camo-green); }
@@ -328,11 +312,13 @@ body::before {
   accent-color: var(--retro-olive);
   cursor: pointer;
   flex-shrink: 0;
+  width: 13px;
+  height: 13px;
 }
 
-.dropdown-check-item input:checked + span,
 .dropdown-check-item:has(input:checked) {
   color: var(--retro-olive);
+  background-color: rgba(235,125,0,0.08);
 }
 
 /* ══════════════════════════════════
