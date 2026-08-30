@@ -134,6 +134,14 @@ if (filterToggleBtn && filterWrapper) {
 // SEARCHBAR — whole section clickable
 // ═══════════════════════════════════════════════
 
+// Helper: toggle a dropdown open/close
+function toggleDropdown(dropdown) {
+  const isOpen = dropdown.classList.contains('open');
+  // Close all dropdowns first
+  document.querySelectorAll('.custom-dropdown.open').forEach(d => d.classList.remove('open'));
+  if (!isOpen) dropdown.classList.add('open');
+}
+
 // Section 1: Search — click anywhere focuses the input
 const searchbarMain = document.querySelector('.searchbar-main');
 const searchInputEl = document.getElementById('searchInput');
@@ -141,28 +149,34 @@ if (searchbarMain && searchInputEl) {
   searchbarMain.addEventListener('click', () => searchInputEl.focus());
 }
 
-// Section 2: Province — click anywhere opens the dropdown
+// Section 2: Province — click anywhere on the box opens dropdown
 const searchbarProvince = document.querySelector('.searchbar-province');
-const dropdownTriggerEl = document.getElementById('dropdownTrigger');
-if (searchbarProvince && dropdownTriggerEl) {
+const customDropdownEl  = document.getElementById('customDropdown');
+if (searchbarProvince && customDropdownEl) {
   searchbarProvince.addEventListener('click', (e) => {
-    // Don't double-fire if clicking the trigger itself
-    if (!e.target.closest('.dropdown-trigger') && !e.target.closest('.dropdown-menu')) {
-      dropdownTriggerEl.click();
+    if (!e.target.closest('.dropdown-menu')) {
+      e.stopPropagation();
+      toggleDropdown(customDropdownEl);
     }
   });
 }
 
-// Section 3: Filter — click anywhere opens the camping style dropdown
-const searchbarStyle    = document.querySelector('.searchbar-style');
-const campingTriggerEl  = document.getElementById('campingStyleTrigger');
-if (searchbarStyle && campingTriggerEl) {
+// Section 3: Filter — click anywhere on the box opens dropdown
+const searchbarStyle       = document.querySelector('.searchbar-style');
+const campingStyleDropdownEl = document.getElementById('campingStyleDropdown');
+if (searchbarStyle && campingStyleDropdownEl) {
   searchbarStyle.addEventListener('click', (e) => {
-    if (!e.target.closest('.dropdown-trigger') && !e.target.closest('.dropdown-menu')) {
-      campingTriggerEl.click();
+    if (!e.target.closest('.dropdown-menu') && !e.target.closest('.dropdown-check-item')) {
+      e.stopPropagation();
+      toggleDropdown(campingStyleDropdownEl);
     }
   });
 }
+
+// Close all dropdowns when clicking outside
+document.addEventListener('click', () => {
+  document.querySelectorAll('.custom-dropdown.open').forEach(d => d.classList.remove('open'));
+});
 
 // ═══════════════════════════════════════════════
 // CAMPING STYLE MULTI-SELECT DROPDOWN
@@ -172,39 +186,25 @@ const campingStyleDropdown = document.getElementById('campingStyleDropdown');
 const campingStyleMenu     = document.getElementById('campingStyleMenu');
 const campingStyleText     = document.getElementById('campingStyleText');
 
-if (campingStyleTrigger && campingStyleDropdown) {
-  campingStyleTrigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    campingStyleDropdown.classList.toggle('open');
-  });
-
-  // Close on outside click — use capture phase to not conflict with stopPropagation
-  document.addEventListener('click', (e) => {
-    if (!campingStyleDropdown.contains(e.target) && e.target !== campingStyleTrigger) {
-      campingStyleDropdown.classList.remove('open');
-    }
-  });
-
-  // Stop clicks inside menu from bubbling up and closing dropdown
+if (campingStyleMenu) {
+  // Stop clicks inside menu from bubbling and closing the dropdown
   campingStyleMenu.addEventListener('click', (e) => e.stopPropagation());
-  campingStyleMenu.addEventListener('change', (e) => e.stopPropagation());
 
   campingStyleMenu.querySelectorAll('input[type="checkbox"]').forEach(cb => {
     cb.addEventListener('change', () => {
-      const checked  = [...campingStyleMenu.querySelectorAll('input:checked')];
+      const checked   = [...campingStyleMenu.querySelectorAll('input:checked')];
       const amenities = checked.map(c => c.getAttribute('data-amenity'));
 
       // Update label text
       if (amenities.length === 0) {
-        campingStyleText.textContent = 'SELECT CAMPING STYLE';
+        campingStyleText.textContent = 'FILTER';
       } else if (amenities.length === 1) {
         campingStyleText.textContent = checked[0].closest('label').textContent.trim();
       } else {
         campingStyleText.textContent = `${amenities.length} SELECTED`;
       }
 
-      // Directly update activeAmenities and call filterCards
+      // Update activeAmenities and filter cards
       const allKeys = [...campingStyleMenu.querySelectorAll('input[data-amenity]')]
         .map(i => i.getAttribute('data-amenity'));
       allKeys.forEach(key => activeAmenities.delete(key));
@@ -744,19 +744,7 @@ function populateLocationDropdown() {
 }
 
 const customDropdown  = document.getElementById('customDropdown');
-const dropdownTrigger = document.getElementById('dropdownTrigger');
-if (dropdownTrigger && customDropdown) {
-  dropdownTrigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    customDropdown.classList.toggle('open');
-  });
-}
-
-document.addEventListener('click', (e) => {
-  if (customDropdown && !customDropdown.contains(e.target)) {
-    customDropdown.classList.remove('open');
-  }
-});
+// Province dropdown open/close is now handled by the searchbar-province section click above
 
 // ═══════════════════════════════════════════════
 // Sort Button
