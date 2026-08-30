@@ -183,6 +183,24 @@ body::before {
   gap: 0.6rem;
   padding: 0.7rem 1.5rem;
   flex: 1;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.15s ease;
+  user-select: none;
+}
+
+.searchbar-section:hover {
+  background-color: rgba(235, 227, 167, 0.08);
+}
+
+.searchbar-section:has(input:focus),
+.searchbar-section:has(.custom-dropdown.open) {
+  background-color: rgba(235, 227, 167, 0.12);
+}
+
+.searchbar-province,
+.searchbar-style {
+  position: relative;
 }
 
 .searchbar-main { flex: 2; }
@@ -206,6 +224,8 @@ body::before {
   outline: none;
   color: var(--canvas-cream);
   width: 100%;
+  cursor: text;
+  pointer-events: auto;
 }
 
 .searchbar-input::placeholder { color: rgba(235,227,167,0.5); }
@@ -224,7 +244,11 @@ body::before {
 }
 
 /* Dropdown inside searchbar */
-.searchbar-section .custom-dropdown { flex: 1; position: relative; }
+.searchbar-section .custom-dropdown {
+  flex: 1;
+  position: static;
+  pointer-events: auto;
+}
 
 .searchbar-section .dropdown-trigger {
   width: 100%;
@@ -244,11 +268,13 @@ body::before {
 .searchbar-section .dropdown-trigger:hover { color: var(--retro-olive); }
 .searchbar-section .dropdown-trigger .arrow { font-size: 0.4rem; }
 
+/* Full width dropdown — anchors to the section */
 .searchbar-section .dropdown-menu {
   position: absolute;
-  top: calc(100% + 12px);
-  left: -1.5rem;
-  min-width: 220px;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
   background-color: var(--bg-dark-earth);
   border: 3px solid var(--canvas-cream);
   box-shadow: var(--shadow-lg);
